@@ -9,9 +9,11 @@
 \contentsline {figure}{\numberline {9}{\ignorespaces The pinhole camera model. The red lines show the displacement of a point $P_i$ from the optical centre, the blues line show the displacement of a point $Q_i$ from the image centre and the green line shows the projection from the point $P_i$ point $Q_i$. Adapted from\nobreakspace {}\cite {master}\relax }}{19}
 \contentsline {figure}{\numberline {10}{\ignorespaces Arduino UNO SMD by Arduino. Adapted from\nobreakspace {}\cite {create}.\relax }}{30}
 \contentsline {figure}{\numberline {11}{\ignorespaces Left: SparkFun 6DOF IMU. Photo by SparkFun. Adapted from\nobreakspace {}\cite {create}. Right: The Imaging Source 22BUC03-ML CMOS board camera. Adapted from\nobreakspace {}\cite {imsrc}\relax }}{32}
-\contentsline {figure}{\numberline {12}{\ignorespaces EKF using a kinematic estimator to provide the control update.\relax }}{35}
-\contentsline {figure}{\numberline {13}{\ignorespaces Results of the test conditions 1 depicting zero-uncertainty.\relax }}{37}
-\contentsline {figure}{\numberline {14}{\ignorespaces Results of the conditions depicting random equivalent control inputs with uncertainty.\relax }}{39}
-\contentsline {figure}{\numberline {15}{\ignorespaces Results of the conditions depicting random equivalent control inputs with uncertainty.\relax }}{40}
-\contentsline {figure}{\numberline {16}{\ignorespaces Circuit Diagram of the IMU.\relax }}{47}
-\contentsline {figure}{\numberline {17}{\ignorespaces Schematic of the IMU.\relax }}{47}
+\contentsline {figure}{\numberline {12}{\ignorespaces Gyroscope bias calibration.\relax }}{33}
+\contentsline {figure}{\numberline {13}{\ignorespaces Results of the test conditions 1 depicting angular displacements from gyroscope measurements.\relax }}{36}
+\contentsline {figure}{\numberline {14}{\ignorespaces EKF using a kinematic estimator to provide the control update.\relax }}{37}
+\contentsline {figure}{\numberline {15}{\ignorespaces Results of the test conditions 1 depicting zero-uncertainty.\relax }}{39}
+\contentsline {figure}{\numberline {16}{\ignorespaces Results of the conditions depicting random equivalent control inputs with uncertainty.\relax }}{41}
+\contentsline {figure}{\numberline {17}{\ignorespaces Results of the conditions depicting random equivalent control inputs with uncertainty.\relax }}{42}
+\contentsline {figure}{\numberline {18}{\ignorespaces Circuit Diagram of the IMU.\relax }}{49}
+\contentsline {figure}{\numberline {19}{\ignorespaces Schematic of the IMU.\relax }}{49}

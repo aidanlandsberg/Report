@@ -1252,11 +1252,17 @@ Register & Value & Name & Function \\
 \label{default}
 \end{table}%
 
-The IMU sensors can now be measured and subsequently converted from analog to digital values and transferred to the PC. Both devices (accelerometer and gyroscope) are set a 10 bit resolution. This means that the analog value will be represented as 10 bits and each measurement will be stored in two separate bytes (16 bits). There are a total of 6 IMU measurements - 3 from the gyroscope and 3 from the accelerometer. \\\\%A suitable baud rate must also be determined to ensure these measurement are sent to the PC within the sample period.
+The IMU sensors can now be measured and subsequently converted from analog to digital values and transferred to the PC. Both devices (accelerometer and gyroscope) are set a 10 bit resolution. This means that the analog value will be represented as 10 bits and each measurement will be stored in two separate bytes (16 bits). There are a total of 6 IMU measurements - 3 from the gyroscope and 3 from the accelerometer. %A suitable baud rate must also be determined to ensure these measurement are sent to the PC within the sample period.
 %The I2C protocol for the IMU~\cite{gyro} suggests that 60 bits per measurement are required. 
 \subsubsection{Gyroscope Biases}
-
-
+Gyroscopes often have an offset on each individual axis that causes a \textit{bias}. These biases are unique to each device but can however be measured and subsequently subtracted from each measurement. The procedure for measuring such a bias is quite simple: the gyroscope is place flat on a surface and the angular rates are measured. The expected value on each axis should be zero but an averaging of the measurements will show a non-zero value as depicted in Figure~\ref{fig:gyrobias}. This value is the bias and needs to be subtracted from subsequent measurements.   
+\begin{figure}[h]
+%\centering%\begin{center}
+\includegraphics[width=0.49\textwidth, height=0.45\textwidth]{Figures/Gyro_bias.png}
+\includegraphics[width=0.49\textwidth, height=0.45\textwidth]{Figures/bias_ac.png}
+\caption{Gyroscope bias calibration.}
+\label{fig:gyrobias}
+\end{figure}
 \subsection{Hardware Simulation}
 The performance of the hardware components of this project is requires analysis through physical measurements and simulation before being integrated into the final system. In order to successfully implement a project of this magnitude that incorporates several subsystems, it is essential that the design as well as analysis thereof is accurate. The components are initially designed to meet the relevant specifications. Thereafter, simulation and measurement equipment can be used to verify that the subsystems do indeed behave as predicted. This process will greatly simplify the final integration process. 
 
@@ -1267,9 +1273,9 @@ The following set of test conditions will utilise actual gyroscope measurements.
 
 The set of test conditions as are listed below (the measurements are sampled at 30 Hz): 
 \begin{enumerate}
-\item \textbf{Positive $90^{\circ}$ rotation about the x-axis:}\\
-\item \textbf{Positive $180^{\circ}$ rotation about the y-axis:}\\
-\item \textbf{Positive $90^{\circ}$ followed by a negative 90^{\circ}$ rotation about the x-axis:}\\
+\item \textbf{Positive $180^{\circ}$ rotation about the x-axis:}\\
+\item \textbf{Positive $90^{\circ}$ rotation about the y-axis:}\\
+\item \textbf{Positive $90^{\circ}$ followed by a negative $90^{\circ}$ rotation about the y-axis:}\\
 \item \textbf{Positive $360^{\circ}$ rotation about the z-axis:}\\
 \end{enumerate}
 
@@ -1280,7 +1286,50 @@ Considering that the sample period is relatively small, the angular displacement
 \Theta_t &= \Delta T \psi_t
 \end{split}
 \end{equation}
- 
+
+It can also be assumed that given the small sample period, the relationship between the angular displacement and the angular rate (velocity) can be approximated as linear.
+
+\subsubsection{Test 1: Results}
+\begin{enumerate}
+\item \textbf{Positive $180^{\circ}$ rotation about the x-axis:}\\
+The measurements depicted in Figure~\ref{fig:gx} show an angular position x that begins at zero and ends at approximately $180^{\circ}$ due to the rotation described by the test case.
+\item \textbf{Positive $90^{\circ}$ rotation about the y-axis:}\\
+The measurements depicted in Figure~\ref{fig:gy} show an angular position y that begins at zero and ends at approximately $90^{\circ}$ due to the rotation described by the test case.
+\item \textbf{Positive $90^{\circ}$ followed by a negative $90^{\circ}$ rotation about the y-axis:}\\
+The measurements depicted in Figure~\ref{fig:gyy} show an angular position y that begins at zero and goes to approximately $90^{\circ}$ before falling back to approximately zero due to the rotation described by the test case..
+\item \textbf{Positive $360^{\circ}$ rotation about the z-axis:}\\
+The measurements depicted in Figure~\ref{fig:gz} show an angular position z that begins at zero and ends at approximately $360^{\circ}$ due to the rotation described by the test case.
+\end{enumerate}
+
+Additionally, it can be observed in Figure~\ref{fig:gy1} that the rate at which the angular displacement is changing is approximately linear in all the cases. The gyroscope measurements are thus validated given that the mathematics and measurement simulation are in agreement.
+
+\begin{figure}[H]
+\centering
+\begin{subfigure}[H]{0.49\textwidth}
+\includegraphics[width=\textwidth, height=7cm]{Figures/gyrox180.png} 
+\caption{Angular displacement after positive $180^{\circ}$ rotation about the x-axis.}
+\label{fig:gx}
+\end{subfigure}
+\begin{subfigure}[H]{0.49\textwidth}
+\includegraphics[width=\textwidth, height=7cm]{Figures/gyroy90.png}
+\caption{Angular displacement after positive $90^{\circ}$ rotation about the y-axis.}
+\label{fig:gy}
+\end{subfigure}
+\begin{subfigure}[H]{0.49\textwidth}
+\includegraphics[width=\textwidth, height=7cm]{Figures/gyroy2.png}
+\caption{Angular displacement after positive $90^{\circ}$ negative then $90^{\circ}$ rotation about the y-axis.}
+\label{fig:gyy}
+\end{subfigure} 
+\begin{subfigure}[H]{0.49\textwidth}
+\includegraphics[width=\textwidth, height=7cm]{Figures/gyrox360.png}
+\caption{Angular displacement after positive $360^{\circ}$ rotation about the z-axis.}
+\label{fig:gz}
+\end{subfigure} 
+
+\caption{Results of the test conditions 1 depicting angular displacements from gyroscope measurements.}
+\label{fig:gy1}
+\end{figure}
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -1380,7 +1429,6 @@ The simulation depicted in Figure~\ref{fig:xacc} shows a trajectory only moving 
 The simulation depicted in Figure~\ref{fig:yrot} shows a trajectory that initially moves along the positive x-axis before proceeding to move along the negative z-axis. Again, the estimated trajectory directly tracks the true trajectory.
 \item  \textbf{1 metre per second x-acceleration with three consecutive 90 degree rotations about the z-axis:}\\   
 The simulation depicted in Figure~\ref{fig:zplane} shows a square in the z-plane. This suggests that the trajectory incorporates three 90 degree rotations about the z-axis as the robot is moving at a constant acceleration with respect to its own reference frame. Again, the estimated trajectory directly tracks the true trajectory.
-
 \end{enumerate}
 \begin{figure}[H]
 %\centering
