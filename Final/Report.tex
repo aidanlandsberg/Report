@@ -250,7 +250,7 @@ $\cfrac{\partial x}{\partial t}$ & Liebniz's notation to denote a partial deriva
 \section{Introduction}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Robotic Localisation and Mapping}
-\textit{Robotics} aims to equip machines with the capability of operating autonomously in the physical world to serve various practical purposes. These machines (robots) are designed to resemble human behaviour and action, so that they can substitute for humans in unknown and potentially hazardous environments ranging from planetary exploration to assembly lines~\cite{mars,indus}. To achieve complete autonomous operation, it is essential that the robot is capable of observing it's surrounding environment, subsequently building a map thereof in order to locate itself within this map. The aforementioned processes are more commonly referred to as \textit{map building} and \textit{localisation} respectively. Ultimately, the physical world presents many unforeseen factors and circumstances. These factors contribute to \textit{uncertainty} and generally emerge due to a robot's lack of critical information. Factors such as environments, sensors, robots, models and computation all lead to an increase in uncertainty and can prohibit accurate map building and subsequently, localisation. \textit{Probabilistic robotics} however, models this uncertainty mathematically in order to provide fundamental probabilistic algorithms that can be used to obtain reasonably accurate and efficient solutions to map building and localisation. 
+\textit{Robotics} aims to equip machines with the capability of operating autonomously in the physical world to serve various practical purposes. These machines (robots) are designed to resemble human behaviour and action, so that they can substitute for humans in unknown and potentially hazardous environments ranging from planetary exploration to assembly lines~\cite{mars,indus}. To achieve complete autonomous operation, it is essential that the robot is capable of observing its surrounding environment, subsequently building a map thereof in order to locate itself within this map. The aforementioned processes are more commonly referred to as \textit{map building} and \textit{localisation} respectively. Ultimately, the physical world presents many unforeseen factors and circumstances. These factors contribute to \textit{uncertainty} and generally emerge due to a robot's lack of critical information. Factors such as environments, sensors, robots, models and computation all lead to an increase in uncertainty and can prohibit accurate map building and subsequently, localisation. \textit{Probabilistic robotics} however, models this uncertainty mathematically in order to provide fundamental probabilistic algorithms that can be used to obtain reasonably accurate and efficient solutions to map building and localisation. 
 
 \textit{Occupancy grid mapping} is map building algorithm that uses probabilistic algorithms. Initially presented in a study by Elfes and Moravec~\cite{occupancy}, occupancy grid mapping seeks to calculate the probability that a given position in the environment is occupied by an obstacle. Occupancy grid mapping typically uses range sensors, such as sonar or laser range finders to calculate these probabilities and represent them in a \textit{dense} spatial map. An example of an occupancy grid map is depicted in Figure~\ref{fig:occgrid}. The disadvantages of using occupancy grid mapping however, is that the robot's pose (a robots position and orientation) is assumed to be known and that the environment is assumed to be static, limiting the practical applications thereof. A further overview of alternative map generating techniques is presented in a study by Thrun~\cite{thrun2007}.     
 \begin{figure}[H]
@@ -260,7 +260,7 @@ $\cfrac{\partial x}{\partial t}$ & Liebniz's notation to denote a partial deriva
 \label{fig:occgrid}
 \end{center}
 \end{figure} 
-\textit{Simultaneous localisation and mapping} (SLAM) however, presents solutions that concurrently realises map building and localisation~\cite{slam}. SLAM can be described as utilising both the sensor measurements and control inputs of the robot to construct a continuously expanding map of features in the surrounding environment, while concurrently estimating it's location with respect to these features. The sensor measurements provide information about the robot's environment and the control inputs provide the information about how the robot is moving. A SLAM map typically represents the locations of it's features as a \textit{sparse} set (as opposed to a dense occupancy grid map). An example of a SLAM map is depicted in Figure~\ref{fig:map}. 
+\textit{Simultaneous localisation and mapping} (SLAM) however, presents solutions that concurrently realises map building and localisation~\cite{slam}. SLAM can be described as utilising both the sensor measurements and control inputs of the robot to construct a continuously expanding map of features in the surrounding environment, while concurrently estimating its location with respect to these features. The sensor measurements provide information about the robot's environment and the control inputs provide the information about how the robot is moving. A SLAM map typically represents the locations of its features as a \textit{sparse} set (as opposed to a dense occupancy grid map). An example of a SLAM map is depicted in Figure~\ref{fig:map}. 
 
 The relationship between map building and localisation remains essential to the SLAM problem. If the localisation technique is incorrect, subsequently obtained sensor information will be incorrect, resulting in map estimates that differ from the actual state of the environment. An incorrectly modelled environment will render the sensor information useless, as this information will not correspond with those expected by the constructed map. Ultimately, the resulting localisation approximation will drift over time and eventually become extremely inaccurate. Most modern realisations of SLAM rely on certain probabilistic methods, namely \textit{recursive state estimation} to provide suitable estimates that minimise the uncertainty regarding the mapping and localisation relationship. 
 
@@ -276,7 +276,7 @@ The most commonly used recursive state estimation techniques include both~\texti
 %Other fundamental parameters and specifications (type of measurement sensor, map dimensionality and sparsity etc.) also determine which specific implementation of the SLAM problem is most applicable. Generally, the main distinguishment between the various realisations of SLAM is the choice of sensor. \\\\
 The choice of SLAM implementation will primarily depend on the type of sensor(s) along with the time constraint imposed upon the application (e.g. online map generation vs. offline map generation). Furthermore parameters such as the resultant map's dimensionality as well as their sparsity representation (e.g. point clouds, occupancy grids or sparse sets) are considered upon a suitable SLAM implementation. 
 
-Figure~\ref{fig:slam} depicts the SLAM procedure and is further explained in Table~\ref{tab:Slam}. The robot stores an internal representation (or estimate) of the positions of the features, it's pose as well as the uncertainty associated with each of these entities. It should be noted that these uncertainties are not statistically independent of one another. At each frame, a \textit{prediction} regarding the robot's pose, a \textit{measurement} of the observed feature and an \textit{update} of the internal representation is made. 
+Figure~\ref{fig:slam} depicts the SLAM procedure and is further explained in Table~\ref{tab:Slam}. The robot stores an internal representation (or estimate) of the positions of the features, its pose as well as the uncertainty associated with each of these entities. It should be noted that these uncertainties are not statistically independent of one another. At each frame, a \textit{prediction} regarding the robot's pose, a \textit{measurement} of the observed feature and an \textit{update} of the internal representation is made. 
 %\subsubsection{Range Finder Approaches}
 %Range finder approaches utilise a beam or a wave to determine the distance to an obstacle in the environment. Generally, the distance to an obstacle from the range finder can be obtained through measuring the time it takes for a pulse generated in a beam/wave to return to the transmitter, after it has reflected off the obstacle. Two-dimensional range finders are only able to obtain these aforementioned distances in a given plane at an opening angle (e.g. range finders with an opening angle of $180^{\circ}$ obtain all range measurements within a $180^{\circ}$ field of view in the given plane). Three-dimensional range finders however, aren't limited to a single plane and can obtain range measurements in all planes within a field of view equivalent to the opening angle. The 3D point in space where the pulse is reflected can then be reconstructed given that the orientation of the range finder are known, resulting in a 3D point cloud. Range finder approaches include sonar, laser, infra-red and ultrasonic. Laser range finders, more commonly referred to as LIDAR (Light Detection And Ranging) are generally considered to provide the best accuracy, especially with regard to depth measurements. The choice of range finder however, varies dependent on the application and specifications of the system at hand.\\
 %Range finders obtain large amounts of data regarding the range to obstacles in the environment, especially in the 3D map case. As a result, non-probabilistic methods (as opposed to those previously discussed) are implemented. One such method, namely \textit{scan matching}, aims to merge overlapping point clouds into a single point cloud. This approach, like many range finder approaches however, generally present a great cost in both processing as well as finance. 
@@ -306,11 +306,11 @@ Image & \multicolumn{1}{|c|}{Process} \\
 \hline
 $1-3$ & \pbox{15cm}{Robot begins exploration, observes feature A and updates the internal representation accordingly.}\\
 \hline
-$4$ & Robot moves, subsequently increasing uncertainty regarding it's pose.\\
+$4$ & Robot moves, subsequently increasing uncertainty regarding its pose.\\
 \hline
 $5-6$ & \pbox{15cm}{Robot observes features B and C and updates the internal representation. Note that the increase in pose uncertainty yields a greater uncertainty in feature position due to the relationship between the robot's pose and the feature estimates.}\\
 \hline
-$7-8$ & \pbox{15cm}{Robot moves, again increasing uncertainty regarding it's pose before re-observing old feature A. This is referred to as \textit{loop closure}.} \\
+$7-8$ & \pbox{15cm}{Robot moves, again increasing uncertainty regarding its pose before re-observing old feature A. This is referred to as \textit{loop closure}.} \\
 \hline
 $9$ & \pbox{15cm}{Because the feature locations and robot's pose estimates are not statistically independent, The uncertainty regarding the pose as well as that of all feature positions decreases.}\\
 \hline
@@ -324,7 +324,7 @@ $9$ & \pbox{15cm}{Because the feature locations and robot's pose estimates are n
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%           
 %\subsubsection{Vision Based Approaches}
 %Vision based approaches utilise the data captured from cameras. Camera's project the 3D features they observe in the world around them onto a 2D \textit{image plane}. Once projected, the 2D image is then digitised into pixel coordinates where they can then be interpreted, analysed and manipulated in software. There has been a great improvement in the quality of data captured by cameras in the past decade, allowing very reliable projections of the environment. Additionally, cameras are compact, reliable and relatively low-cost with respect to alternative sensors used in SLAM implementations.\\\\
-%Camera systems can be configured in different ways to realise SLAM, utilising anything from a single camera to many calibrated cameras. Each configuration yields it's unique advantages (as well as disadvantages) with successful published implementations existing for each configuration. The two most popular implementations include that of a single camera system and that of a stereo pair. Each of the aforementioned implementations are briefly described below along with their respective pros and cons: 
+%Camera systems can be configured in different ways to realise SLAM, utilising anything from a single camera to many calibrated cameras. Each configuration yields its unique advantages (as well as disadvantages) with successful published implementations existing for each configuration. The two most popular implementations include that of a single camera system and that of a stereo pair. Each of the aforementioned implementations are briefly described below along with their respective pros and cons: 
 %\begin{enumerate}
 %\item \textbf{Single Camera}\\
 %Single camera systems (a.k.a monocular systems) rely on using the image data of a single camera only. Although there have been various successful implementations and variations using single camera systems~\cite{dav2007,ptam,visodom}, it remains an issue that the depth of a feature cannot be recovered from a single image. The utilisation of a single camera however, ensures a lower cost as well as a relatively simple SLAM realisation as apposed to that of alternative SLAM approaches.
@@ -335,7 +335,7 @@ $9$ & \pbox{15cm}{Because the feature locations and robot's pose estimates are n
 \newpage
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%    
 \subsection{Problem Description}
-A vision-based autonomous vehicle operating within an unknown and restricted environment requires a constant update regarding it's \textit{current location}. Many autonomous systems have limited knowledge regarding the surrounding environment but may possess a sensor capable of observing the environment - in this case a camera. It is therefore essential that a solution to this specific localisation problem incorporates the ability to use sensor measurements to build a map on the fly while concurrently locating itself within the map. In a restricted environment, it is likely that a robot will return to a previously observed region, making it essential to incorporate robust \textit{repeatable} localisation where drift from ground truth can be corrected. % Cameras are easily accessible, relatively accurate sensors that are far less expensive than other sensors such as ultrasonic or laser rangefinder sensors. A vision-based solution that utilises a camera should therefore be considered.
+A vision-based autonomous vehicle operating within an unknown and restricted environment requires a constant update regarding its \textit{current location}. Many autonomous systems have limited knowledge regarding the surrounding environment but may possess a sensor capable of observing the environment - in this case a camera. It is therefore essential that a solution to this specific localisation problem incorporates the ability to use sensor measurements to build a map on the fly while concurrently locating itself within the map. In a restricted environment, it is likely that a robot will return to a previously observed region, making it essential to incorporate robust \textit{repeatable} localisation where drift from ground truth can be corrected. % Cameras are easily accessible, relatively accurate sensors that are far less expensive than other sensors such as ultrasonic or laser rangefinder sensors. A vision-based solution that utilises a camera should therefore be considered.
 
 Vision-based SLAM implementations as depicted in Figure~\ref{fig:slam} provide the necessary functionality to achieve repeatable localisation. SLAM algorithms utilising single cameras~\cite{dav2007,sola,ptam} have provided elegant yet accurate solutions to the SLAM problem, reconstructing accurate SLAM maps and subsequently, localisation. One such algorithm presented by Davison et al.~\cite{dav2007}, termed MonoSLAM, allows for real-time repeatable localisation of a handheld camera moving within a restricted environment. MonoSLAM, along with the work proceeding it~\cite{dav2007,highspeed2008,scale2010,idp}, has achieved successful results in retrieving the trajectory of a robot, forming a persistent SLAM map and ultimately maintaining repeatable localisation. Although a map of features is not the desired outcome, it remains essential to solving the localisation problem. 
 
@@ -345,7 +345,7 @@ Information obtained from additional sensors could potentially improve the disad
 
 To extend the range of practical applications of MonoSLAM, a motion model capable of estimating the pose of a robot due to a variety of movements is essential. The current constant linear and angular velocity model limits the robot to smooth movements~\ref{fig:camvel} and therefore needs to be adjusted or replaced. Using additional information can provide the current velocity motion model with better state estimates, but cannot allow movements that aren't ``smooth". Davison et. al~\cite{dav2007}, confirms that additional information such as angular rates obtained from a \textit{gyroscope} improve the state estimates, but cannot compensate for a change in model dynamics. 
 
-A \textit{kinematic estimator} directly measures the derivatives (first and second order) of the position and orientation of the robot as opposed to calculating them from the control inputs and the system's physical model. Inertial measurement units (IMU) can directly measure these derivates and typically comprise of an accelerometer and a gyroscope (and sometimes a magnetometer) that record the accelerations and angular rates respectively. Incorporating such a sub-system could allow a wider variety of practical applications as the physical model of the target system is irrelevant.
+A \textit{kinematic estimator} directly measures the derivatives (first and second order) of the position and orientation of the robot as opposed to calculating them from the control inputs and the system's physical model. Inertial measurement units (IMU) can directly measure these derivates and typically comprise of an accelerometer and a gyroscope (and sometimes a magnetometer) that record the accelerations and angular rates respectively. Incorporating such a subsystem could allow a wider variety of practical applications as the physical model of the target system is irrelevant.
 \begin{figure}[H]
 \begin{center}
 \includegraphics[width=0.48\textwidth, height=0.2\textwidth]{Figures/camvel.png}
@@ -394,7 +394,7 @@ This chapter presents all of the research undertaken in order to effectively des
 \textbf{Chapter 3: System Design}\\
 This chapter provides a detailed overview of the solution to the MonoSLAM problem. The relevant variable representation and functional components are initially discussed. The chapter then seeks to derive the kinematic estimator necessary for the EKF's prediction step. An overview of the EKF's measurement update is also given.\\\\
 \textbf{Chapter 4: Implementation}\\
-This chapter sets out to predict the behaviour of the various sub-systems through simulation. The results from the analysis of the kinematic estimator, EKF and IMU are all analysed accordingly.\\\\
+This chapter sets out to predict the behaviour of the various subsystems through simulation. The results from the analysis of the kinematic estimator, EKF and IMU are all analysed accordingly.\\\\
 \textbf{Chapter 5: Testing and Results}\\
 This chapter presents all the relevant tests carried out to determine the proposals validity. The results of these tests are subsequently analysed.\\\\
 \textbf{Chapter 6: Conclusions and Recommendations}\\
@@ -408,7 +408,7 @@ This chapter provides a summary recommendations by the author that is applicable
 \subsection{Introduction}
 The following chapter will provide a brief, yet concise introduction to the fundamental algorithms that are necessary to implement SLAM. The fundamental concepts, particularly the various techniques associated with the implementation thereof will be addressed. The goal of this section is to introduce the fundamental concepts as well as the mathematical and probabilistic principles that form the basis of state estimation in the robotics field of study.
 
-Initially, the Bayes Filter; that is the algorithm that forms the basis of all state estimation techniques presented in this report, will be introduced and formally discussed. Thereafter, the Gaussian Filter family - particularly the \textit{Kalman Filter} (KF) as well as it's variants - are to be introduced, discussed and defined in terms of the context of this project. It is worthwhile to note that theory in this chapter resembles material from the book Probabilistic Robotics by Thrun et al.~\cite{probrob} and is adapted therefrom for convenience sake.  
+Initially, the Bayes Filter; that is the algorithm that forms the basis of all state estimation techniques presented in this report, will be introduced and formally discussed. Thereafter, the Gaussian Filter family - particularly the \textit{Kalman Filter} (KF) as well as its variants - are to be introduced, discussed and defined in terms of the context of this project. It is worthwhile to note that theory in this chapter resembles material from the book Probabilistic Robotics by Thrun et al.~\cite{probrob} and is adapted therefrom for convenience sake.  
 %This chapter provides a brief, yet concise introduction to the fundamental theoretical concepts and algorithms that are necessary to implement SLAM. Firstly, the concept of estimating state variables using a motion model and sensor measurements is initially described. The chapter then presents a suitable state estimation method, namely the Bayes filter. Additionally, the KF, a particular implementation of the Bayes filter is derived. Finally, the KF is appropriately extended to present the EKF, the state estimation algorithm chosen to realise this project.    
 
 \subsection{Recursive State Estimation}
@@ -418,20 +418,20 @@ State variables define the mathematical state of a system's dynamics and describ
 
 State estimation then, seeks to recover state variables using obtained sensor data, control inputs to the system as well as the system model. The value obtained is referred to as a \textit{state estimate}. In the case of SLAM, the state estimates of a robot incorporate the robot's pose as well the position of each landmark in the environment.  
 
-\textit{Recursive state estimation} however, doesn't require the system to keep a complete history of \textit{all} measurements and control inputs, using only the current control inputs and measurements to update the previous state estimate. Probabilistic state estimation algorithms - to be investigated in this section - compute \textit{belief} distributions regarding state variables where the belief reflects a robot's internal knowledge of it's state. 
+\textit{Recursive state estimation} however, doesn't require the system to keep a complete history of \textit{all} measurements and control inputs, using only the current control inputs and measurements to update the previous state estimate. Probabilistic state estimation algorithms - to be investigated in this section - compute \textit{belief} distributions regarding state variables where the belief reflects a robot's internal knowledge of its state. 
 
 In the case of SLAM, the robot is required to know its location at each time instance $t$. The belief must thus be calculated at each time step.  In order to achieve recursive state estimation, the state estimates of the robot should only incorporate the latest measurements. Additionally, the calculation of the belief should incorporate the previous estimates. Provided that the the system also obeys the Markov assumption - previous data and future data are independent provided that the current state $\textbf{x}_t$ is known - the \textit{Bayes Filter} provides such recursive state estimation. 
 \newpage
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Bayes Filter}
 The previously mentioned belief of a robot can be represented by a probability distribution that assigns a probability to each state outcome. The belief distribution is a posterior probability over the state variable that is conditioned over the measurements and control data~\cite{probrob}. Mathematically the belief with regard to a state variable $\textbf{x}_t$ is as shown in the book Probabilistic Robotics by Thrun et al.~\cite{probrob}:     
-%A key concept worth describing is the previously mentioned \textit{belief} of a robot. The belief represents the robot's understanding regarding the state of it's own dynamics (it's position, orientation etc.) as well as that of the surrounding environment. This critical concept proves a fundamental basis in probabilistic robotics. The belief can be represented as a conditional probability distribution whereby each possible scenario (state) is assigned a probability (density). 
+%A key concept worth describing is the previously mentioned \textit{belief} of a robot. The belief represents the robot's understanding regarding the state of its own dynamics (its position, orientation etc.) as well as that of the surrounding environment. This critical concept proves a fundamental basis in probabilistic robotics. The belief can be represented as a conditional probability distribution whereby each possible scenario (state) is assigned a probability (density). 
 \begin{equation} \label{eq:belief}
 bel(\textbf{x}_t) = p(\textbf{x}_t\hspace{0.1cm}|\hspace{0.1cm}\textbf{z}_{1,..,t},\hspace{0.1cm}\textbf{u}_{1,..,t}).
 \end{equation}
 
 This describes, for a given time $t$, a joint density of the robot state as well as the landmark locations {given} all of the previously recorded observations ${z}_{1:t}$ and control inputs ${u}_{1:t}$.
-%Considering that the state of the robot is constantly updated at every time-step $t$ and that each update is dependent upon the state at the previous time-step, it is essential that the algorithm required be recursive in nature. The \textit{Bayes Filter} algorithm provides precisely such a procedure. The algorithm calculates the belief distribution stated in equation~\ref{eq:belief} from the observation and control data. 
+%Considering that the state of the robot is constantly updated at every timestep $t$ and that each update is dependent upon the state at the previous timestep, it is essential that the algorithm required be recursive in nature. The \textit{Bayes Filter} algorithm provides precisely such a procedure. The algorithm calculates the belief distribution stated in equation~\ref{eq:belief} from the observation and control data. 
 Table~\ref{tab:KF} presents a pseudo-algorithm of the Bayes Filter algorithm \cite{probrob}:
 
 \begin{table}[h]
@@ -451,7 +451,7 @@ for all $\textbf{x}_t$: \\
 \end{tabular}
 \end{center}
 \end{table}%
-The recursive nature of the algorithm can thus be seen from Table~\ref{tab:BF}; whereby the belief $\overline {bel}(\textbf{x}_t)$ at the current time $t$ is obtained through initially calculating the belief at the previous time-step, $t-1$. The Bayes Filter contains two essential steps: \textit{prediction} (line 1) and \textit{measurement update} (line 2). The prediction step initially processes the control inputs before subsequently predicting the current belief based on the prior belief and the probability that a transition from $\textbf{x}_{t-1}$ to $\textbf{x}_t$ occurs. Thereafter, the measurement update improves the belief by adding information about the states, observed from new measurements.
+The recursive nature of the algorithm can thus be seen from Table~\ref{tab:BF}; whereby the belief $\overline {bel}(\textbf{x}_t)$ at the current time $t$ is obtained through initially calculating the belief at the previous timestep, $t-1$. The Bayes Filter contains two essential steps: \textit{prediction} (line 1) and \textit{measurement update} (line 2). The prediction step initially processes the control inputs before subsequently predicting the current belief based on the prior belief and the probability that a transition from $\textbf{x}_{t-1}$ to $\textbf{x}_t$ occurs. Thereafter, the measurement update improves the belief by adding information about the states, observed from new measurements.
 
 The Bayes Filter can be implemented in many different ways. Upon choosing a suitable implementation, a trade off between the following properties needs to be made:
 \begin{itemize}
@@ -469,10 +469,10 @@ Amongst the many different implementations of the Bayes Filter are the \textit{G
 \begin{equation} \label{eq:normal}
 p(\textbf{x}_t)=\cfrac{1}{\sqrt{|2\pi\boldsymbol{\Sigma}|}}\hspace{0.1cm}\text{exp}\hspace{0.1cm}\bigg\{-\frac{1}{2}(\textbf{x}_t-\boldsymbol{\mu})^T\boldsymbol{\Sigma}^{-1}(\textbf{x}_t-\boldsymbol{\mu})\bigg\},
 \end{equation} 
-where the density across the state variable $\textbf{x}_t$ is characterised through two fundamental parameters: the mean $\boldsymbol{\mu}$ and the covariance $\boldsymbol{\Sigma}$. Such a parameterisation whereby a Gaussian is characterised through it's respective mean and covariance is called the \textit{moments parameterisation} (as the mean and covariance represent the first and second order moments respectively). AThis parameterisation allows a number of recursive filter algorithms to be derived, two of which are examined in this project: the \textit{KF} (KF) and it's non-linear counterpart, the \textit{EKF} (EKF). It is important to realise that both of the aforementioned filters belong to the same sub-class of filters - namely the KF Family - and therefore most of the fundamental concepts and functionality between them are identical. Each filter is discussed in further detail in the subsections that follow.   
+where the density across the state variable $\textbf{x}_t$ is characterised through two fundamental parameters: the mean $\boldsymbol{\mu}$ and the covariance $\boldsymbol{\Sigma}$. Such a parameterisation whereby a Gaussian is characterised through its respective mean and covariance is called the \textit{moments parameterisation} (as the mean and covariance represent the first and second order moments respectively). AThis parameterisation allows a number of recursive filter algorithms to be derived, two of which are examined in this project: the \textit{KF} (KF) and its non-linear counterpart, the \textit{EKF} (EKF). It is important to realise that both of the aforementioned filters belong to the same sub-class of filters - namely the KF Family - and therefore most of the fundamental concepts and functionality between them are identical. Each filter is discussed in further detail in the subsections that follow.   
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsubsection{KF}    
-Probably the most fundamental of all Gaussian filter algorithms, is the \textit{KF}. The KF can be briefly described as an optimal estimator. It remains a popular technique for filtering and prediction of \textit{linear} systems that contains Gaussian uncertainty. The KF seeks to describe a belief distribution of a state variable $\textbf{{x}}_t$ as described in Equation~\ref{eq:normal}. Subsequently, the state vector $\textbf{{x}}_t$ is modelled by a single multivariate Gaussian distribution with a mean $\boldsymbol{\mu}_t$ and covariance $\boldsymbol{\Sigma}_t$, at each time instance $t$ (while previous time-steps are denoted as $t-1$, $t-2$, etc.). The general implementation as described above though, is only valid provided that the following three properties hold true - as listed in~\cite{probrob}: 
+Probably the most fundamental of all Gaussian filter algorithms, is the \textit{KF}. The KF can be briefly described as an optimal estimator. It remains a popular technique for filtering and prediction of \textit{linear} systems that contains Gaussian uncertainty. The KF seeks to describe a belief distribution of a state variable $\textbf{{x}}_t$ as described in Equation~\ref{eq:normal}. Subsequently, the state vector $\textbf{{x}}_t$ is modelled by a single multivariate Gaussian distribution with a mean $\boldsymbol{\mu}_t$ and covariance $\boldsymbol{\Sigma}_t$, at each time instance $t$ (while previous timesteps are denoted as $t-1$, $t-2$, etc.). The general implementation as described above though, is only valid provided that the following three properties hold true - as listed in~\cite{probrob}: 
 \begin{enumerate}
 \item The state transition model probability \textbf{must} be a \textit{linear} function with additive Gaussian (process) noise. The state transition model probability is shown according to Thrun et al.\cite{probrob}:\\
 \begin{equation}\label{eq:SSmodelg}
@@ -486,7 +486,7 @@ where $\textbf{w}_t$ and $\textbf{v}_t$ represent process and sensor noise respe
 \item The initial belief $bel(\textbf{x}_0)$ must be normally distributed.
 \end{enumerate}
 %In the context of Simultaneous Localisation and Mapping (SLAM), a KF algorithm seeks to determine the \textbf{optimal} trade off between the state of the robots pose and the position of the landmarks within the map - given process and measurement noise.\\
-%provided that the state vector $\textbf{\^{x}}_k$, and landmark locations $\textbf{\^{y}}_{n,k}$ are modelled by a single multivariate Gaussian distribution. The system is to be observed at discrete steps in time - denoted by the subscript$k =1, 2,  3, ...$ - where at every individual time-step, it can be influenced by a set of actions. It is assumed that\\  
+%provided that the state vector $\textbf{\^{x}}_k$, and landmark locations $\textbf{\^{y}}_{n,k}$ are modelled by a single multivariate Gaussian distribution. The system is to be observed at discrete steps in time - denoted by the subscript$k =1, 2,  3, ...$ - where at every individual timestep, it can be influenced by a set of actions. It is assumed that\\  
 
 %Moreover, the solution to this specific implementation of the SLAM problem, takes a probabilistic form where the belief with regard to state variable $\textbf{x}_t$ is denoted as shown in equation~\ref{eq:belief}:
 %\begin{equation}
@@ -549,12 +549,12 @@ Considering that most practical systems of interest yield non-linear behaviour, 
 %\end{figure}
 The \textit{EKF} (EKF), an extension of the general KF, aims to enable the modelling of non-linear systems through linearisation. As previously mentioned, the state transition function $g(\textbf{u}_t, \textbf{x}_{t-1})$, as well as the observation model $h(\textbf{x}_{t-1})$ of most practical systems are typically both non-linear in nature. Considering the aforementioned statement; it is necessary to determine a method for approximating a non-linear function as a linear function, more commonly referred to as linearisation. The linearisation process of EKF aims to linearise these functions so that the fundamental operations of the KF algorithm remain valid.
 
-The linearisation process approximates an arbitrary non-linear function $f$ by a linear function that is \textit{tangent} to $f$ at the mean value of the Gaussian, $\boldsymbol{\mu}$. If the Gaussian is then projected through this new linear approximation, the resultant transformation would yield a random variable that is Gaussian in nature (as in Figure~\ref{fig:lin}). This technique is applied to both the state transition and observation functions. Many methods exist for linearisation of non-linear functions, but the EKF utilises the method of (first order) \textit{Taylor expansion}. The Taylor expansion creates a linear approximation of a non linear function, say $f$, by it's own value as well as that of it's gradient $f'$. The tangent of $f$ can be depicted by it's partial derivative with respect to the state vector $\textbf{x}_{t-1}$:
+The linearisation process approximates an arbitrary non-linear function $f$ by a linear function that is \textit{tangent} to $f$ at the mean value of the Gaussian, $\boldsymbol{\mu}$. If the Gaussian is then projected through this new linear approximation, the resultant transformation would yield a random variable that is Gaussian in nature (as in Figure~\ref{fig:lin}). This technique is applied to both the state transition and observation functions. Many methods exist for linearisation of non-linear functions, but the EKF utilises the method of (first order) \textit{Taylor expansion}. The Taylor expansion creates a linear approximation of a non linear function, say $f$, by its own value as well as that of its gradient $f'$. The tangent of $f$ can be depicted by its partial derivative with respect to the state vector $\textbf{x}_{t-1}$:
 \begin{equation}\label{eq:par}
 f'(\textbf{x}_{t-1}, \textbf{u}_t) := \frac{\partial f(\textbf{x}_{t-1}, \textbf{u}_t)}{\partial \textbf{x}_{t-1}}.
 \end{equation}
 
-The argument of the function $f$ is chosen as the most likely point at the linearisation instance. For Gaussians, the most likely point is the mean $\mu_{t-1}$. The linear approximation of the function $f$ can then be achieved through the linear extrapolation evaluated at it's most likely point $\mu_{t-1}$:
+The argument of the function $f$ is chosen as the most likely point at the linearisation instance. For Gaussians, the most likely point is the mean $\mu_{t-1}$. The linear approximation of the function $f$ can then be achieved through the linear extrapolation evaluated at its most likely point $\mu_{t-1}$:
 \begin{equation}\label{eq:app}
 \begin{split}
 f(\textbf{x}_{t-1}, \textbf{u}_t) &\approx f(\textbf{x}_{t-1}, \textbf{u}_t) + f'(\textbf{u}_{t},\boldsymbol{\mu}_{t-1})(\textbf{x}_{t-1}-\boldsymbol{\mu}_{t-1}) \\
@@ -563,7 +563,7 @@ f(\textbf{x}_{t-1}, \textbf{u}_t) &\approx f(\textbf{x}_{t-1}, \textbf{u}_t) + f
 \end{equation}
 where $\textbf{F}_t' = f'(\textbf{u}_{t},\textbf{x}_{t-1})$ is the \textit{Jacobian} matrix. 
 
-It is important to note that {Jacobian} matrix is determined at each linearisation instance (each individual time-step) as its parameters differ from one linearisation instance to the next. 
+It is important to note that {Jacobian} matrix is determined at each linearisation instance (each individual timestep) as its parameters differ from one linearisation instance to the next. 
 
 %Once linearisation is achieved, the EKF which behaves otherwise identically in terms of operation to the general KF, can be implemented upon non-linear systems. 
 It is very important to note that because only a first order Taylor expansion is used to \textit{approximate} the linearisation, severe non-linearities will prohibit acceptable approximations of the Gaussian distribution upon transformations. If the linearisation point is chosen at a point close to the mean, the EKF will yield an acceptable approximation from the linearisation process. 
@@ -605,7 +605,7 @@ This chapter sets out to provide an overview of the MonoSLAM algorithm. Initiall
 \begin{figure}[H]
 %\begin{center}
 \includegraphics[width=\textwidth, height=0.8\textwidth]{Figures/System1.png}
-\caption{System functional diagram also depicting the relevant sub-systems.}
+\caption{System functional diagram also depicting the relevant subsystems.}
 \label{fig:system}
 %\end{center}
 \end{figure}
@@ -627,13 +627,13 @@ With regard to the management of the probabilistic map (block named ``Map Manage
 
 %Cameras though, prove a capable yet economical alternative to these sensors. Another successful and popular SLAM implementation is stereo vision (two calibrated cameras), yet the obvious disadvantage regarding such an approach is that double the cost is required as opposed to a single camera approach. Also, the calibration setup of a stereo vision system is generally quite complex. \\  
 
-%It can be argued though, that the general approach presented in~\cite{dav2007} - more commonly referred to as \textit{MonoSLAM} - as well as the variants thereof ~\cite{idp,scale2010,highspeed2008,sola} can be improved through the utilisation of additional information regarding the motion of the robot. As previously discussed, the MonoSLAM system utilises a single camera as it's only sensor. Apart from the inability to immediately estimate depth, a MonoSLAM system possesses no knowledge regarding it's movement. The approach presented in this paper then, seeks to utilise exactly such information through the utilisation of an inertial measurement unit (IMU) as an extension to the original implementation. IMU's have been successfully implemented in SLAM based systems before, as implemented in ~\cite{IMU}. With the addition of an IMU, information regarding the changes in movement and orientation of the camera (namely the linear accelerations and the angular rates) can be obtained and directly \textit{observed}. Ultimately, the stochastic constant velocity motion model of the general MonoSLAM algorithm can then be replaced with a kinematic estimation based motion model - one that is initially assumed to be more accurate - as it contains a considerably larger amount of information directly associated with a robot's movement.\\\\ 
+%It can be argued though, that the general approach presented in~\cite{dav2007} - more commonly referred to as \textit{MonoSLAM} - as well as the variants thereof ~\cite{idp,scale2010,highspeed2008,sola} can be improved through the utilisation of additional information regarding the motion of the robot. As previously discussed, the MonoSLAM system utilises a single camera as its only sensor. Apart from the inability to immediately estimate depth, a MonoSLAM system possesses no knowledge regarding its movement. The approach presented in this paper then, seeks to utilise exactly such information through the utilisation of an inertial measurement unit (IMU) as an extension to the original implementation. IMU's have been successfully implemented in SLAM based systems before, as implemented in ~\cite{IMU}. With the addition of an IMU, information regarding the changes in movement and orientation of the camera (namely the linear accelerations and the angular rates) can be obtained and directly \textit{observed}. Ultimately, the stochastic constant velocity motion model of the general MonoSLAM algorithm can then be replaced with a kinematic estimation based motion model - one that is initially assumed to be more accurate - as it contains a considerably larger amount of information directly associated with a robot's movement.\\\\ 
 
 %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \newpage
 \subsection{State Representation}
-As previously mentioned, state variables represent the mathematical ``state" of system. In order to calculate a belief distribution, the system must possess a model to predict future states. This model previously discussed as the state transition probability is commonly referred to as the \textit{motion model}. All relevant states are embedded within the state vector $\textbf{{x}}_t$. The state vector is defined at each time-step and consists of the robot's \textit{actual} pose and the \textit{actual} landmark positions within the map.\\
+As previously mentioned, state variables represent the mathematical ``state" of system. In order to calculate a belief distribution, the system must possess a model to predict future states. This model previously discussed as the state transition probability is commonly referred to as the \textit{motion model}. All relevant states are embedded within the state vector $\textbf{{x}}_t$. The state vector is defined at each timestep and consists of the robot's \textit{actual} pose and the \textit{actual} landmark positions within the map.\\
 Mathematically, the probabilistic map is typically represented as a state \textit{estimate} that consists of a mean state vector $\boldsymbol{\mu}_t$ and a covariance matrix $\boldsymbol{\Sigma}_{t}$, the subscript $t$ denotes a particular time instance. The mean state vector is a single column vector containing the means of the estimates of the robot as well as the landmark positions, and the covariance matrix is a square matrix containing the covariances of each state with respect to every other state. These quantities can be mathematically shown according to the book Probabilistic Robotics by Thrun et al.~\cite{probrob}:
 
 \begin{equation}
@@ -685,7 +685,7 @@ Often, the modelling of dynamic systems require that additional parameters - apa
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%   
 \subsubsection{Feature Representation}
-The probabilistic map contains a 3D position of \textit{each} observed landmark as well as a corresponding uncertainty. The feature estimates $\textbf{{y}}_i$ - comprises of $n$ landmarks - are described through three individual coordinates - $x$, $y$ and $z$ respectively:
+The probabilistic map contains a 3D position of \textit{each} observed landmark as well as a corresponding uncertainty. The feature estimates $\textbf{{y}}_i$ - consists of $n$ landmarks - are described through three individual coordinates - $x$, $y$ and $z$ respectively:
 \begin{equation}
 \textbf{{y}}_n = (x_n\hspace{0.25cm}y_n\hspace{0.25cm}z_n)^T,
 \end{equation}
@@ -749,11 +749,11 @@ The following concept describes the dynamics to the system as a result of extern
 
 In most instances of robotics, it is essential to describe the dynamics involving a robot's movement. In the context of this paper, the robot/camera is free to move as it pleases. Evidently, these requests exert forces upon the robot which are unknown to the system.
 
-In the approach presented by Davison et al., a constant velocity model is assumed and at each time-step, unknown linear and angular acceleration zero-mean, Gaussian processes are introduced that cause linear and angular velocity impulses. The model contains very little, if any information on the movement of the camera. It can be assumed that utilising additional information regarding the camera's movement will provide greater accuracy upon state estimation.
+In the approach presented by Davison et al., a constant velocity model is assumed and at each timestep, unknown linear and angular acceleration zero-mean, Gaussian processes are introduced that cause linear and angular velocity impulses. The model contains very little, if any information on the movement of the camera. It can be assumed that utilising additional information regarding the camera's movement will provide greater accuracy upon state estimation.
 
 The inertial sensors, namely the accelerometer and gyroscope, are mounted onto the camera. This allows the camera to be modelled as a rigid body upon which a kinematic estimation can be applied. The IMU directly measures the total acceleration $\textbf{f}_t$ as well as the total angular rates $\boldsymbol{\psi}_t$ with respect to the camera's rigid body frame $C$. 
 
-The measured acceleration and gyroscope measurements form the \textit{equivalent control vector} $\textbf{{u}}_t$ that describes, at each time-step, the external forces exerted on the system with additive noise. The control vector equivalent is adapted as follows:
+The measured acceleration and gyroscope measurements form the \textit{equivalent control vector} $\textbf{{u}}_t$ that describes, at each timestep, the external forces exerted on the system with additive noise. The control vector equivalent is adapted as follows:
 
 \begin{equation}
 \textbf{u}_t = 
@@ -1025,7 +1025,7 @@ With reference to figure~\ref{fig:frame}, a feature's cartesian position can be 
   \end{pmatrix} - \textbf{r}^{W} 
   \end{pmatrix}  
 \end{equation}
-the subscript $i$ corresponds a directional vector $\textbf{h}^C$ from it's cartesian position $\textbf{r}^W$ to the cartesian position of a given landmark $\textbf{y}^W$.\\\\
+the subscript $i$ corresponds a directional vector $\textbf{h}^C$ from its cartesian position $\textbf{r}^W$ to the cartesian position of a given landmark $\textbf{y}^W$.\\\\
 A camera however, cannot directly measure a cartesian vector. Instead, a camera measurement (based on the model presented) obtains a vector $\textbf{h}_i$ that is a function of $\textbf{h}^W_{i}$. This vector describes a given feature's horizontal and vertical image positions $(u,v)$. For an undistorted image, the vector $\textbf{h}_i$, more commonly referred to as the measurement function is defined according to Equation~\ref{eq:fmmd1}:
 
  \begin{equation} \label{eq:fmmd}
@@ -1048,7 +1048,7 @@ It is evident from the model presented in equation~\ref{eq:fmmd} cannot be direc
 %\subsubsection{Feature Tracking}
 \subsubsection{Feature Matching}
 The following section discusses the measurement of a feature \textit{fully} initialised within the SLAM map. The measurement process seeks to initially estimate the cartesian position of a given feature $\textbf{y}_i$ within the SLAM map. Thereafter, the feature can be compared via a matching sequence. Generally, feature matching is conducted using a normalised cross-correlation search, where a 2D template of the 3D feature is scanned is across the entire image (at each pixel location) until a peak is obtained. MonoSLAM however, seeks to utilise an \textit{active} approach for matching, minimising the the search field and improving efficiency.\\
-The EKF inherently contains information that may be utilised in order to prohibit a full cross-correlation search. The measurement function $\textbf{h}({\bar\mu})$ for instance, provides an estimate for a given features location, namely $\textbf{u}_d = ({u}_d,v_d)$. Knowledge of this location therefore allows an active search region to be described within the vicinity of this location. The location estimate of the feature is not the only information regarding the feature that is available as a result of the EKF. Additionally, the uncertainty regarding a given feature's location is stored within the state vector covariance matrix $\boldsymbol{\Sigma}_{t}$. This information can be used to determine the size of the active search region surrounding the location estimate; where the size of the search region is directly proportional to the uncertainty of it's location. If the feature cannot be matched within the aforementioned search region, it cannot contribute to the correction of the robot's pose estimate and is therefore deleted form the SLAM map. The aforementioned process of defining the active search region can be mathematically defined through the \textit{innovation covariance matrix} $\textbf{S}_i$:
+The EKF inherently contains information that may be utilised in order to prohibit a full cross-correlation search. The measurement function $\textbf{h}({\bar\mu})$ for instance, provides an estimate for a given features location, namely $\textbf{u}_d = ({u}_d,v_d)$. Knowledge of this location therefore allows an active search region to be described within the vicinity of this location. The location estimate of the feature is not the only information regarding the feature that is available as a result of the EKF. Additionally, the uncertainty regarding a given feature's location is stored within the state vector covariance matrix $\boldsymbol{\Sigma}_{t}$. This information can be used to determine the size of the active search region surrounding the location estimate; where the size of the search region is directly proportional to the uncertainty of its location. If the feature cannot be matched within the aforementioned search region, it cannot contribute to the correction of the robot's pose estimate and is therefore deleted form the SLAM map. The aforementioned process of defining the active search region can be mathematically defined through the \textit{innovation covariance matrix} $\textbf{S}_i$:
 \begin{equation}\label{eq:inov}
 %\begin{split}
 \textbf{S}_i = \frac{\partial\textbf{u}_{d,i}}{\partial\textbf{x}_{v}}\Sigma_{\textbf{x}_v,\textbf{x}_v}\frac{\partial\textbf{u}_{d,i}}{\partial\textbf{x}_{v}}^T + \frac{\partial\textbf{u}_{d,i}}{\partial\textbf{x}_{v}}\Sigma_{\textbf{x}_vy_i}\frac{\partial\textbf{u}_{d,i}}{\partial\textbf{y}_{i}}^T + \frac{\partial\textbf{u}_{d,i}}{\partial\textbf{y}_{i}}\Sigma_{y_i\textbf{x}_v}\frac{\partial\textbf{u}_{d,i}}{\partial\textbf{x}_{v}}^T + \frac{\partial\textbf{u}_{d,i}}{\partial\textbf{y}_{i}}\Sigma_{y_iy_i}\frac{\partial\textbf{u}_{d,i}}{\partial\textbf{y}_{i}}^T + \textbf{R}_v
@@ -1079,17 +1079,17 @@ Map management forms an integral role in the realisation of the MonoSLAM algorit
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Implementation}
 \subsection{Introduction}
-This chapter sets out to test all the relevant sub-systems incorporated within this project. Initially, the necessary configuration and procedures are given in order to set up the system. Thereafter, the hardware components are individually tested and analysed to ensure that the expected performance is provided and whether redesign is necessary. Lastly, the core of this project, the kinematic estimator, is simulated and analysed as a possible alternative to the current velocity and angular velocity model. 
+This chapter sets out to test all the relevant subsystems incorporated within this project. Initially, the necessary configuration and procedures are given in order to set up the system. Thereafter, the hardware components are individually tested and analysed to ensure that the expected performance is provided and whether redesign is necessary. Lastly, the core of this project, the kinematic estimator, is simulated and analysed as a possible alternative to the current velocity and angular velocity model. 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{System Setup}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-An overview of the system is depicted in Figure~\ref{fig:sys}. It is evident that the system contains three hardware sub-systems:
+An overview of the system is depicted in Figure~\ref{fig:sys}. It is evident that the system contains three hardware subsystems:
 \begin{itemize}
 \item Arduino micro-controller.
 \item IMU.
 \item CMOS Camera.
 \end{itemize}
-Each of of the sub-systems require a unique setup configuration in order to represent a \textit{functional} unit of the whole system.   
+Each of of the subsystems require a unique setup configuration in order to represent a \textit{functional} unit of the whole system.   
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsubsection{Micro-controller}
 This project requires a micro-controller for the following two reasons: 
@@ -1100,7 +1100,7 @@ This project requires a micro-controller for the following two reasons:
 
 In order for the system to function accordingly, the IMU and camera measurements need to be \textit{synchronised}. A suitable method to achieve such synchronisation is to run a timer interrupt every sample period of the camera. The interrupt subsequently calls an interrupt service routine that triggers a pulse to the camera to capture a frame while simultaneously sampling the IMU measurements.The data is then sent to a PC via 2 individual serial ports. 
 
-Arduino micro-controllers provide a suitable, low cost solution. The Arduino Uno SMD Rev3 depicted in Figure~\ref{fig:arduino} in particular is a scaled down version of the original Uno, providing the necessary functionality along with a helpful developer community. 
+Arduino micro-controllers provide a suitable, low cost solution. The Arduino Uno SMD Rev3 depicted in Figure~\ref{fig:arduno} in particular is a scaled down version of the original Uno, providing the necessary functionality along with a helpful developer community. 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{figure}[H]
 \centering
@@ -1157,7 +1157,7 @@ The IMU is configured in measurement mode with the following properties:
 \begin{tabular}{|c|c|}
 \hline
 Parameter & Value \\
-\hline
+\hline\hline
 Operating voltage & 3.3 V\\
 \hline
 Serial communication & I2C \\
@@ -1201,7 +1201,7 @@ The \textit{intrinsic} matrix of the camera in Equation~\ref{eq:fmmd1} and the d
 \begin{tabular}{|c|c|}
 \hline
 Parameter & Values \\
-\hline\hline
+\hline \hline
 focal length $f_u=f_v$ & 1019 pixels \\
 \hline
 Principal point $u_0$& 319 pixels \\
@@ -1217,20 +1217,96 @@ Radial distortion coefficient $K_1$ &  0.504\\
 %
 %The trigger pulse is set by the micro-controller, this will be discussed next.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%\subsection{Design Choices}
-%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%
-%This project doesn't require a large micro-controller. The specifications for the micro-controller are shown as follows:
-%\begin{itemize}
-%\item Two A2D ports for I2C communication with the IMU.
-%\item 3.3 Volt supply voltage for the IMU.
-%\item One digital output pin to trigger a pulse to the camera.
-%\item Support community.
-%\end{itemize}
-%
+\subsection{Hardware Configuration}
+The hardware components need to be designed in order to meet the following specifications:
+\begin{itemize}
+\item 30 Hz data rate.
+\item Camera and IMU synchronisation.
+\item Reliable data transfer from hardware to PC.
+\end{itemize}
 
+\subsubsection{Inertial Measurement Unit}
+Before any measurements can be obtained from the IMU, the IMU needs to be correctly configured. Communication between the micro-controller and the IMU is done via I2C where the micro-controller is the master. The appropriate registers of the accelerometer and the gyroscope need to be set to resemble the configuration shown in Table~\ref{tab:imuset}:
+\begin{table}[htdp]
+\caption{Accelerometer and gyroscope register values}
+\centering
+%\begin{center}
+\begin{tabular}{|c|c|c|c|}
+\hline
+Register & Value & Name & Function \\ 
+\hline\hline
+\multicolumn{4}{|c|}{Accelerometer} \\
+\hline
+0x31 & 0x09 & DATA\textunderscore FORMAT &  \pbox{7.5cm}{Set the accelerometer to $\pm 4g$ and 10 bit resolution}\\
+\hline
+0x2D & 0x08 & POWER\textunderscore CTL & \pbox{7.5cm}{Set the accelerometer to measure mode with minimum power consumption}\\
+\hline
+\multicolumn{4}{|c|}{Gyroscope} \\
+\hline
+0x16 & 0x1B & Full Scale &  \pbox{7.5cm}{Set the gyroscope to $\pm 2000^{\circ}$, 1 kHz sample rate and 50 Hz low pass filter}\\
+\hline
+0x25 & 0x09 & Sample Rate Divider & \pbox{7.5cm}{Set the internal sample rate divider to 10}\\
+\hline
+\end{tabular}
+%\end{center}
+\label{default}
+\end{table}%
+
+The IMU sensors can now be measured and subsequently converted from analog to digital values and transferred to the PC. Both devices (accelerometer and gyroscope) are set a 10 bit resolution. This means that the analog value will be represented as 10 bits and each measurement will be stored in two separate bytes (16 bits). There are a total of 6 IMU measurements - 3 from the gyroscope and 3 from the accelerometer. \\\\%A suitable baud rate must also be determined to ensure these measurement are sent to the PC within the sample period.
+%The I2C protocol for the IMU~\cite{gyro} suggests that 60 bits per measurement are required. 
+\subsubsection{Gyroscope Biases}
+
+
+\subsection{Hardware Simulation}
+The performance of the hardware components of this project is requires analysis through physical measurements and simulation before being integrated into the final system. In order to successfully implement a project of this magnitude that incorporates several subsystems, it is essential that the design as well as analysis thereof is accurate. The components are initially designed to meet the relevant specifications. Thereafter, simulation and measurement equipment can be used to verify that the subsystems do indeed behave as predicted. This process will greatly simplify the final integration process. 
+
+In order to verify the functionality of the gyroscope measurements, the physical measurements need to be measured and analysed. It is very difficult to intuitively analyse an angular rate. The angular displacement however, is a much better test case upon verifying the gyroscope measurements. The IMU can be approximately rotated at known angles and the resulting angular rates can be numerically integrated to obtain the angular displacement. This is a suitable method of analysing whether the information obtained form the gyroscope measurements resemble the actual forces exerted upon it.
+
+\subsubsection{Test 1: Approximately Known Angular Displacements}
+The following set of test conditions will utilise actual gyroscope measurements. An approximately known angular displacements will be exerted upon the IMU e.g. rotate $90^{\circ}$ about the positive x-axis. The resulting gyroscope measurements will be plotted and analysed to verify its functionality.
+
+The set of test conditions as are listed below (the measurements are sampled at 30 Hz): 
+\begin{enumerate}
+\item \textbf{Positive $90^{\circ}$ rotation about the x-axis:}\\
+\item \textbf{Positive $180^{\circ}$ rotation about the y-axis:}\\
+\item \textbf{Positive $90^{\circ}$ followed by a negative 90^{\circ}$ rotation about the x-axis:}\\
+\item \textbf{Positive $360^{\circ}$ rotation about the z-axis:}\\
+\end{enumerate}
+
+Considering that the sample period is relatively small, the angular displacement $\Theta_t$ can be approximated in terms of the measured angular rates $\psi_t$ as follows:
+\begin{equation}
+\begin{split}
+\psi_t &= \cfrac{d\Theta_t}{dt}\\
+\Theta_t &= \Delta T \psi_t
+\end{split}
+\end{equation}
+ 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%\newpage
 %\subsubsection{Serial Communication}
+%Each of the hardware subsystems use serial communication to transfer of data. All relevant data from the subsystems is required to be transferred to the PC, where the SLAM algorithm is being run. The project description requires operation at 30 Hz. The individual subsystems are required to be configured so that it transfers all its relevant data to PC before the sample period expires. It is essential however, that the data from each subsystem remains in sync.
+%
+%Table~\ref{tab:serialcom} shows each hardware subsystem, the method of serial architecture used and the amount of data required to be transferred every sampling instance $f = 30$Hz:   
+%\begin{table}[H]
+%\caption{Serial Communication Architectures per device}
+%\begin{center}
+%\begin{tabular}{|c|c|c|}
+%\hline
+%Subsystem & Serial Architecture & Data (Bytes) \\
+%\hline \hline
+%Micro-controller & USB & \\
+%\hline 
+%CMOS camera & USB & \\
+%\hline
+%IMU & I2C & \\ 
+%\hline
+%\end{tabular}
+%\end{center}
+%\label{tab:serialcom}
+%\end{table}%
+
 %\begin{table}[H]
 %\caption{Single-Byte I2C Write Cycle}
 %\begin{center}
@@ -1258,11 +1334,8 @@ Radial distortion coefficient $K_1$ &  0.504\\
 %\label{tab:write}
 %\end{table}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%\newpage
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \newpage
-\subsection{Simulation}
+\subsection{Software Simulation}
 This study seeks to investigate the performance of the kinematic estimator as a state transition model. An EKF-based kinematic estimator simulation is designed to meet the following specifications:
 \begin{itemize}
 \item The measurement update only adds additive noise to the state estimates. 
@@ -1270,7 +1343,7 @@ This study seeks to investigate the performance of the kinematic estimator as a 
 \item In the event of process and measurement noise, the kinematic estimator should still allow the EKF provide an optimal estimate depending on the amount of uncertainty each noise perturbation presents.  
 \end{itemize}
 
-In order to effectively analyse it's performance, a simulation of an EKF that uses a kinematic estimator as the state transition model is run under a set of test conditions. These conditions will accurately analyse the performance of the kinematic estimator with regard to the aforementioned design specifications. A functional diagram of the EKF-based kinematic estimator (based on Equation~\ref{eq:trmod}) is shown in Figure~\ref{fig:kindiag}. The kinematic estimator is incorporated within the control update of the EKF. %A set of \textit{simulated} inertial measurements will initially be inserted into the kinematic estimator simulation and the resulting trajectory will be plotted to provide better insight. Thereafter a set of random measurements will be inserted into the kinematic estimator with  
+In order to effectively analyse its performance, a simulation of an EKF that uses a kinematic estimator as the state transition model is run under a set of test conditions. These conditions will accurately analyse the performance of the kinematic estimator with regard to the aforementioned design specifications. A functional diagram of the EKF-based kinematic estimator (based on Equation~\ref{eq:trmod}) is shown in Figure~\ref{fig:kindiag}. The kinematic estimator is incorporated within the control update of the EKF. %A set of \textit{simulated} inertial measurements will initially be inserted into the kinematic estimator simulation and the resulting trajectory will be plotted to provide better insight. Thereafter a set of random measurements will be inserted into the kinematic estimator with  
 \begin{figure}[htbp]
 \begin{center}
 \includegraphics[width=\textwidth, height=0.8\textwidth]{Figures/Drawing3.png}
@@ -1285,8 +1358,7 @@ The first set of test conditions will provide simulated gyroscope and accelerome
 
 The expected outcome then, is that the kinematic estimator will precisely track a given robot trajectory. These trajectories will be trivially defined so that the results can be accurately analysed. 
 \\\\
-The first set of test conditions as well as the theoretical predictions are given as follows 
-It is worthwhile to note that the length of a simulation is 10 seconds at 30 Hz or 300 samples. The initial position is always $\textbf{r}^W$ = \{0 0 0\} with an orientation quaternion of $\textbf{q}^{WC} =$ \{1 0 0 0\}): %The trajectory of the can thus qualitatively analysed to predict the performance of the kinematic estimato.
+The first set of test conditions as well as the theoretical predictions are listed below. The length of a simulation is 10 seconds at 30 Hz or 300 samples. The initial position is always $\textbf{r}^W$ = \{0 0 0\} with an orientation quaternion of $\textbf{q}^{WC} =$ \{1 0 0 0\}): %The trajectory of the can thus qualitatively analysed to predict the performance of the kinematic estimato.
 
 \begin{enumerate}
 \item \textbf{1 metre per second x-acceleration:}\\
@@ -1297,7 +1369,7 @@ x = x_0 + \cfrac{t^2}{2} = 0 + \cfrac{10^2}{2} = 50 \text{m}
 \item \textbf{1 metre per second x-acceleration with sudden positive 90 degree rotation about the y-axis:}\\
 The trajectory is expected to initially move along the positive x-axis after which the positive 90 degree rotation about the y-axis will rotate the robot frame so that the trajectory only moves along the negative z-axis. 
 \item \textbf{1 metre per second x-acceleration with three consecutive 90 degree rotations about the z-axis:}\\
-The trajectory is expected to initially move along the positive x-axis until the first positive 90 degree rotation about the z-axis rotates the robot frame so that the trajectory only moves along the positive y-axis. A second positive 90 degree rotation about the z-axis rotates the robot frame so that the trajectory then moves along the negative x-axis. The final positive 90 degree rotation about the z-axis rotates the robot frame so that the trajectory only moves along the negative y-axis. If the time-steps between the rotations are equal, a block figure trajectory is expected in the plane of rotation.    
+The trajectory is expected to initially move along the positive x-axis until the first positive 90 degree rotation about the z-axis rotates the robot frame so that the trajectory only moves along the positive y-axis. A second positive 90 degree rotation about the z-axis rotates the robot frame so that the trajectory then moves along the negative x-axis. The final positive 90 degree rotation about the z-axis rotates the robot frame so that the trajectory only moves along the negative y-axis. If the timesteps between the rotations are equal, a block figure trajectory is expected in the plane of rotation.    
 \end{enumerate}
 \newpage
 \subsubsection{Test 1: Results and Analysis}
@@ -1499,7 +1571,7 @@ As previously discussed, the EKF requires a state transition model in order to e
 \begin{equation}
 \textbf{\.{x}}_t = \textbf{A}\textbf{x}_{t-1} + \textbf{B}\textbf{u}_t+\textbf{w}_t,
 \end{equation} 
-where the state matrix $\textbf{A}$, describes the manner in which state evolves from the previous time-step to the current time-step without the influence of noise and controls, the input matrix $\textbf{B}$, describes how the control vector $\textbf{u}_t$ evolves from the previous time-step to the current time-step and $\textbf{w}_t$ is a \textbf{zero-mean} Gaussian process representing the process noise with a covariance matrix $\textbf{R}_w$.\\\\
+where the state matrix $\textbf{A}$, describes the manner in which state evolves from the previous timestep to the current timestep without the influence of noise and controls, the input matrix $\textbf{B}$, describes how the control vector $\textbf{u}_t$ evolves from the previous timestep to the current timestep and $\textbf{w}_t$ is a \textbf{zero-mean} Gaussian process representing the process noise with a covariance matrix $\textbf{R}_w$.\\\\
 Considering that the EKF is a recursive, numerical evaluation, it is necessary to convert the previously defined continuous model into its discrete counterpart. Various methods of discretisation exist, though this specific implementation makes use of the forward difference/Euler’s method. This method  \textit{approximates} the derivative for a state for a sampling period $\Delta T$ as follows:  
 \begin{equation}
 \begin{split}
@@ -1521,7 +1593,7 @@ Ultimately, the form of the final difference equation describing the system at e
 \subsection{State Transition: Linear Model}
 In order to derive the motion model for the system at hand, it is vital that the certain characteristics of the system be understood. Firstly, the robot system is comprised of a monocular camera and an attached IMU package. Secondly, the camera is to be considered as a 6 DOF rigid body. Briefly the six DOF describe the camera's three \textit{translational} and three \textit{rotational} degrees of freedom. \\
 We therefore set out to define a kinematic motion model - using Newton's laws of motion - to describe the cameras movement through the environment as a result of initially unknown, external inputs to the system. Lastly, it should be stressed that embedded within the motion model, should be the impacts of uncertainty through both internal and external factors. 
-%It is assumed in this instance, that at each time-step, an unknown angular acceleration $\mathbf{\Omega}^R$ acts upon the system. This input is modelled as a zero-mean Gaussian process that causes an impulse of angular velocity:
+%It is assumed in this instance, that at each timestep, an unknown angular acceleration $\mathbf{\Omega}^R$ acts upon the system. This input is modelled as a zero-mean Gaussian process that causes an impulse of angular velocity:
 %\begin{equation}
 %\textbf{w}_d[k]  = \textbf{w}[k] \Delta T =     
 % \begin{bmatrix}

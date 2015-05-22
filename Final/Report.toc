@@ -33,17 +33,22 @@
 \contentsline {subsubsection}{\numberline {4.2.1}Micro-controller}{30}
 \contentsline {subsubsection}{\numberline {4.2.2}Inertial Measurement Unit}{31}
 \contentsline {subsubsection}{\numberline {4.2.3}CMOS Machine Vision Camera}{32}
-\contentsline {subsection}{\numberline {4.3}Simulation}{33}
-\contentsline {subsubsection}{\numberline {4.3.1}Test 1: Prediction}{34}
-\contentsline {subsubsection}{\numberline {4.3.2}Test 1: Results and Analysis}{35}
-\contentsline {subsubsection}{\numberline {4.3.3}Test 2: Prediction}{36}
-\contentsline {subsubsection}{\numberline {4.3.4}Test 2: Results and Analysis}{36}
-\contentsline {subsection}{\numberline {4.4}MonoSLAM}{39}
-\contentsline {section}{\numberline {5}Analysis: Testing \& Results}{40}
-\contentsline {section}{\numberline {A}Summary of Work done}{41}
-\contentsline {section}{\numberline {B}Achieved ECSA Exit Level Outcomes}{42}
-\contentsline {section}{\numberline {C}Theoretical Concepts}{43}
-\contentsline {subsection}{\numberline {C.1}State Space Model}{43}
-\contentsline {subsection}{\numberline {C.2}State Transition: Linear Model}{43}
-\contentsline {section}{\numberline {D}Figures \& Diagrams}{45}
-\contentsline {subsection}{\numberline {D.1}Schematics \& Circuit Diagrams}{45}
+\contentsline {subsection}{\numberline {4.3}Hardware Configuration}{32}
+\contentsline {subsubsection}{\numberline {4.3.1}Inertial Measurement Unit}{32}
+\contentsline {subsubsection}{\numberline {4.3.2}Gyroscope Biases}{33}
+\contentsline {subsection}{\numberline {4.4}Hardware Simulation}{33}
+\contentsline {subsubsection}{\numberline {4.4.1}Test 1: Approximately Known Angular Displacements}{33}
+\contentsline {subsection}{\numberline {4.5}Software Simulation}{35}
+\contentsline {subsubsection}{\numberline {4.5.1}Test 1: Prediction}{36}
+\contentsline {subsubsection}{\numberline {4.5.2}Test 1: Results and Analysis}{37}
+\contentsline {subsubsection}{\numberline {4.5.3}Test 2: Prediction}{38}
+\contentsline {subsubsection}{\numberline {4.5.4}Test 2: Results and Analysis}{38}
+\contentsline {subsection}{\numberline {4.6}MonoSLAM}{41}
+\contentsline {section}{\numberline {5}Analysis: Testing \& Results}{42}
+\contentsline {section}{\numberline {A}Summary of Work done}{43}
+\contentsline {section}{\numberline {B}Achieved ECSA Exit Level Outcomes}{44}
+\contentsline {section}{\numberline {C}Theoretical Concepts}{45}
+\contentsline {subsection}{\numberline {C.1}State Space Model}{45}
+\contentsline {subsection}{\numberline {C.2}State Transition: Linear Model}{45}
+\contentsline {section}{\numberline {D}Figures \& Diagrams}{47}
+\contentsline {subsection}{\numberline {D.1}Schematics \& Circuit Diagrams}{47}
