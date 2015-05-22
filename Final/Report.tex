@@ -371,7 +371,7 @@ If time allows, a set of tests are required to be derived and implemented to est
 \end{itemize}
 \begin{figure}[h]
 %\begin{center}
-\includegraphics[width=\textwidth, height=0.6\textwidth]{Figures/Drawing2.png}
+\includegraphics[width=\textwidth, height=0.45\textwidth]{Figures/Drawing2.png}
 \caption{Functional diagram of the interaction between the system's hardware components}
 \label{fig:sys}
 %\includegraphics[width=\textwidth, height=0.5\textwidth]{Figures/rob.jpg}
@@ -471,7 +471,7 @@ p(\textbf{x}_t)=\cfrac{1}{\sqrt{|2\pi\boldsymbol{\Sigma}|}}\hspace{0.1cm}\text{e
 \end{equation} 
 where the density across the state variable $\textbf{x}_t$ is characterised through two fundamental parameters: the mean $\boldsymbol{\mu}$ and the covariance $\boldsymbol{\Sigma}$. Such a parameterisation whereby a Gaussian is characterised through its respective mean and covariance is called the \textit{moments parameterisation} (as the mean and covariance represent the first and second order moments respectively). AThis parameterisation allows a number of recursive filter algorithms to be derived, two of which are examined in this project: the \textit{KF} (KF) and its non-linear counterpart, the \textit{EKF} (EKF). It is important to realise that both of the aforementioned filters belong to the same sub-class of filters - namely the KF Family - and therefore most of the fundamental concepts and functionality between them are identical. Each filter is discussed in further detail in the subsections that follow.   
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\subsubsection{KF}    
+\subsubsection{Kalman Filter}    
 Probably the most fundamental of all Gaussian filter algorithms, is the \textit{KF}. The KF can be briefly described as an optimal estimator. It remains a popular technique for filtering and prediction of \textit{linear} systems that contains Gaussian uncertainty. The KF seeks to describe a belief distribution of a state variable $\textbf{{x}}_t$ as described in Equation~\ref{eq:normal}. Subsequently, the state vector $\textbf{{x}}_t$ is modelled by a single multivariate Gaussian distribution with a mean $\boldsymbol{\mu}_t$ and covariance $\boldsymbol{\Sigma}_t$, at each time instance $t$ (while previous timesteps are denoted as $t-1$, $t-2$, etc.). The general implementation as described above though, is only valid provided that the following three properties hold true - as listed in~\cite{probrob}: 
 \begin{enumerate}
 \item The state transition model probability \textbf{must} be a \textit{linear} function with additive Gaussian (process) noise. The state transition model probability is shown according to Thrun et al.\cite{probrob}:\\
@@ -529,7 +529,7 @@ Each of the aforementioned steps are later discussed in more detail - with refer
 The KF is generally considered an efficient algorithm for sparse sets. The \textit{computational complexity} of a matrix inversion is bounded by an order of $O(d^{2.4})$~\cite{probrob}, where d represents the dimensions of the measurements vectro $\textbf{z}_t$.  
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \newpage
-\subsubsection{EKF} \label{sec:EKF}
+\subsubsection{Extended Kalman Filter} \label{sec:EKF}
 Considering that most practical systems of interest yield non-linear behaviour, the KF in its purest form cannot be successfully implemented upon the vast majority of modern day systems. Non-linear transformations of Gaussian random variables (RV) result in a different RV while any linear transformation of a Gaussian random variable yields another \textbf{different} Gaussian variable. This violates an important condition of the KF algorithm. This phenomenon can be illustrated through Figure~\ref{fig:lin}: % where a linear transform yields a transformed Gaussian RV and a non linear transform yields a RV with a different probability density:
 
 \begin{figure}[h]
@@ -547,7 +547,7 @@ Considering that most practical systems of interest yield non-linear behaviour, 
 %\label{fig:non}
 %\end{center}
 %\end{figure}
-The \textit{EKF} (EKF), an extension of the general KF, aims to enable the modelling of non-linear systems through linearisation. As previously mentioned, the state transition function $g(\textbf{u}_t, \textbf{x}_{t-1})$, as well as the observation model $h(\textbf{x}_{t-1})$ of most practical systems are typically both non-linear in nature. Considering the aforementioned statement; it is necessary to determine a method for approximating a non-linear function as a linear function, more commonly referred to as linearisation. The linearisation process of EKF aims to linearise these functions so that the fundamental operations of the KF algorithm remain valid.
+The \textit{EKF}, an extension of the general KF, aims to enable the modelling of non-linear systems through linearisation. As previously mentioned, the state transition function $g(\textbf{u}_t, \textbf{x}_{t-1})$, as well as the observation model $h(\textbf{x}_{t-1})$ of most practical systems are typically both non-linear in nature. Considering the aforementioned statement; it is necessary to determine a method for approximating a non-linear function as a linear function, more commonly referred to as linearisation. The linearisation process of EKF aims to linearise these functions so that the fundamental operations of the KF algorithm remain valid.
 
 The linearisation process approximates an arbitrary non-linear function $f$ by a linear function that is \textit{tangent} to $f$ at the mean value of the Gaussian, $\boldsymbol{\mu}$. If the Gaussian is then projected through this new linear approximation, the resultant transformation would yield a random variable that is Gaussian in nature (as in Figure~\ref{fig:lin}). This technique is applied to both the state transition and observation functions. Many methods exist for linearisation of non-linear functions, but the EKF utilises the method of (first order) \textit{Taylor expansion}. The Taylor expansion creates a linear approximation of a non linear function, say $f$, by its own value as well as that of its gradient $f'$. The tangent of $f$ can be depicted by its partial derivative with respect to the state vector $\textbf{x}_{t-1}$:
 \begin{equation}\label{eq:par}
@@ -558,10 +558,10 @@ The argument of the function $f$ is chosen as the most likely point at the linea
 \begin{equation}\label{eq:app}
 \begin{split}
 f(\textbf{x}_{t-1}, \textbf{u}_t) &\approx f(\textbf{x}_{t-1}, \textbf{u}_t) + f'(\textbf{u}_{t},\boldsymbol{\mu}_{t-1})(\textbf{x}_{t-1}-\boldsymbol{\mu}_{t-1}) \\
-&= f(\textbf{x}_{t-1}, \textbf{u}_t) + \textbf{F}_t'(\textbf{x}_{t-1}-\boldsymbol{\mu}_{t-1}),
+&= f(\textbf{x}_{t-1}, \textbf{u}_t) + \textbf{F}_t^{\textbf{x}_{t-1}}(\textbf{x}_{t-1}-\boldsymbol{\mu}_{t-1}),
 \end{split}
 \end{equation}
-where $\textbf{F}_t' = f'(\textbf{u}_{t},\textbf{x}_{t-1})$ is the \textit{Jacobian} matrix. 
+where $\textbf{F}_t^{\textbf{x}_{t-1}} = f'(\textbf{u}_{t},\textbf{x}_{t-1})$ is the \textit{Jacobian} matrix. 
 
 It is important to note that {Jacobian} matrix is determined at each linearisation instance (each individual timestep) as its parameters differ from one linearisation instance to the next. 
 
@@ -611,7 +611,7 @@ This chapter sets out to provide an overview of the MonoSLAM algorithm. Initiall
 \end{figure}
 
 \subsection{MonoSLAM}
-Originally presented in a study by Davison et al.~\cite{dav2007}, MonoSLAM provides suitable real-time and repeatable localisation using a single camera SLAM implementation. In MonoSLAM, the robot (typically a handheld camera) assumes a constant linear and angular velocity motion model, using the images from the camera to correct the state estimates. MonoSLAM is not the only successful implementation of single camera SLAM. Separate studies presented by Sola~\cite{sola} and Klein~\cite{ptam} respectively show alternative solutions to the single camera SLAM problem. MonoSLAM and the work suceeding it~\cite{dav2007,highspeed2008,scale2010,idp} however, has achieved successful results in retrieving the trajectory of a robot, forming a persistent SLAM map and ultimately maintaining repeatable localisation. Davison et al.~\cite{dav2007} also provides the source code of MonoSLAM, a \textit{modular} system, under the GNU version 3 license so that possible improvements, such as those presented in this project, can be made. This modularity and apparent ease of implementation as opposed to the particle filter based implementations presented by the alternative methods suggest MonoSLAM as an appropriate choice. 
+Originally presented in a study by Davison et al.~\cite{dav2007}, MonoSLAM provides suitable real-time and repeatable localisation using a single camera SLAM implementation. In MonoSLAM, the robot (typically a handheld camera) assumes a constant linear and angular velocity motion model, using the images from the camera to correct the state estimates. MonoSLAM is not the only successful implementation of single camera SLAM. Separate studies presented by Sola~\cite{sola} and Klein~\cite{ptam} respectively show alternative solutions to the single camera SLAM problem. MonoSLAM and the work succeeding it~\cite{dav2007,highspeed2008,scale2010,idp} however, has achieved successful results in retrieving the trajectory of a robot, forming a persistent SLAM map and ultimately maintaining repeatable localisation. Davison et al.~\cite{dav2007} also provides the source code of MonoSLAM, a \textit{modular} system, under the GNU version 3 license so that possible improvements, such as those presented in this project, can be made. This modularity and apparent ease of implementation as opposed to the particle filter based implementations presented by the alternative methods suggest MonoSLAM as an appropriate choice. 
 
 As previously mentioned, a MonoSLAM system has certain disadvantages. The lack of an initial accurate depth estimate, constrained movement and lack of sufficient knowledge regarding the robot's motion means that MonoSLAM is not well suited in certain practical scenarios. 
 
@@ -824,11 +824,11 @@ The state transition model is assumed to take the form of a Markov process, yiel
 The description of the aforementioned state transition model can then, in terms of the probability distribution on the state transitions, take the following form:
 \begin{equation}
 \begin{split}
-p(\textbf{{x}}_t\hspace{0.15cm}|\hspace{0.15cm}\textbf{x}_{t-1}, \textbf{u}_t)&=\cfrac{1}{\sqrt{|2\pi\textbf{R}_w|}}\hspace{0.1cm}\text{exp}\hspace{0.1cm}\bigg\{ \frac{1}{2}\big[\textbf{{x}}_t-g(\textbf{u}_t, \hspace{0.1cm}\boldsymbol{\mu}_{t-1}) - \textbf{G}_t^{x_t}(\textbf{x}_{t-1} - \boldsymbol{\mu}_{t-1})\big]^T\\
-\textbf{R}^{-1}_w&\big[\textbf{{x}}_t-g(\textbf{u}_t, \hspace{0.1cm}\boldsymbol{\mu}_{t-1}) - \textbf{G}_t^{x_t}(\textbf{x}_{t-1} - \boldsymbol{\mu}_{t-1})\big]\bigg \},
+p(\textbf{{x}}_t\hspace{0.15cm}|\hspace{0.15cm}\textbf{x}_{t-1}, \textbf{u}_t)&=\cfrac{1}{\sqrt{|2\pi\textbf{R}_w|}}\hspace{0.1cm}\text{exp}\hspace{0.1cm}\bigg\{ \frac{1}{2}\big[\textbf{{x}}_t-g(\textbf{u}_t, \hspace{0.1cm}\boldsymbol{\mu}_{t-1}) - \textbf{G}_t^{\textbf{x}_{t-1}}(\textbf{x}_{t-1} - \boldsymbol{\mu}_{t-1})\big]^T\\
+\textbf{R}^{-1}_w&\big[\textbf{{x}}_t-g(\textbf{u}_t, \hspace{0.1cm}\boldsymbol{\mu}_{t-1}) - \textbf{G}_t^{\textbf{x}_{t-1}}(\textbf{x}_{t-1} - \boldsymbol{\mu}_{t-1})\big]\bigg \},
 \end{split},
 \end{equation} 
-where $\textbf{G}_t^{x_t}$ represents the Jacobian of the state transition motion and $\textbf{R}_w$ is the process noise.
+where $\textbf{G}_t^{\textbf{x}_{t-1}}$ represents the Jacobian of the state transition motion and $\textbf{R}_w$ is the process noise.
 
 As previously discussed, the EKF requires a state transition (motion) model in order to obtain the mean estimate $ \boldsymbol{\bar \mu}_t$, of  current state of the system. In short, the motion model describes the transition from the previous state to the following state with regard to the robot’s kinematic motion as well as the control inputs. In order to derive the state transition model for the system at hand, it is vital that the certain characteristics of the system be understood. Firstly, the robot system - from here on in to be referred to as the \textbf{camera} - is comprised of a monocular camera and an attached IMU package. Secondly, the camera is to be considered as a six degree of freedom (DOF) rigid body. Briefly the six DOF describe the camera's three \textit{translational} and three \textit{rotational} degrees of freedom. 
 
@@ -861,9 +861,9 @@ Considering that the EKF is a recursive, numerical evaluation, it is necessary t
 \textbf{\.{x}}_{t-1} &= \lim_{\Delta T\to 0}{\frac{\textbf{x}_{t}-\textbf{x}_{t-1}}{\Delta T}} 		 \\										 \textbf{x}_{t} &\approx \textbf{\.{x}}_{t-1}\Delta T + \textbf{x}_{t-1}
 \end{split}.
 \end{equation}  
-Newton's second law of motion, describing the relationship between a body's mass and its acceleration, is used to derive the linear motion mode after which the aforementioned method of discretisation is applied to obtain the discrete motion model. A full derivation of the linear state transition model is shown in Appendix~\ref{App:Concepts}.
+Newton's second law of motion, describing the relationship between a body's mass and its acceleration, is used to derive the linear motion model after which the aforementioned method of discretisation is applied to obtain the discrete motion model. A full derivation of the linear state transition model is shown in Appendix~\ref{App:Concepts}.
 
-The non-linear state transition function of the kinematic estimator $g(\textbf{u}_{t},\textbf{x}_{t-1})$ is defined at the current time $t$, is dependent on both the current control input equivalents $\textbf{u}_t$ as well as the actual states $\textbf{x}_{t-1}$. The non-linear behaviour is a result of the change in orientation of the camera:
+The non-linear state transition function of the kinematic estimator $\textbf{g}(\textbf{u}_{t},\textbf{x}_{t-1})$ is defined at the current time $t$, is dependent on both the current control input equivalents $\textbf{u}_t$ as well as the actual states $\textbf{x}_{t-1}$. The non-linear behaviour is a result of the change in orientation of the camera. The state transition function is defined adapted from a tutorial presented by Davison~\cite{models}:
 \begin{equation} \label{eq:trmod}
 \begin{split}
 \textbf{g}(\textbf{u}_{t},\textbf{x}_{t-1}) =
@@ -873,30 +873,32 @@ The non-linear state transition function of the kinematic estimator $g(\textbf{u
 		\textbf{v}_t^{W} \\
 	\end{pmatrix} &= 
 	\begin{pmatrix}
-		\textbf{r}_{t-1}^{W}+\textbf{v}_t^W\Delta T\\
+		\textbf{r}_{t}^{W}+\textbf{v}_{t-1}^W\Delta T\\
 		\textbf{q}_{t-1}^{WC} \otimes \text{quat}\big(\boldsymbol{\omega}_t^C\Delta T\big) \\
-		\textbf{v}_t^{W} + \textbf{a}_{t}^C \Delta T \\
+		\textbf{v}_t^{W} + \textbf{a}_{t-1}^W \Delta T \\
 	\end{pmatrix} \\
 &= \begin{pmatrix}
-	 \textbf{r}_{t-1}^{W}+\dot{\textbf{r}}^W\Delta T\\
+	 \textbf{r}_{t-1}^{W}+\textbf{v}_{t-1}^W\Delta T\\
 	 \textbf{q}_{t-1}^{WC} \otimes \text{quat}\big(\boldsymbol{\omega}_t^C\Delta T\big) \\
-	 \dot{\textbf{r}}_t^{W} + \textbf{R}_t^{CW}\big(\ddot{\textbf{r}}_{t}^C \Delta T\big) \\
+	 \textbf{v}_t^{W} + \textbf{R}_{t-1}^{CW}\big(\textbf{a}_{t-1}^C \Delta T\big) \\
 \end{pmatrix} \\
 \end{split},
 \end{equation}
-where $\Delta T$ is defined as the sample period between the previous time $t-1$ and $t$ and $\text{quat}\big(\boldsymbol{\omega}_t^C\Delta T\big)$ denotes the process of obtaining a quaternion of the rotation $\boldsymbol{\dot \omega}_t^C\Delta T$. Information regarding the change in linear acceleration is directly obtained from the control input equivalent data gathered by the IMU and can be numerically integrated it obtain linear velocity and ultimately, translational position.\\\\
-\textit{All of the equations in the remainder of this subsection are adapted from the MonoSLAM documentation on models provided by Davison}~\cite{models}\\\\
-In order to compute the aforementioned quaternion, the rate at which the camera's rotational degrees of freedom are changing is required. The control input equivalent measurements from the gyroscope however, measure exactly this quantity - the angular rate. The angular rate is subsequently numerically integrated in order to obtain the angular position $\boldsymbol{\theta}_t$, before the quaternion is taken thereof. As previously mentioned, an angle-axis as well as a magnitude by which this axis is to be rotated is required to compute a quaternion. The angle-axis $\boldsymbol{\gamma}$ is defined as follows:
+where $\text{quat}\big(\boldsymbol{\omega}_t^C\Delta T\big)$ denotes the process of obtaining the quaternions of the rotation $\boldsymbol{\omega}_t^C\Delta T$ and $\Delta T$ is defined as the sample period between the previous time $t-1$ and $t$.  
+
+The angular rates $\boldsymbol{\omega}_t^C$ and the linear accelerations $\textbf{a}_{t-1}^W$ are measured from the control input equivalent $\textbf{u}_t$ and the position $\textbf{r}^{W}_{t-1}$, linear velocity $\textbf{v}^{W}_{t-1}$ and the orientation quaternion $\textbf{q}_{t-1}^{WC}$ - and subsequently the rotation matrix $ \textbf{R}_{t-1}^{CW}$ - are obtained from the previous state vector.\\
+
+In order to compute the quaternions, the rate at which the camera's rotational degrees of freedom are changing is required. The control input equivalent measurements from the gyroscope however, measure exactly this quantity - the angular rate. The angular rate is subsequently numerically integrated in order to obtain the angular position $\boldsymbol{\theta}_t$, before the quaternion is taken thereof. As previously mentioned, an angle-axis as well as a magnitude by which this axis is to be rotated is required to compute a quaternion. The angle-axis $\boldsymbol{\gamma}_t$ is defined as at a particular time instance $t$~\cite{models}:
 \begin{equation} \label{eq:axis}
 \begin{split}
-\boldsymbol{\gamma} &= \begin{pmatrix}
-\boldsymbol{\theta}, {\norm{\boldsymbol{\theta}}} 
+\boldsymbol{\gamma}_t &= \begin{pmatrix}
+\boldsymbol{\theta}_t, {\norm{\boldsymbol{\theta}_t}} 
 \end{pmatrix} =
 \begin{pmatrix}
 \begin{pmatrix}
-\theta_x \\
-\theta_y \\
-\theta_z 
+\theta_{x,t} \\
+\theta_{y,t} \\
+\theta_{z,t} 
 \end{pmatrix}, \norm{\boldsymbol{\omega}_t^C \Delta T} 
 \end{pmatrix} = 
 \begin{pmatrix}
@@ -909,39 +911,64 @@ In order to compute the aforementioned quaternion, the rate at which the camera'
 \end{split},
 \end{equation}
 
-where $\omega_{t,\beta}$, $\beta \in \{X, Y, Z\}$ denotes the angular velocity about each respective coordinate axis. The result in Equation~\ref{eq:axis} is then represented as a unit quaternion denoting the same rotation:
+where $\omega_{t,\beta}$, $\beta \in \{X, Y, Z\}$ denotes the angular velocity about each respective coordinate axis. The result in Equation~\ref{eq:axis} is then represented as a unit quaternion denoting the same rotation~\cite{models}:
 
 \begin{equation} \label{eq:quat} 
 \textbf{q} = \bigg(\cos \frac{\alpha}{2} \hspace{0.4cm} \frac{\theta_x}{\norm{\boldsymbol{\theta}}}\sin\frac{\alpha}{2} \hspace{0.4cm} \frac{\theta_y}{\norm{\boldsymbol{\theta}}}\sin\frac{\alpha}{2} \hspace{0.4cm} \frac{\theta_z}{\norm{\boldsymbol{\theta}}}\sin\frac{\alpha}{2} \bigg)^T.
 \end{equation}
 
-A quaternion multiplication between the orientation quaternion obtained at the previous time step and the angle-axis rotation quaternion in Equation~\ref{eq:quat} results in the camera's final orientation state at the the current time $t$.
+A quaternion multiplication between the quaternion $\textbf{q}^{WC}_{t-1}$ and the angle-axis rotation quaternion in Equation~\ref{eq:quat} represents the product of the two rotation matrices each quaternion represents. This quaternion multiplication is dented by the $\otimes$ operator in equation~\ref{eq:trmod} is formally defined according to a tutorial presented by Davidson~\cite{models}:
+
+\begin{equation}
+\begin{split}
+\textbf{q}^{WC}_t 	&= \textbf{q}_{t-1}^{WC} \otimes \text{quat}(\boldsymbol{\omega}^C_t\Delta T) \\ 
+		            	&=\textbf{q}_1 \times \textbf{q}_2 \\
+				&=\begin{pmatrix}
+				q_{1,0}q_{2,0} - (q_{1,2}q_{2,1} + q_{1,2} q_{2,2} + q_{1,3}q_{2,3})\\
+				q_{1,0}\begin{pmatrix}
+				q_{2,1}\\
+				q_{2,2}\\
+				q_{2,3}
+				q_{2,0}\end{pmatrix} +
+				\begin{pmatrix}
+				q_{1,1}\\
+				q_{1,2}\\
+				q_{1,3}
+				\end{pmatrix}+
+				\begin{pmatrix}
+				q_{1,2}q_{2,3} - q_{2,2}q_{1,3}\\
+				q_{1,3}q_{2,1} - q_{2,3}q_{1,1}\\
+				q_{1,1}q_{2,2} - q_{2,1}q_{1,2}\\
+				\end{pmatrix}
+\end{pmatrix}
+\end{split}.
+\end{equation}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsubsection{Mean Estimate}\label{sec:kinest}
-The control update uses the previously defined state transition function to obtain a state estimate $\boldsymbol{\bar \mu}_t$ at the current time instance. This procedure is shown in Step 1 of Table~\ref{tab:EKF}. Recalling, the state transition function is dependent on both the current equivalent control inputs as well as the actual states to obtain a suitable state estimate:
+The control update uses the previously defined state transition function to obtain a state estimate $\boldsymbol{\bar \mu}_t$ at the current time instance. This procedure is shown in Step 1 of Table~\ref{tab:EKF}. Recalling Equation~\ref{eq:trmod}, the state transition function is dependent on both the current equivalent control inputs as well as the actual states to obtain a suitable state estimate:
 
 \begin{equation} \label{eq:trmod1}
 \begin{split}
-\textbf{g}(\textbf{u}_{t},\textbf{x}_{t-1}) 
+\textbf{g}(\textbf{u}_{t},\boldsymbol{\mu}_{t-1}) 
 &= \begin{pmatrix}
-	 \textbf{r}_{t-1}^{W}+\dot{\textbf{r}}^W\Delta T\\
+	 \textbf{r}_{t}^{W}+\textbf{v}_{t-1}^W\Delta T\\
 	 \textbf{q}_{t-1}^{WC} \otimes \text{quat}\big(\boldsymbol{\omega}_t^C\Delta T\big) \\
-	 \dot{\textbf{r}}_t^{W} + \textbf{R}_t^{CW}\big(\ddot{\textbf{r}}_{t}^C \Delta T\big) \\
+	 \textbf{v}_t^{W} + \textbf{R}_{t-1}^{CW}\big(\textbf{v}_{t-1}^C \Delta T\big) \\
 \end{pmatrix} \\
 \end{split}.
 \end{equation}
 
-It is worthwhile to note that the equivalent control inputs (which are the measurements from the IMU) incorporate the additive noise. This concept is shown in Equation~\ref{eq:pertn}.
+It is worthwhile to note that the equivalent control inputs (which are the measurements from the IMU) incorporate process noise that is modelled accordingly in the covariance update in Chapter~\ref{sec:covup}.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsubsection{Covariance Update}\label{sec:covup}
-Before the control update can be concluded, the covariance matrix $\boldsymbol{\bar \Sigma_t}$, corresponding to the previously determined mean vector $\boldsymbol{\bar \mu_t}$ is required to be updated as a result of the linearisation process undertaken by the EKF. This procedure is denoted in Step 2 of Table~\ref{tab:EKF}. It can be noticed that the previously described Jacobian matrix of $\textbf{g}(\textbf{u}_{t},\textbf{x}_{t-1})$ is thus required to realise this procedure. The Jacobian matrix of $\textbf{g}(\textbf{u}_{t},\textbf{x}_{t-1})$, $\textbf{G}_t^{x_t}$, can be mathematically defined as follows:
+Before the control update can be concluded, the covariance matrix $\boldsymbol{\bar \Sigma_t}$, corresponding to the previously determined mean vector $\boldsymbol{\bar \mu_t}$ is required to be updated as a result of the linearisation process undertaken by the EKF. This procedure is denoted in Step 2 of Table~\ref{tab:EKF}. It can be noticed that the previously described Jacobian matrix of $\textbf{g}(\textbf{u}_{t},\textbf{x}_{t-1})$ is thus required to realise this procedure. The Jacobian matrix $\textbf{G}_t^{\textbf{x}_{t-1}}$ can be mathematically defined using Equation~\ref{eq:par}:
 
 \begin{equation} \label{eq:jacG}
-\textbf{G}_t^{x_t} = \frac{\partial \textbf{g}(\textbf{u}_{t},\textbf{x}_{t-1})}{\partial \textbf{x}_{t-1}} = \boldsymbol{\mu}_{t-1}
+\textbf{G}_t^{\textbf{x}_{t-1}} = \frac{\partial \textbf{g}(\textbf{u}_{t},\textbf{x}_{t-1})}{\partial \textbf{x}_{t-1}}\bigg|_{\textbf{x}_{t-1}= \boldsymbol{\mu}_{t-1}} 
 =\begin{pmatrix}
-\frac{\partial \textbf{r}^W_t}{\partial \textbf{r}^W_{t-1}} & \boldsymbol{0} & \frac{\partial \textbf{v}^W_{t}}{\partial \textbf{r}^W_{t-1}}\\
+\frac{\partial \textbf{r}^W_t}{\partial \textbf{r}^W_{t-1}} & \boldsymbol{0} & \frac{\partial \textbf{r}^W_{t}}{\partial \textbf{v}^W_{t-1}}\\
 \boldsymbol{0} & \frac{\partial \textbf{q}^{WC}_{t}}{\partial \textbf{q}^{WC}_{t-1}} & \boldsymbol{0}  \\
-\boldsymbol{0} & \boldsymbol{0} & \frac{\partial \textbf{v}^W_{t}}{\partial \textbf{v}^W_{t-1}}  \\
+\frac{\partial \textbf{v}^W_{t}}{\partial \textbf{r}^W_{t-1}}& \boldsymbol{0} & \frac{\partial \textbf{v}^W_{t}}{\partial \textbf{v}^W_{t-1}}  \\
 \end{pmatrix}, 
 \end{equation}   
 with the non-zero elements of the Jacobian further trivially defined as follows (and according to the model defined in Equation~\ref{eq:trmod}),
@@ -962,12 +989,16 @@ and
 1 & 0 & 0\\
 0 & 1 & 0\\
 0 & 0 & 1\\
-\end{pmatrix} = \Delta T\hspace{0.2cm}\textbf{I},
+\end{pmatrix} = \Delta T\hspace{0.2cm}\textbf{I}.
 \end{equation}
-The specially defined Jacobian with a partial derivative that is taken with respect to a quaternion however, requires a more intricate solution. The process of defining a new quaternion from the measured angular rate $\boldsymbol{\omega}_t^C$ - as denoted in Equation~\ref{eq:trmod} can be more formally defined as follows:
+The specially defined Jacobian with a partial derivative that is taken with respect to a quaternion however, requires a more intricate solution. The process of defining a new quaternion from the measured angular rate $\boldsymbol{\omega}_t^C$ - is shown in Equation~\ref{eq:cat}%as denoted in Equation~\ref{eq:trmod} can be more formally defined from a tutorial a tutorial presented by Davison~\cite{models}:
 
 \begin{equation}
-\textbf{q}_t^C = \text{quat}(\boldsymbol{\omega}^C_t \Delta T).
+%\begin{split}
+\textbf{q}_t^C = \text{quat}(\boldsymbol{\omega}^C_t \Delta T) 
+%&= \begin{pmatrix}\\
+%\end{pmatrix}
+%\end{split}.
 \end{equation}
 Hereafter, the final non zero element of the Jacobian can be defined in terms of the aforementioned new quaternion: 
 
@@ -980,6 +1011,8 @@ Hereafter, the final non zero element of the Jacobian can be defined in terms of
  q^C_{4,t}& -q^C_{3,t} &  q^C_{2,t} &  q^C_{1,t} \\
 \end{pmatrix}.
 \end{equation}
+
+\textcolor{blue}{TODO: show noise uncertainty that i used in practical application}
 %In order to complete the covariance update, the process noise covariance is still required to be updated. The process noise is captured by the IMU measurements and modelled as a zero-mean Gaussian process. The noise covariance $\textbf{R}_w$ however, incorporates additional uncertainty regarding the processing of the linear acceleration $\textbf{a}_t$ from the total acceleration $\textbf{f}_t$. :
 %\begin{equation}\label{eq:proR}
 %\textbf{R}_w = \frac{\partial \textbf{}}{} 
@@ -1288,7 +1321,7 @@ Considering that the sample period is relatively small, the angular displacement
 \end{equation}
 
 It can also be assumed that given the small sample period, the relationship between the angular displacement and the angular rate (velocity) can be approximated as linear.
-
+\newpage
 \subsubsection{Test 1: Results}
 \begin{enumerate}
 \item \textbf{Positive $180^{\circ}$ rotation about the x-axis:}\\
