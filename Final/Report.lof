@@ -1,0 +1,17 @@
+\contentsline {figure}{\numberline {1}{\ignorespaces Example of a three-dimensional (3D) occupancy grid map. Adapted from\nobreakspace {}\cite {octomap}.\relax }}{1}
+\contentsline {figure}{\numberline {2}{\ignorespaces Left: Image frame indicating the feature points. Colours represent the size of a feature (warm colours being the smallest and cool colours being the largest). Right: Reconstructed SLAM three-dimensional (3D) map depicting the feature points with respect to a ground plane (shown as a grid). Adapted from\nobreakspace {}\cite {scale_visodom}.\relax }}{2}
+\contentsline {figure}{\numberline {3}{\ignorespaces A basic representation of the SLAM procedure. Grey ellipses depict uncertainty regarding the robot's pose and purple ellipses depict uncertainty regarding the feature positions. Adapted from\nobreakspace {}\cite {step1}.\relax }}{3}
+\contentsline {figure}{\numberline {4}{\ignorespaces Visualisation of the smooth trajectories of the constant velocity model. Adapted from\nobreakspace {}\cite {dav2007}\relax }}{5}
+\contentsline {figure}{\numberline {5}{\ignorespaces Functional diagram of the interaction between the system's hardware components\relax }}{6}
+\contentsline {figure}{\numberline {6}{\ignorespaces Left: Linear transformation of a Gaussian random variable. Right: Non-linear transformation of a Gaussian random variable.\relax }}{12}
+\contentsline {figure}{\numberline {7}{\ignorespaces System functional diagram also depicting the relevant sub-systems.\relax }}{14}
+\contentsline {figure}{\numberline {8}{\ignorespaces Graphical representation of the appropriate reference frames. Adapted from\nobreakspace {}\cite {dav2007}\relax }}{18}
+\contentsline {figure}{\numberline {9}{\ignorespaces The pinhole camera model. The red lines show the displacement of a point $P_i$ from the optical centre, the blues line show the displacement of a point $Q_i$ from the image centre and the green line shows the projection from the point $P_i$ point $Q_i$. Adapted from\nobreakspace {}\cite {master}\relax }}{19}
+\contentsline {figure}{\numberline {10}{\ignorespaces Arduino UNO SMD by Arduino. Adapted from\nobreakspace {}\cite {create}.\relax }}{30}
+\contentsline {figure}{\numberline {11}{\ignorespaces Left: SparkFun 6DOF IMU. Photo by SparkFun. Adapted from\nobreakspace {}\cite {create}. Right: The Imaging Source 22BUC03-ML CMOS board camera. Adapted from\nobreakspace {}\cite {imsrc}\relax }}{32}
+\contentsline {figure}{\numberline {12}{\ignorespaces EKF using a kinematic estimator to provide the control update.\relax }}{33}
+\contentsline {figure}{\numberline {13}{\ignorespaces Results of the test conditions 1 depicting zero-uncertainty.\relax }}{35}
+\contentsline {figure}{\numberline {14}{\ignorespaces Results of the conditions depicting random equivalent control inputs with uncertainty.\relax }}{37}
+\contentsline {figure}{\numberline {15}{\ignorespaces Results of the conditions depicting random equivalent control inputs with uncertainty.\relax }}{38}
+\contentsline {figure}{\numberline {16}{\ignorespaces Circuit Diagram of the IMU.\relax }}{45}
+\contentsline {figure}{\numberline {17}{\ignorespaces Schematic of the IMU.\relax }}{45}

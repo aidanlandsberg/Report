@@ -1,0 +1,57 @@
+This is BibTeX, Version 0.99d (TeX Live 2012)
+Capacity: max_strings=35307, hash_size=35307, hash_prime=30011
+The top-level auxiliary file: Report.aux
+The style file: ieeetr.bst
+Database file #1: Report_bib.bib
+Name 1 in "Sebastian Hilsenbeck, Andreas Moller, Robert Huitl, Georg Schroth, Matthias Kranz, and Eckehard Steinbach" has a comma at the end for entry scale_visodom
+while executing---line 969 of file ieeetr.bst
+Too many commas in name 1 of "Sebastian Hilsenbeck, Andreas Moller, Robert Huitl, Georg Schroth, Matthias Kranz, and Eckehard Steinbach" for entry scale_visodom
+while executing---line 969 of file ieeetr.bst
+Too many commas in name 1 of "Sebastian Hilsenbeck, Andreas Moller, Robert Huitl, Georg Schroth, Matthias Kranz, and Eckehard Steinbach" for entry scale_visodom
+while executing---line 969 of file ieeetr.bst
+Warning--can't use both volume and number fields in chen2003
+Name 1 in "Andrew J. Davison, and David W. Murray" has a comma at the end for entry actvis
+while executing---line 969 of file ieeetr.bst
+Warning--empty booktitle in shitom
+You've used 27 entries,
+            1876 wiz_defined-function locations,
+            632 strings with 7726 characters,
+and the built_in function-call counts, 7045 in all, are:
+= -- 675
+> -- 211
+< -- 0
++ -- 83
+- -- 56
+* -- 468
+:= -- 947
+add.period$ -- 30
+call.type$ -- 27
+change.case$ -- 24
+chr.to.int$ -- 0
+cite$ -- 29
+duplicate$ -- 403
+empty$ -- 765
+format.name$ -- 56
+if$ -- 1762
+int.to.chr$ -- 0
+int.to.str$ -- 27
+missing$ -- 28
+newline$ -- 87
+num.names$ -- 31
+pop$ -- 137
+preamble$ -- 1
+purify$ -- 0
+quote$ -- 0
+skip$ -- 251
+stack$ -- 0
+substring$ -- 449
+swap$ -- 145
+text.length$ -- 0
+text.prefix$ -- 0
+top$ -- 0
+type$ -- 0
+warning$ -- 2
+while$ -- 67
+width$ -- 29
+write$ -- 255
+(There were 4 error messages)

@@ -1,0 +1,157 @@
+\begin{thebibliography}{10}
+
+\bibitem{mars}
+M.~H. Hebert, {\em Intelligent Unmanned Ground Vehicles: Autonomous Navigation
+  Research at Carnegie Mellon}.
+\newblock Norwell, MA, USA: Kluwer Academic Publishers, 1997.
+
+\bibitem{indus}
+T.~Brog{\aa}rdh, ``Present and future robot control development---an industrial
+  perspective,'' {\em Annual Reviews in Control}, vol.~31, no.~1, pp.~69--79,
+  2007.
+
+\bibitem{occupancy}
+H.~P. Moravec and A.~Elfes, ``High resolution maps from wide angle sonar,'' in
+  {\em Robotics and Automation. Proceedings. 1985 IEEE International Conference
+  on}, pp.~116--121, 1985.
+
+\bibitem{thrun2007}
+S.~Thrun, ``Robotic mapping: A survey,'' in {\em Exploring Artificial
+  Intellegence in the New Milenium} (G.~Lakemeyer and B.~Nebel, eds.), Morgan
+  Kaufmann, 2002.
+
+\bibitem{octomap}
+A.~Hornung, K.~M. Wurm, M.~Bennewitz, C.~Stachniss, and W.~Burgard,
+  ``{OctoMap}: An efficient probabilistic {3D} mapping framework based on
+  octrees,'' {\em Autonomous Robots}, 2013.
+
+\bibitem{slam}
+{M. W. M. Gamini Dissanayake and Paul Newman and Steven Clark and Hugh F.
+  Durrant-whyte and M. Csorba}, ``{A solution to the simultaneous localization
+  and map building (SLAM) problem},'' {\em {IEEE Transactions on Robotics and
+  Automation}}, vol.~17, pp.~229--241, 2001.
+
+\bibitem{ekfslam}
+H.~Durrant-Whyte and T.~Bailey, ``Simultaneous localization and mapping: part
+  i,'' {\em Robotics \& Automation Magazine, IEEE}, vol.~13, no.~2,
+  pp.~99--110, 2006.
+
+\bibitem{fast}
+M.~Montemerlo, S.~Thrun, D.~Koller, B.~Wegbreit, {\em et~al.}, ``Fastslam: A
+  factored solution to the simultaneous localization and mapping problem,'' in
+  {\em AAAI/IAAI}, pp.~593--598, 2002.
+
+\bibitem{fast2}
+M.~Montemerlo and S.~Thrun, ``Fastslam 2.0: An improved particle filtering
+  algorithm for simultaneous localization and mapping that provably
+  converges,'' {\em FastSLAM: A Scalable Method for the Simultaneous
+  Localization and Mapping Problem in Robotics}, pp.~63--90, 2007.
+
+\bibitem{chen2003}
+Z.~Chen, ``Bayesian filtering: From kalman filters to particle filters and
+  beyond,'' {\em Statistics}, vol.~182, no.~1, pp.~1--69, 2003.
+
+\bibitem{scale_visodom}
+S.~Hilsenbeck, A.~M{\"o}ller, R.~Huitl, G.~Schroth, M.~Kranz, and E.~Steinbach,
+  ``Scale-preserving long-term visual odometry for indoor navigation,'' in {\em
+  International Conference on Indoor Positioning and Indoor Navigation},
+  vol.~13, 2012.
+
+\bibitem{step1}
+M.~Chli, ``Slam: Simultaneous localization and mapping.''
+  http://margaritachli.com, July 2011.
+
+\bibitem{dav2007}
+A.~Davison, I.~Reid, N.~Molton, and O.~Stasse, ``Monoslam: Real-time single
+  camera slam,'' {\em Pattern Analysis and Machine Intelligence, IEEE
+  Transactions on}, vol.~29, pp.~1052--1067, {June} 2007.
+
+\bibitem{sola}
+J.~Sola, ``Consistency of the monocular ekf-slam algorithm for three different
+  landmark parametrizations,'' in {\em Robotics and Automation (ICRA), 2010
+  IEEE International Conference on}, pp.~3513--3518, IEEE, 2010.
+
+\bibitem{ptam}
+G.~K.~D. Murray, ``Parallel tracking and mapping on a camera phone,'' in {\em
+  Proc. Eigth {IEEE} and {ACM} International Symposium on Mixed and Augmented
+  Reality}, (Orlando), October 2009.
+
+\bibitem{highspeed2008}
+M.~V. Peter~Gemeiner, Andrew~Davison, ``Improving localization robustness in
+  monocular {SLAM} using a high-speed camera,'' in {\em Proceedings of
+  Robotics: Science and Systems IV}, (Zurich, Switzerland), {June} 2008.
+
+\bibitem{scale2010}
+H.~Strasdat, J.~M.~M. Montiel, and A.~Davison, ``Scale drift-aware large scale
+  monocular slam,'' in {\em Proceedings of Robotics: Science and Systems},
+  (Zaragoza, Spain), June 2010.
+
+\bibitem{idp}
+J.~Civera, A.~J. Davison, and J.~M.~M. Montiel, ``Unified inverse depth
+  parametrization for monocular slam,'' in {\em In Proceedings of Robotics:
+  Science and Systems}, 2006.
+
+\bibitem{lasermono}
+S.~Fu, H.~ying Liu, L.~fang Gao, and Y.-X. Gai, ``Slam for mobile robots using
+  laser range finder and monocular vision,'' in {\em Mechatronics and Machine
+  Vision in Practice, 2007. M2VIP 2007. 14th International Conference on},
+  pp.~91--96, 2007.
+
+\bibitem{probrob}
+D.~F. Sebastian~Thrun, Wolfram~Burgard, {\em Probabilistic Robotics
+  (Intelligent Robotics and Autonomous Agents)}.
+\newblock The MIT Press, 2005.
+
+\bibitem{actvis}
+A.~J. Davison and D.~W. Murray, ``Mobile robot localisation using active
+  vision,'' in {\em ECCV (2)} (H.~Burkhardt and B.~Neumann, eds.), vol.~1407,
+  pp.~809--825, Springer, 1998.
+
+\bibitem{shitom}
+J.~Shi and C.~Tomasi, ``Good features to track,'' in {\em Computer Vision and
+  Pattern Recognition, 1994. Proceedings CVPR'94., 1994 IEEE Computer Society
+  Conference on}, pp.~593--600, IEEE, 1994.
+
+\bibitem{master}
+S.~Albrecht, ``An analysis of visual mono-slam,'' Master's thesis,
+  Universit\''{a}t Osnabr\''{u}ck, October 2009.
+
+\bibitem{distort}
+R.~Swaminathan and S.~K. Nayar, ``Nonmetric calibration of wide-angle lenses
+  and polycameras,'' {\em Pattern Analysis and Machine Intelligence, IEEE
+  Transactions on}, vol.~22, pp.~1172--1178, October 2000.
+
+\bibitem{IMU}
+F.~Servant, P.~Houlier, and E.~Marchand, ``Improving monocular plane-based slam
+  with inertial measures,'' in {\em IEEE/RSJ Int. Conf. on Intelligent Robots
+  and Systems}, (Taipei, Taiwan,), pp.~3810--3815, 2010.
+
+\bibitem{models}
+A.~J. Davison, {\em Models and State Representation in Scene: Generalised
+  Software for Real-Time SLAM}, 2007.
+
+\bibitem{gyro}
+InvenSense Inc., 1197 Borregas Ave, Sunnyvale, CA 94089 U.S.A., {\em
+  Digital-output, 3-axis MEMS gyroscope}, 1.4~ed., March 2015.
+
+\bibitem{acc}
+Analog Devices, One Technology Way, P.O. Box 9106, Norwood, MA 02062-9106,
+  U.S.A., {\em Digital Acceleromter 3-axis}, 0~ed., 2009.
+
+\bibitem{create}
+C.~Commons, ``Attribution noncommercial sharealike 3.0.''
+  http://creativecommons.org/licenses/by-nc-sa/3.0/, 2015.
+
+\bibitem{imsrc}
+T.~I. S.~E. GmbH, ``The imaging source.''
+  http://www.theimagingsource.com/products/oem-cameras/usb-cmos-color/dfm22buc03ml/,
+  May 2015.
+
+\bibitem{opencv}
+G.~Bradski, ``The opencv library,'' {\em Dr. Dobb's Journal of Software Tools},
+  2000.
+
+\bibitem{arduino}
+Arduino, {\em Uno SMD microcontroller}, 3~ed., 2015.
+
+\end{thebibliography}

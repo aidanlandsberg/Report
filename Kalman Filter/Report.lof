@@ -1,0 +1,8 @@
+\contentsline {figure}{\numberline {1}{\ignorespaces Left: Image frame indicating the feature points. Colours represent the size of a feature (warm colours being the smallest and cool colours being the largest). Right: Reconstructed SLAM three-dimensional (3D) map depicting the feature points with respect to a ground plane (shown as a grid). Adapted from\nobreakspace {}\cite {scale_visodom}.\relax }}{1}
+\contentsline {figure}{\numberline {2}{\ignorespaces A basic representation of the SLAM procedure. Grey ellipses depict uncertainty regarding the robot's pose and purple ellipses depict uncertainty regarding the feature positions. Adapted from\nobreakspace {}\cite {step1}.\relax }}{2}
+\contentsline {figure}{\numberline {3}{\ignorespaces Visualisation of the smooth trajectories of the constant velocity model. Adapted from\nobreakspace {}\cite {dav2007}\relax }}{3}
+\contentsline {figure}{\numberline {4}{\ignorespaces Example of a wheeled robot that uses a camera as sensor. Adapted from\nobreakspace {}\cite {robweb}\relax }}{3}
+\contentsline {figure}{\numberline {5}{\ignorespaces Left: Linear transformation of a Gaussian random variable. Right: Non-linear transformation of a Gaussian random variable.\relax }}{9}
+\contentsline {figure}{\numberline {6}{\ignorespaces Cartesian Representation of the Reference Frames (adapted from\nobreakspace {}\cite {mono2003})\relax }}{12}
+\contentsline {figure}{\numberline {7}{\ignorespaces Circuit Diagram of the Inertial Measurement Unit (IMU).\relax }}{29}
+\contentsline {figure}{\numberline {8}{\ignorespaces Schematic of the Inertial Measurement Unit (IMU).\relax }}{29}

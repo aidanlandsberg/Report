@@ -1,0 +1,40 @@
+\contentsline {section}{\numberline {1}Introduction}{1}
+\contentsline {subsection}{\numberline {1.1}Robotic Localisation and Mapping}{1}
+\contentsline {subsection}{\numberline {1.2}Problem Description}{3}
+\contentsline {subsection}{\numberline {1.3}Project Objectives}{4}
+\contentsline {subsection}{\numberline {1.4}Project Outline}{4}
+\contentsline {section}{\numberline {2}Theory: Recursive State Estimation}{5}
+\contentsline {subsection}{\numberline {2.1}Bayes Filter}{5}
+\contentsline {subsection}{\numberline {2.2}Gaussian Filters}{7}
+\contentsline {subsubsection}{\numberline {2.2.1}Kalman Filter}{7}
+\contentsline {subsubsection}{\numberline {2.2.2}Extended Kalman Filter}{9}
+\contentsline {section}{\numberline {3}Design: EKF MonoSLAM Using Kinematic State Estimation}{11}
+\contentsline {subsection}{\numberline {3.1}State Representation}{13}
+\contentsline {subsubsection}{\numberline {3.1.1}Camera Position State Representation}{13}
+\contentsline {subsubsection}{\numberline {3.1.2}Cartesian Feature Representation}{14}
+\contentsline {subsubsection}{\numberline {3.1.3}Control Inputs}{14}
+\contentsline {subsection}{\numberline {3.2}Prediction Step}{16}
+\contentsline {subsubsection}{\numberline {3.2.1}Mean Estimate: State Transition Model}{16}
+\contentsline {subsubsection}{\numberline {3.2.2}Covariance Update}{17}
+\contentsline {subsection}{\numberline {3.3}Correction Step}{19}
+\contentsline {subsubsection}{\numberline {3.3.1}Vision Based Sensor Theory}{19}
+\contentsline {subsubsection}{\numberline {3.3.2}Measurement Model}{19}
+\contentsline {subsubsection}{\numberline {3.3.3}Feature Matching}{20}
+\contentsline {subsubsection}{\numberline {3.3.4}Feature Initialisation}{21}
+\contentsline {subsubsection}{\numberline {3.3.5}Map Management}{22}
+\contentsline {section}{\numberline {4}Experimental Configuration \& Procedure}{23}
+\contentsline {subsection}{\numberline {4.1}System Overview}{23}
+\contentsline {subsection}{\numberline {4.2}Hardware Configuration}{23}
+\contentsline {subsubsection}{\numberline {4.2.1}Inertial Measurement Unit}{23}
+\contentsline {subsubsection}{\numberline {4.2.2}CMOS Machine Vision Camera}{23}
+\contentsline {subsubsection}{\numberline {4.2.3}Serial Communication}{23}
+\contentsline {subsubsection}{\numberline {4.2.4}Hardware Integration}{23}
+\contentsline {subsection}{\numberline {4.3}Software Configuration}{23}
+\contentsline {section}{\numberline {5}Analysis: Testing \& Results}{24}
+\contentsline {section}{\numberline {A}Summary of Work done}{25}
+\contentsline {section}{\numberline {B}Achieved ECSA Exit Level Outcomes}{26}
+\contentsline {section}{\numberline {C}Theoretical Concepts}{27}
+\contentsline {subsection}{\numberline {C.1}State Space Model}{27}
+\contentsline {subsection}{\numberline {C.2}State Transition: Linear Model}{27}
+\contentsline {section}{\numberline {D}Figures \& Diagrams}{29}
+\contentsline {subsection}{\numberline {D.1}Schematics \& Circuit Diagrams}{29}
