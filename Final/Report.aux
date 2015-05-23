@@ -6,6 +6,7 @@
 \citation{dav2007}
 \citation{dav2007}
 \citation{master}
+\citation{dav2007}
 \citation{create}
 \citation{create}
 \citation{imsrc}
@@ -22,7 +23,7 @@
 \citation{slam}
 \@writefile{toc}{\contentsline {section}{\numberline {1}Introduction}{1}}
 \@writefile{toc}{\contentsline {subsection}{\numberline {1.1}Robotic Localisation and Mapping}{1}}
-\@writefile{lof}{\contentsline {figure}{\numberline {1}{\ignorespaces Example of a three-dimensional (3D) occupancy grid map. Adapted from\nobreakspace  {}\cite  {octomap}.\relax }}{1}}
+\@writefile{lof}{\contentsline {figure}{\numberline {1}{\ignorespaces Examples of a three-dimensional (3D) occupancy grid map. Adapted from\nobreakspace  {}\cite  {octomap}.\relax }}{1}}
 \newlabel{fig:occgrid}{{1}{1}}
 \citation{ekfslam}
 \citation{fast}
@@ -154,24 +155,19 @@
 \newlabel{eq:jacG}{{3.21}{24}}
 \newlabel{eq:iden}{{3.22}{25}}
 \newlabel{eq:tiden}{{3.23}{25}}
+\citation{dav2007}
+\citation{dav2007}
 \@writefile{toc}{\contentsline {subsection}{\numberline {3.5}Measurement Update}{26}}
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {3.5.1}Measurement Model}{26}}
-\citation{dav2007}
-\newlabel{eq:fmmd}{{3.28}{27}}
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {3.5.2}Feature Matching}{27}}
-\newlabel{eq:inov}{{3.29}{27}}
-\citation{dav2007}
-\citation{dav2007}
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {3.5.3}Feature Initialisation}{28}}
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {3.5.4}Map Management}{28}}
+\@writefile{lof}{\contentsline {figure}{\numberline {10}{\ignorespaces Graphical representation of the appropriate reference frames. Adapted from\nobreakspace  {}\cite  {dav2007}\relax }}{26}}
+\newlabel{fig:frame}{{10}{26}}
 \citation{create}
 \citation{create}
-\@writefile{toc}{\contentsline {section}{\numberline {4}Implementation}{29}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {4.1}Introduction}{29}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {4.2}System Setup}{29}}
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {4.2.1}Micro-controller}{29}}
-\@writefile{lof}{\contentsline {figure}{\numberline {10}{\ignorespaces Arduino UNO SMD by Arduino. Adapted from\nobreakspace  {}\cite  {create}.\relax }}{29}}
-\newlabel{fig:arduno}{{10}{29}}
+\@writefile{toc}{\contentsline {section}{\numberline {4}Implementation}{27}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.1}Introduction}{27}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.2}System Setup}{27}}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {4.2.1}Micro-controller}{27}}
+\@writefile{lof}{\contentsline {figure}{\numberline {11}{\ignorespaces Arduino UNO SMD by Arduino. Adapted from\nobreakspace  {}\cite  {create}.\relax }}{27}}
+\newlabel{fig:arduno}{{11}{27}}
 \citation{gyro}
 \citation{acc}
 \citation{create}
@@ -179,117 +175,127 @@
 \citation{create}
 \citation{imsrc}
 \citation{opencv}
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {4.2.2}Inertial Measurement Unit}{30}}
-\@writefile{lot}{\contentsline {table}{\numberline {4.1}{\ignorespaces IMU necessary characteristics\relax }}{30}}
-\newlabel{tab:imuspec}{{4.1}{30}}
-\@writefile{lot}{\contentsline {table}{\numberline {4.2}{\ignorespaces IMU configuration properties\relax }}{30}}
-\newlabel{tab:imuset}{{4.2}{30}}
-\@writefile{lof}{\contentsline {figure}{\numberline {11}{\ignorespaces  Left: SparkFun 6DOF IMU. Photo by SparkFun. Adapted from\nobreakspace  {}\cite  {create}. Right: The Imaging Source 22BUC03-ML CMOS board camera. Adapted from\nobreakspace  {}\cite  {imsrc}\relax }}{31}}
-\newlabel{fig:imu}{{11}{31}}
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {4.2.3}CMOS Machine Vision Camera}{31}}
-\@writefile{lot}{\contentsline {table}{\numberline {4.3}{\ignorespaces Intrinsic and distortion camera parameters\relax }}{31}}
-\newlabel{camval}{{4.3}{31}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {4.3}Hardware Configuration}{31}}
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {4.3.1}Inertial Measurement Unit}{31}}
-\@writefile{lot}{\contentsline {table}{\numberline {4.4}{\ignorespaces Accelerometer and gyroscope register values\relax }}{32}}
-\newlabel{default}{{4.4}{32}}
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {4.3.2}Gyroscope Biases}{32}}
-\@writefile{lof}{\contentsline {figure}{\numberline {12}{\ignorespaces Gyroscope bias calibration.\relax }}{32}}
-\newlabel{fig:gyrobias}{{12}{32}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {4.4}Hardware Simulation}{33}}
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {4.4.1}Test 1: Approximately Known Angular Displacements}{33}}
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {4.4.2}Test 1: Results}{34}}
-\newlabel{fig:gx}{{13a}{35}}
-\newlabel{sub@fig:gx}{{a}{35}}
-\newlabel{fig:gy}{{13b}{35}}
-\newlabel{sub@fig:gy}{{b}{35}}
-\newlabel{fig:gyy}{{13c}{35}}
-\newlabel{sub@fig:gyy}{{c}{35}}
-\newlabel{fig:gz}{{13d}{35}}
-\newlabel{sub@fig:gz}{{d}{35}}
-\@writefile{lof}{\contentsline {figure}{\numberline {13}{\ignorespaces Results of the test conditions 1 depicting angular displacements from gyroscope measurements.\relax }}{35}}
-\newlabel{fig:gy1}{{13}{35}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {4.5}Software Simulation}{36}}
-\@writefile{lof}{\contentsline {figure}{\numberline {14}{\ignorespaces EKF using a kinematic estimator to provide the control update.\relax }}{36}}
-\newlabel{fig:kindiag}{{14}{36}}
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {4.5.1}Test 1: Prediction}{37}}
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {4.5.2}Test 1: Results and Analysis}{38}}
-\newlabel{fig:xacc}{{15a}{38}}
-\newlabel{sub@fig:xacc}{{a}{38}}
-\newlabel{fig:yrot}{{15b}{38}}
-\newlabel{sub@fig:yrot}{{b}{38}}
-\newlabel{fig:zplane}{{15c}{38}}
-\newlabel{sub@fig:zplane}{{c}{38}}
-\@writefile{lof}{\contentsline {figure}{\numberline {15}{\ignorespaces Results of the test conditions 1 depicting zero-uncertainty.\relax }}{38}}
-\newlabel{fig:sim1}{{15}{38}}
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {4.5.3}Test 2: Prediction}{39}}
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {4.5.4}Test 2: Results and Analysis}{39}}
-\newlabel{fig:xhigh}{{16a}{40}}
-\newlabel{sub@fig:xhigh}{{a}{40}}
-\newlabel{fig:high_traj}{{16b}{40}}
-\newlabel{sub@fig:high_traj}{{b}{40}}
-\newlabel{fig:extra}{{\caption@xref {fig:extra}{ on input line 1525}}{40}}
-\@writefile{lof}{\contentsline {figure}{\numberline {16}{\ignorespaces Results of the conditions depicting random equivalent control inputs with uncertainty.\relax }}{40}}
-\newlabel{fig:noz}{{17a}{41}}
-\newlabel{sub@fig:noz}{{a}{41}}
-\newlabel{fig:notraj}{{17b}{41}}
-\newlabel{sub@fig:notraj}{{b}{41}}
-\newlabel{fig:equalz}{{17c}{41}}
-\newlabel{sub@fig:equalz}{{c}{41}}
-\newlabel{fig:equaltraj}{{17d}{41}}
-\newlabel{sub@fig:equaltraj}{{d}{41}}
-\newlabel{fig:measz}{{17e}{41}}
-\newlabel{sub@fig:measz}{{e}{41}}
-\newlabel{fig:meastraj}{{17f}{41}}
-\newlabel{sub@fig:meastraj}{{f}{41}}
-\@writefile{lof}{\contentsline {figure}{\numberline {17}{\ignorespaces Results of the conditions depicting random equivalent control inputs with uncertainty.\relax }}{41}}
-\newlabel{fig:sim1}{{17}{41}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {4.6}MonoSLAM}{42}}
-\@writefile{toc}{\contentsline {section}{\numberline {5}Analysis: Testing \& Results}{43}}
-\@writefile{toc}{\contentsline {section}{\numberline {A}Summary of Work done}{44}}
-\@writefile{toc}{\contentsline {section}{\numberline {B}Achieved ECSA Exit Level Outcomes}{45}}
-\@writefile{toc}{\contentsline {section}{\numberline {C}Theoretical Concepts}{46}}
-\newlabel{App:Concepts}{{C}{46}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {C.1}State Space Model}{46}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {C.2}State Transition: Linear Model}{46}}
-\newlabel{eq:disc}{{C.5}{47}}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {4.2.2}Inertial Measurement Unit}{28}}
+\@writefile{lot}{\contentsline {table}{\numberline {4.1}{\ignorespaces IMU necessary characteristics\relax }}{28}}
+\newlabel{tab:imuspec}{{4.1}{28}}
+\@writefile{lot}{\contentsline {table}{\numberline {4.2}{\ignorespaces IMU configuration properties\relax }}{28}}
+\newlabel{tab:imuset}{{4.2}{28}}
+\@writefile{lof}{\contentsline {figure}{\numberline {12}{\ignorespaces  Left: SparkFun 6DOF IMU. Photo by SparkFun. Adapted from\nobreakspace  {}\cite  {create}. Right: The Imaging Source 22BUC03-ML CMOS board camera. Adapted from\nobreakspace  {}\cite  {imsrc}\relax }}{29}}
+\newlabel{fig:imu}{{12}{29}}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {4.2.3}CMOS Machine Vision Camera}{29}}
+\@writefile{lot}{\contentsline {table}{\numberline {4.3}{\ignorespaces Intrinsic and distortion camera parameters\relax }}{29}}
+\newlabel{camval}{{4.3}{29}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.3}Hardware Configuration}{29}}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {4.3.1}Inertial Measurement Unit}{29}}
+\@writefile{lot}{\contentsline {table}{\numberline {4.4}{\ignorespaces Accelerometer and gyroscope register values\relax }}{30}}
+\newlabel{default}{{4.4}{30}}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {4.3.2}Gyroscope Biases}{30}}
+\@writefile{lof}{\contentsline {figure}{\numberline {13}{\ignorespaces Gyroscope bias calibration.\relax }}{30}}
+\newlabel{fig:gyrobias}{{13}{30}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.4}Hardware Simulation}{31}}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {4.4.1}Test 1: Approximately Known Angular Displacements}{31}}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {4.4.2}Test 1: Results}{32}}
+\newlabel{fig:gx}{{14a}{32}}
+\newlabel{sub@fig:gx}{{a}{32}}
+\newlabel{fig:gy}{{14b}{32}}
+\newlabel{sub@fig:gy}{{b}{32}}
+\newlabel{fig:gyy}{{14c}{32}}
+\newlabel{sub@fig:gyy}{{c}{32}}
+\newlabel{fig:gz}{{14d}{32}}
+\newlabel{sub@fig:gz}{{d}{32}}
+\@writefile{lof}{\contentsline {figure}{\numberline {14}{\ignorespaces Results of the test conditions 1 depicting angular displacements from gyroscope measurements.\relax }}{32}}
+\newlabel{fig:gy1}{{14}{32}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.5}Software Simulation}{33}}
+\@writefile{lof}{\contentsline {figure}{\numberline {15}{\ignorespaces EKF using a kinematic estimator to provide the control update.\relax }}{33}}
+\newlabel{fig:kindiag}{{15}{33}}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {4.5.1}Test 1: Prediction}{34}}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {4.5.2}Test 1: Results and Analysis}{35}}
+\newlabel{fig:xacc}{{16a}{35}}
+\newlabel{sub@fig:xacc}{{a}{35}}
+\newlabel{fig:yrot}{{16b}{35}}
+\newlabel{sub@fig:yrot}{{b}{35}}
+\newlabel{fig:zplane}{{16c}{35}}
+\newlabel{sub@fig:zplane}{{c}{35}}
+\@writefile{lof}{\contentsline {figure}{\numberline {16}{\ignorespaces Results of the test conditions 1 depicting zero-uncertainty.\relax }}{35}}
+\newlabel{fig:sim1}{{16}{35}}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {4.5.3}Test 2: Prediction}{36}}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {4.5.4}Test 2: Results and Analysis}{36}}
+\newlabel{fig:xhigh}{{17a}{37}}
+\newlabel{sub@fig:xhigh}{{a}{37}}
+\newlabel{fig:high_traj}{{17b}{37}}
+\newlabel{sub@fig:high_traj}{{b}{37}}
+\newlabel{fig:extra}{{\caption@xref {fig:extra}{ on input line 1463}}{37}}
+\@writefile{lof}{\contentsline {figure}{\numberline {17}{\ignorespaces Results of the conditions depicting random equivalent control inputs with uncertainty.\relax }}{37}}
+\newlabel{fig:noz}{{18a}{38}}
+\newlabel{sub@fig:noz}{{a}{38}}
+\newlabel{fig:notraj}{{18b}{38}}
+\newlabel{sub@fig:notraj}{{b}{38}}
+\newlabel{fig:equalz}{{18c}{38}}
+\newlabel{sub@fig:equalz}{{c}{38}}
+\newlabel{fig:equaltraj}{{18d}{38}}
+\newlabel{sub@fig:equaltraj}{{d}{38}}
+\newlabel{fig:measz}{{18e}{38}}
+\newlabel{sub@fig:measz}{{e}{38}}
+\newlabel{fig:meastraj}{{18f}{38}}
+\newlabel{sub@fig:meastraj}{{f}{38}}
+\@writefile{lof}{\contentsline {figure}{\numberline {18}{\ignorespaces Results of the conditions depicting random equivalent control inputs with uncertainty.\relax }}{38}}
+\newlabel{fig:sim1}{{18}{38}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.6}MonoSLAM}{39}}
+\@writefile{toc}{\contentsline {section}{\numberline {5}Analysis: Testing \& Results}{40}}
+\@writefile{toc}{\contentsline {section}{\numberline {A}Summary of Work done}{41}}
+\@writefile{toc}{\contentsline {section}{\numberline {B}Achieved ECSA Exit Level Outcomes}{42}}
+\@writefile{toc}{\contentsline {section}{\numberline {C}Theoretical Concepts}{43}}
+\newlabel{App:Concepts}{{C}{43}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {C.1}State Space Model}{43}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {C.2}State Transition: Linear Model}{44}}
+\newlabel{eq:disc}{{C.5}{44}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {C.3}Measurement Update}{45}}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {C.3.1}Measurement Model}{45}}
+\newlabel{eq:fmmd}{{C.9}{45}}
+\citation{dav2007}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {C.3.2}Feature Matching}{46}}
+\newlabel{eq:inov}{{C.10}{46}}
+\citation{dav2007}
+\citation{dav2007}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {C.3.3}Feature Initialisation}{47}}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {C.3.4}Map Management}{47}}
 \citation{create}
 \@writefile{toc}{\contentsline {section}{\numberline {D}Figures \& Diagrams}{48}}
 \@writefile{toc}{\contentsline {subsection}{\numberline {D.1}Schematics \& Circuit Diagrams}{48}}
-\@writefile{lof}{\contentsline {figure}{\numberline {18}{\ignorespaces Circuit Diagram of the IMU.\relax }}{48}}
-\newlabel{fig:circ_dagram}{{18}{48}}
-\@writefile{lof}{\contentsline {figure}{\numberline {19}{\ignorespaces Schematic of the IMU.\relax }}{48}}
-\newlabel{fig:schematic}{{19}{48}}
+\@writefile{lof}{\contentsline {figure}{\numberline {19}{\ignorespaces Circuit Diagram of the IMU.\relax }}{48}}
+\newlabel{fig:circ_dagram}{{19}{48}}
+\@writefile{lof}{\contentsline {figure}{\numberline {20}{\ignorespaces Schematic of the IMU.\relax }}{48}}
+\newlabel{fig:schematic}{{20}{48}}
 \bibstyle{ieeetr}
 \bibdata{Report_bib}
-\bibcite{octomap}{1}
-\bibcite{scale_visodom}{2}
-\bibcite{step1}{3}
-\bibcite{dav2007}{4}
-\bibcite{master}{5}
-\bibcite{create}{6}
-\bibcite{imsrc}{7}
-\bibcite{mars}{8}
-\bibcite{indus}{9}
-\bibcite{occupancy}{10}
-\bibcite{thrun2007}{11}
-\bibcite{slam}{12}
-\bibcite{ekfslam}{13}
-\bibcite{fast}{14}
-\bibcite{fast2}{15}
-\bibcite{chen2003}{16}
-\bibcite{sola}{17}
-\bibcite{ptam}{18}
-\bibcite{highspeed2008}{19}
-\bibcite{scale2010}{20}
-\bibcite{idp}{21}
-\bibcite{lasermono}{22}
-\bibcite{probrob}{23}
-\bibcite{actvis}{24}
-\bibcite{shitom}{25}
-\bibcite{distort}{26}
-\bibcite{IMU}{27}
-\bibcite{models}{28}
-\bibcite{gyro}{29}
-\bibcite{acc}{30}
+\bibcite{mars}{1}
+\bibcite{indus}{2}
+\bibcite{occupancy}{3}
+\bibcite{thrun2007}{4}
+\bibcite{octomap}{5}
+\bibcite{slam}{6}
+\bibcite{ekfslam}{7}
+\bibcite{fast}{8}
+\bibcite{fast2}{9}
+\bibcite{chen2003}{10}
+\bibcite{scale_visodom}{11}
+\bibcite{step1}{12}
+\bibcite{dav2007}{13}
+\bibcite{sola}{14}
+\bibcite{ptam}{15}
+\bibcite{highspeed2008}{16}
+\bibcite{scale2010}{17}
+\bibcite{idp}{18}
+\bibcite{lasermono}{19}
+\bibcite{probrob}{20}
+\bibcite{actvis}{21}
+\bibcite{shitom}{22}
+\bibcite{master}{23}
+\bibcite{distort}{24}
+\bibcite{IMU}{25}
+\bibcite{models}{26}
+\bibcite{create}{27}
+\bibcite{gyro}{28}
+\bibcite{acc}{29}
+\bibcite{imsrc}{30}
 \bibcite{opencv}{31}
