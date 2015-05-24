@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.1415926-2.4-1.40.13 (TeX Live 2012) (format=pdflatex 2013.6.23)  24 MAY 2015 12:22
+This is pdfTeX, Version 3.1415926-2.4-1.40.13 (TeX Live 2012) (format=pdflatex 2013.6.23)  24 MAY 2015 17:09
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -354,14 +354,15 @@ Package: eso-pic 2010/10/06 v2.0c eso-pic (RN)
 (/usr/local/texlive/2012/texmf-dist/tex/generic/oberdiek/atbegshi.sty
 Package: atbegshi 2011/10/05 v1.16 At begin shipout hook (HO)
 ))
-(./Report.aux
-
-LaTeX Warning: Label `fig:frame' multiply defined.
-
-
-LaTeX Warning: Label `fig:sim1' multiply defined.
-
-)
+(./Report.aux)
+Runaway argument?
+{\contentsline {figure}{\numberline {6}{\ignorespaces A graphical ill\ETC.
+./Report.tex:64: File ended while scanning use of \@writefile.
+<inserted text> 
+                \par 
+l.64 \begin{document}
+                     
+? 
 \openout1 = `Report.aux'.
 
 LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 64.
@@ -376,7 +377,6 @@ LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 64.
 LaTeX Font Info:    ... okay on input line 64.
 LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 64.
 LaTeX Font Info:    ... okay on input line 64.
-
 *geometry* driver: auto-detecting
 *geometry* detected driver: pdftex
 *geometry* verbose mode - [ preamble ] result:
@@ -586,108 +586,148 @@ Underfull \hbox (badness 10000) in paragraph at lines 110--111
 
  []
 
-[1] [2] (./Report.toc [3])
+[1] [2] (./Report.toc)
 \tf@toc=\write4
 \openout4 = `Report.toc'.
 
- [4] (./Report.lof
-Overfull \hbox (1.38141pt too wide) in paragraph at lines 1--1
- [][] []\OT1/cmr/m/n/12 Examples of three-dimensional (3D) oc-cu-pancy grid (de
-nse) maps. Adapted 
- []
-
-)
+ [3] (./Report.lof)
 \tf@lof=\write5
 \openout5 = `Report.lof'.
 
- (./Report.lot [5])
+ (./Report.lot)
 \tf@lot=\write6
 \openout6 = `Report.lot'.
 
- [6] [7]
+ [4] [5]
 Overfull \hbox (2.96553pt too wide) in paragraph at lines 169--189
 [][]
  []
 
-[8] [9] <Figures/grid1.jpg, id=49, 1198.4775pt x 705.63625pt>
-File: Figures/grid1.jpg Graphic file (type jpg)
+[6] [7]
 
-<use Figures/grid1.jpg>
+LaTeX Warning: Citation `mars' on page 1 undefined on input line 254.
+
+
+LaTeX Warning: Citation `indus' on page 1 undefined on input line 254.
+
+
+LaTeX Warning: Citation `occupancy' on page 1 undefined on input line 256.
+
+
+LaTeX Warning: Citation `thrun2007' on page 1 undefined on input line 256.
+
+<Figures/grid1.jpg, id=43, 1198.4775pt x 705.63625pt>
+File: Figures/grid1.jpg Graphic file (type jpg)
+ <use Figures/grid1.jpg>
 Package pdftex.def Info: Figures/grid1.jpg used on input line 259.
 (pdftex.def)             Requested size: 223.06812pt x 136.57025pt.
- <Figures/occ2.png, id=50, 287.3937pt x 133.2177pt>
-File: Figures/occ2.png Graphic file (type png)
 
-<use Figures/occ2.png>
+<Figures/occ2.png, id=44, 287.3937pt x 133.2177pt>
+File: Figures/occ2.png Graphic file (type png)
+ <use Figures/occ2.png>
 Package pdftex.def Info: Figures/occ2.png used on input line 260.
 (pdftex.def)             Requested size: 223.06985pt x 136.58763pt.
- [1 <./Figures/grid1.jpg> <./Figures/occ2.png>]
-<Figures/PTAM_cam.png, id=58, 640.3925pt x 381.425pt>
+
+
+LaTeX Warning: Citation `octomap' on page 1 undefined on input line 261.
+
+
+LaTeX Warning: Citation `octomap' on page 1 undefined on input line 261.
+
+
+LaTeX Warning: Citation `slam' on page 1 undefined on input line 265.
+
+[1 <./Figures/grid1.jpg> <./Figures/occ2.png>]
+
+LaTeX Warning: Citation `ekfslam' on page 2 undefined on input line 269.
+
+
+LaTeX Warning: Citation `fast' on page 2 undefined on input line 269.
+
+
+LaTeX Warning: Citation `fast2' on page 2 undefined on input line 269.
+
+
+LaTeX Warning: Citation `chen2003' on page 2 undefined on input line 269.
+
+<Figures/PTAM_cam.png, id=51, 640.3925pt x 381.425pt>
 File: Figures/PTAM_cam.png Graphic file (type png)
 
 <use Figures/PTAM_cam.png>
 Package pdftex.def Info: Figures/PTAM_cam.png used on input line 273.
 (pdftex.def)             Requested size: 223.06586pt x 136.57373pt.
- <Figures/PTAM_map.png, id=59, 642.4pt x 379.4175pt>
+ <Figures/PTAM_map.png, id=52, 642.4pt x 379.4175pt>
 File: Figures/PTAM_map.png Graphic file (type png)
 
 <use Figures/PTAM_map.png>
 Package pdftex.def Info: Figures/PTAM_map.png used on input line 274.
 (pdftex.def)             Requested size: 223.06917pt x 136.57281pt.
 
-<Figures/step1.png, id=60, 494.84875pt x 423.5825pt>
+
+LaTeX Warning: Citation `scale_visodom' on page 2 undefined on input line 275.
+
+
+LaTeX Warning: Citation `scale_visodom' on page 2 undefined on input line 275.
+
+<Figures/step1.png, id=53, 494.84875pt x 423.5825pt>
 File: Figures/step1.png Graphic file (type png)
  <use Figures/step1.png>
 Package pdftex.def Info: Figures/step1.png used on input line 289.
 (pdftex.def)             Requested size: 145.67708pt x 113.80649pt.
 
-<Figures/step2.png, id=61, 489.83pt x 421.575pt>
+<Figures/step2.png, id=54, 489.83pt x 421.575pt>
 File: Figures/step2.png Graphic file (type png)
  <use Figures/step2.png>
 Package pdftex.def Info: Figures/step2.png used on input line 290.
 (pdftex.def)             Requested size: 145.67952pt x 113.80746pt.
 
-<Figures/step3.png, id=62, 492.84125pt x 417.56pt>
+<Figures/step3.png, id=55, 492.84125pt x 417.56pt>
 File: Figures/step3.png Graphic file (type png)
  <use Figures/step3.png>
 Package pdftex.def Info: Figures/step3.png used on input line 291.
 (pdftex.def)             Requested size: 145.68019pt x 113.80673pt.
 
-<Figures/step4.png, id=63, 490.83376pt x 423.5825pt>
+<Figures/step4.png, id=56, 490.83376pt x 423.5825pt>
 File: Figures/step4.png Graphic file (type png)
  <use Figures/step4.png>
 Package pdftex.def Info: Figures/step4.png used on input line 292.
 (pdftex.def)             Requested size: 145.67845pt x 113.80649pt.
 
-<Figures/step5.png, id=64, 490.83376pt x 421.575pt>
+<Figures/step5.png, id=57, 490.83376pt x 421.575pt>
 File: Figures/step5.png Graphic file (type png)
  <use Figures/step5.png>
 Package pdftex.def Info: Figures/step5.png used on input line 293.
 (pdftex.def)             Requested size: 145.67845pt x 113.80746pt.
 
-<Figures/step6.png, id=65, 481.8pt x 424.58624pt>
+<Figures/step6.png, id=58, 481.8pt x 424.58624pt>
 File: Figures/step6.png Graphic file (type png)
  <use Figures/step6.png>
 Package pdftex.def Info: Figures/step6.png used on input line 294.
 (pdftex.def)             Requested size: 145.68062pt x 113.81055pt.
 
-<Figures/step7.png, id=66, 494.84875pt x 414.54875pt>
+<Figures/step7.png, id=59, 494.84875pt x 414.54875pt>
 File: Figures/step7.png Graphic file (type png)
  <use Figures/step7.png>
 Package pdftex.def Info: Figures/step7.png used on input line 295.
 (pdftex.def)             Requested size: 145.67708pt x 113.80832pt.
 
-<Figures/step8.png, id=67, 497.86pt x 417.56pt>
+<Figures/step8.png, id=60, 497.86pt x 417.56pt>
 File: Figures/step8.png Graphic file (type png)
  <use Figures/step8.png>
 Package pdftex.def Info: Figures/step8.png used on input line 296.
 (pdftex.def)             Requested size: 145.68233pt x 113.80673pt.
 
-<Figures/step9.png, id=68, 483.8075pt x 415.5525pt>
+<Figures/step9.png, id=61, 483.8075pt x 415.5525pt>
 File: Figures/step9.png Graphic file (type png)
  <use Figures/step9.png>
 Package pdftex.def Info: Figures/step9.png used on input line 297.
 (pdftex.def)             Requested size: 145.68227pt x 113.81123pt.
+
+
+LaTeX Warning: Citation `step1' on page 2 undefined on input line 298.
+
+
+LaTeX Warning: Citation `step1' on page 2 undefined on input line 298.
 
 [2 <./Figures/PTAM_cam.png> <./Figures/PTAM_map.png>]
 Overfull \hbox (26.54971pt too wide) in paragraph at lines 306--323
@@ -697,14 +737,50 @@ Overfull \hbox (26.54971pt too wide) in paragraph at lines 306--323
 [3 <./Figures/step1.png> <./Figures/step2.png> <./Figures/step3.png> <./Figures
 /step4.png> <./Figures/step5.png> <./Figures/step6.png> <./Figures/step7.png> <
 ./Figures/step8.png> <./Figures/step9.png>]
-<Figures/camvel.png, id=84, 1217.54875pt x 550.055pt>
+
+LaTeX Warning: Citation `dav2007' on page 4 undefined on input line 343.
+
+
+LaTeX Warning: Citation `sola' on page 4 undefined on input line 343.
+
+
+LaTeX Warning: Citation `ptam' on page 4 undefined on input line 343.
+
+
+LaTeX Warning: Citation `dav2007' on page 4 undefined on input line 343.
+
+
+LaTeX Warning: Citation `dav2007' on page 4 undefined on input line 343.
+
+
+LaTeX Warning: Citation `highspeed2008' on page 4 undefined on input line 343.
+
+
+LaTeX Warning: Citation `scale2010' on page 4 undefined on input line 343.
+
+
+LaTeX Warning: Citation `idp' on page 4 undefined on input line 343.
+
+<Figures/camvel.png, id=78, 1217.54875pt x 550.055pt>
 File: Figures/camvel.png Graphic file (type png)
  <use Figures/camvel.png>
 Package pdftex.def Info: Figures/camvel.png used on input line 348.
 (pdftex.def)             Requested size: 218.51765pt x 91.04051pt.
 
+
+LaTeX Warning: Citation `dav2007' on page 4 undefined on input line 349.
+
+
+LaTeX Warning: Citation `dav2007' on page 4 undefined on input line 349.
+
+
+LaTeX Warning: Citation `lasermono' on page 4 undefined on input line 353.
+
+
+LaTeX Warning: Citation `dav2007' on page 4 undefined on input line 355.
+
 [4 <./Figures/camvel.png>]
-<Figures/Drawing2.png, id=89, 453.94594pt x 311.66437pt>
+<Figures/Drawing2.png, id=83, 453.94594pt x 311.66437pt>
 File: Figures/Drawing2.png Graphic file (type png)
 
 <use Figures/Drawing2.png>
@@ -739,44 +815,150 @@ Underfull \hbox (badness 10000) in paragraph at lines 390--401
 
  []
 
-[5] [6 <./Figures/Drawing2.png>] [7] [8]
-<Figures/weight.png, id=105, 1105.12875pt x 795.97375pt>
+[5] [6 <./Figures/Drawing2.png>]
+
+LaTeX Warning: Citation `probrob' on page 7 undefined on input line 410.
+
+[7]
+
+LaTeX Warning: Citation `probrob' on page 8 undefined on input line 426.
+
+
+LaTeX Warning: Citation `probrob' on page 8 undefined on input line 426.
+
+
+LaTeX Warning: Reference `tab:KF' on page 8 undefined on input line 434.
+
+
+LaTeX Warning: Citation `probrob' on page 8 undefined on input line 434.
+
+
+LaTeX Warning: Citation `probrob' on page 8 undefined on input line 463.
+
+[8]
+
+LaTeX Warning: Citation `probrob' on page 9 undefined on input line 468.
+
+
+LaTeX Warning: Citation `kalman' on page 9 undefined on input line 475.
+
+
+LaTeX Warning: Citation `probrob' on page 9 undefined on input line 475.
+
+
+LaTeX Warning: Reference `fig:weight' on page 9 undefined on input line 499.
+
+<Figures/weight.png, id=98, 1105.12875pt x 795.97375pt>
 File: Figures/weight.png Graphic file (type png)
 
 <use Figures/weight.png>
 Package pdftex.def Info: Figures/weight.png used on input line 502.
 (pdftex.def)             Requested size: 364.18773pt x 227.62004pt.
- [9]
+
+
+LaTeX Warning: Citation `cyril' on page 9 undefined on input line 503.
+
+
+LaTeX Warning: Citation `cyril' on page 9 undefined on input line 503.
+
+[9]
+
+LaTeX Warning: Reference `tab:KF' on page 10 undefined on input line 507.
+
+
+LaTeX Warning: Citation `probrob' on page 10 undefined on input line 507.
+
+
 Overfull \hbox (10.52931pt too wide) in paragraph at lines 513--531
  [] 
  []
 
+
+LaTeX Warning: Citation `probrob' on page 10 undefined on input line 534.
+
 [10 <./Figures/weight.png>]
-<Figures/LIN1.png, id=113, 764.8575pt x 707.64375pt>
+
+LaTeX Warning: Reference `fig:lin' on page 11 undefined on input line 538.
+
+<Figures/LIN1.png, id=107, 764.8575pt x 707.64375pt>
 File: Figures/LIN1.png Graphic file (type png)
  <use Figures/LIN1.png>
 Package pdftex.def Info: Figures/LIN1.png used on input line 542.
 (pdftex.def)             Requested size: 223.0751pt x 318.6743pt.
 
-<Figures/Non1.png, id=114, 807.015pt x 827.09pt>
+<Figures/Non1.png, id=108, 807.015pt x 827.09pt>
 File: Figures/Non1.png Graphic file (type png)
  <use Figures/Non1.png>
 Package pdftex.def Info: Figures/Non1.png used on input line 543.
 (pdftex.def)             Requested size: 223.06886pt x 318.67673pt.
 
+
+LaTeX Warning: Reference `fig:lin' on page 11 undefined on input line 557.
+
 [11 <./Figures/LIN1.png> <./Figures/Non1.png>]
+
+LaTeX Warning: Reference `tab:EKF' on page 12 undefined on input line 578.
+
+
+LaTeX Warning: Citation `probrob' on page 12 undefined on input line 578.
+
+
 Overfull \hbox (10.52931pt too wide) in paragraph at lines 583--602
 [][] 
  []
 
-[12] <Figures/System1.png, id=127, 700.11563pt x 542.025pt>
+[12] <Figures/System1.png, id=121, 700.11563pt x 542.025pt>
 File: Figures/System1.png Graphic file (type png)
 
 <use Figures/System1.png>
 Package pdftex.def Info: Figures/System1.png used on input line 612.
 (pdftex.def)             Requested size: 455.25137pt x 364.20523pt.
- [13 <./Figures/System1.png>] [14] [15]
-<Figures/frames.png, id=138, 1202.4925pt x 728.7225pt>
+
+
+LaTeX Warning: Citation `dav2007' on page 13 undefined on input line 619.
+
+
+LaTeX Warning: Citation `sola' on page 13 undefined on input line 619.
+
+
+LaTeX Warning: Citation `ptam' on page 13 undefined on input line 619.
+
+
+LaTeX Warning: Citation `dav2007' on page 13 undefined on input line 619.
+
+[13 <./Figures/System1.png>]
+
+LaTeX Warning: Reference `fig:system' on page 14 undefined on input line 623.
+
+
+LaTeX Warning: Citation `dav2007' on page 14 undefined on input line 627.
+
+
+LaTeX Warning: Citation `actvis' on page 14 undefined on input line 627.
+
+
+LaTeX Warning: Citation `shitom' on page 14 undefined on input line 627.
+
+
+LaTeX Warning: Reference `fig:system' on page 14 undefined on input line 627.
+
+
+LaTeX Warning: Citation `shitom' on page 14 undefined on input line 629.
+
+
+LaTeX Warning: Citation `dav2007' on page 14 undefined on input line 629.
+
+[14]
+
+LaTeX Warning: Citation `probrob' on page 15 undefined on input line 642.
+
+
+LaTeX Warning: Citation `dav2007' on page 15 undefined on input line 665.
+
+
+LaTeX Warning: Reference `fig:frame' on page 15 undefined on input line 675.
+
+<Figures/frames.png, id=128, 1202.4925pt x 728.7225pt>
 File: Figures/frames.png Graphic file (type png)
 
 <use Figures/frames.png>
@@ -784,58 +966,204 @@ Package pdftex.def Info: Figures/frames.png used on input line 678.
 (pdftex.def)             Requested size: 364.20006pt x 170.71608pt.
 
 
+LaTeX Warning: Citation `dav2007' on page 15 undefined on input line 679.
+
+
+LaTeX Warning: Citation `dav2007' on page 15 undefined on input line 679.
+
+
 LaTeX Warning: `h' float specifier changed to `ht'.
 
-[16] [17 <./Figures/frames.png>]
-<Figures/1.png, id=146, 945.5325pt x 678.535pt>
+[15]
+
+LaTeX Warning: Reference `eq:camvec' on page 16 undefined on input line 688.
+
+[16 <./Figures/frames.png>]
+
+LaTeX Warning: Reference `fig:pinhole' on page 17 undefined on input line 702.
+
+<Figures/1.png, id=137, 945.5325pt x 678.535pt>
 File: Figures/1.png Graphic file (type png)
  <use Figures/1.png>
 Package pdftex.def Info: Figures/1.png used on input line 707.
 (pdftex.def)             Requested size: 409.71628pt x 204.85626pt.
- [18 <./Figures/1.png>] [19] [20] [21]
+
+
+LaTeX Warning: Citation `master' on page 17 undefined on input line 708.
+
+
+LaTeX Warning: Citation `master' on page 17 undefined on input line 708.
+
+
+LaTeX Warning: Citation `master' on page 17 undefined on input line 713.
+
+
+LaTeX Warning: Citation `dav2007' on page 17 undefined on input line 740.
+
+
+LaTeX Warning: Citation `distort' on page 17 undefined on input line 740.
+
+[17 <./Figures/1.png>] [18]
+
+LaTeX Warning: Citation `dav2007' on page 19 undefined on input line 753.
+
+[19]
+
+LaTeX Warning: Citation `IMU' on page 20 undefined on input line 805.
+
+
+LaTeX Warning: Citation `models' on page 20 undefined on input line 811.
+
+
+LaTeX Warning: Reference `eq:acc' on page 20 undefined on input line 821.
+
+
+LaTeX Warning: Reference `eq:lina' on page 20 undefined on input line 832.
+
+
+LaTeX Warning: Reference `eq:pertn' on page 20 undefined on input line 832.
+
+
+LaTeX Warning: Reference `sec:covup' on page 20 undefined on input line 832.
+
+[20]
+
+LaTeX Warning: Reference `sec:EKF' on page 21 undefined on input line 854.
+
 Missing character: There is no Õ in font cmr12!
+[21]
 Missing character: There is no Õ in font cmr12!
 
-Underfull \hbox (badness 10000) in paragraph at lines 861--864
+Underfull \hbox (badness 10000) in paragraph at lines 877--880
 
  []
+
+
+LaTeX Warning: Reference `App:Concepts' on page 22 undefined on input line 885.
+
+
+
+LaTeX Warning: Citation `models' on page 22 undefined on input line 887.
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 910--911
+
+ []
+
+
+LaTeX Warning: Citation `models' on page 22 undefined on input line 912.
 
 [22]
-Underfull \hbox (badness 10000) in paragraph at lines 894--895
 
- []
+LaTeX Warning: Reference `eq:axis' on page 23 undefined on input line 935.
 
-[23] [24]
 
-LaTeX Warning: Reference `eq:cat' on page 25 undefined on input line 999.
+LaTeX Warning: Citation `models' on page 23 undefined on input line 935.
 
-[25] <Figures/Drawing7.png, id=174, 812.28468pt x 563.85657pt>
+
+LaTeX Warning: Reference `eq:quat' on page 23 undefined on input line 941.
+
+
+LaTeX Warning: Reference `eq:trmod' on page 23 undefined on input line 941.
+
+
+LaTeX Warning: Citation `models' on page 23 undefined on input line 941.
+
+[23]
+
+LaTeX Warning: Reference `tab:EKF' on page 24 undefined on input line 971.
+
+
+LaTeX Warning: Reference `eq:trmod' on page 24 undefined on input line 971.
+
+
+LaTeX Warning: Reference `sec:covup' on page 24 undefined on input line 984.
+
+
+LaTeX Warning: Reference `tab:EKF' on page 24 undefined on input line 987.
+
+
+LaTeX Warning: Reference `eq:par' on page 24 undefined on input line 987.
+
+
+LaTeX Warning: Reference `eq:trmod' on page 24 undefined on input line 997.
+
+
+LaTeX Warning: Reference `eq:quat' on page 24 undefined on input line 1017.
+
+[24] [25] <Figures/Drawing7.png, id=167, 812.28468pt x 563.85657pt>
 File: Figures/Drawing7.png Graphic file (type png)
 
 <use Figures/Drawing7.png>
-Package pdftex.def Info: Figures/Drawing7.png used on input line 1041.
+Package pdftex.def Info: Figures/Drawing7.png used on input line 1068.
 (pdftex.def)             Requested size: 455.23576pt x 386.96214pt.
- [26 <./Figures/Drawing7.png>]
-<Figures/arduino.jpg, id=178, 254.1495pt x 179.77162pt>
+
+
+LaTeX Warning: Citation `dav2007' on page 26 undefined on input line 1069.
+
+
+LaTeX Warning: Citation `dav2007' on page 26 undefined on input line 1069.
+
+[26 <./Figures/Drawing7.png>]
+
+LaTeX Warning: Reference `fig:arduno' on page 27 undefined on input line 1103.
+
+<Figures/arduino.jpg, id=171, 254.1495pt x 179.77162pt>
 File: Figures/arduino.jpg Graphic file (type jpg)
 
 <use Figures/arduino.jpg>
-Package pdftex.def Info: Figures/arduino.jpg used on input line 1080.
+Package pdftex.def Info: Figures/arduino.jpg used on input line 1107.
 (pdftex.def)             Requested size: 227.6272pt x 125.1919pt.
- [27 <./Figures/arduino.jpg>]
-<Figures/imu1.jpg, id=182, 121.6545pt x 96.1191pt>
+
+
+LaTeX Warning: Citation `create' on page 27 undefined on input line 1108.
+
+
+LaTeX Warning: Citation `create' on page 27 undefined on input line 1108.
+
+
+LaTeX Warning: Reference `sec:kinest' on page 27 undefined on input line 1113.
+
+[27 <./Figures/arduino.jpg>]
+
+LaTeX Warning: Reference `tab:imuspec' on page 28 undefined on input line 1115.
+
+
+
+LaTeX Warning: Reference `fig:imu' on page 28 undefined on input line 1151.
+
+
+LaTeX Warning: Citation `gyro' on page 28 undefined on input line 1151.
+
+
+LaTeX Warning: Citation `acc' on page 28 undefined on input line 1151.
+
+<Figures/imu1.jpg, id=176, 121.6545pt x 96.1191pt>
 File: Figures/imu1.jpg Graphic file (type jpg)
  <use Figures/imu1.jpg>
-Package pdftex.def Info: Figures/imu1.jpg used on input line 1153.
+Package pdftex.def Info: Figures/imu1.jpg used on input line 1180.
 (pdftex.def)             Requested size: 223.09517pt x 113.81258pt.
 
-<Figures/cam.png, id=183, 436.63126pt x 501.875pt>
+<Figures/cam.png, id=177, 436.63126pt x 501.875pt>
 File: Figures/cam.png Graphic file (type png)
  <use Figures/cam.png>
-Package pdftex.def Info: Figures/cam.png used on input line 1154.
+Package pdftex.def Info: Figures/cam.png used on input line 1181.
 (pdftex.def)             Requested size: 182.09135pt x 113.80533pt.
 
-Underfull \hbox (badness 10000) in paragraph at lines 1124--1160
+
+LaTeX Warning: Citation `create' on page 28 undefined on input line 1182.
+
+
+LaTeX Warning: Citation `imsrc' on page 28 undefined on input line 1182.
+
+
+LaTeX Warning: Citation `create' on page 28 undefined on input line 1182.
+
+
+LaTeX Warning: Citation `imsrc' on page 28 undefined on input line 1182.
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 1151--1187
 
  []
 
@@ -843,160 +1171,241 @@ Underfull \hbox (badness 10000) in paragraph at lines 1124--1160
 LaTeX Warning: `h' float specifier changed to `ht'.
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 1161--1169
+LaTeX Warning: Reference `fig:imu' on page 28 undefined on input line 1188.
+
+
+LaTeX Warning: Reference `eq:fmmd1' on page 28 undefined on input line 1195.
+
+
+LaTeX Warning: Citation `opencv' on page 28 undefined on input line 1195.
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 1188--1196
 
  []
 
-[28] [29 <./Figures/imu1.jpg> <./Figures/cam.png>]
-<Figures/Gyro_bias.png, id=191, 498.86375pt x 412.54124pt>
+[28]
+
+LaTeX Warning: Reference `tab:imuset' on page 29 undefined on input line 1229.
+
+[29 <./Figures/imu1.jpg> <./Figures/cam.png>]
+
+LaTeX Warning: Reference `fig:gyrobias' on page 30 undefined on input line 1258
+.
+
+<Figures/Gyro_bias.png, id=185, 498.86375pt x 412.54124pt>
 File: Figures/Gyro_bias.png Graphic file (type png)
 
 <use Figures/Gyro_bias.png>
-Package pdftex.def Info: Figures/Gyro_bias.png used on input line 1234.
+Package pdftex.def Info: Figures/Gyro_bias.png used on input line 1261.
 (pdftex.def)             Requested size: 223.07077pt x 204.86006pt.
 
-<Figures/bias_ac.png, id=192, 513.92pt x 421.575pt>
+<Figures/bias_ac.png, id=186, 513.92pt x 421.575pt>
 File: Figures/bias_ac.png Graphic file (type png)
  <use Figures/bias_ac.png>
-Package pdftex.def Info: Figures/bias_ac.png used on input line 1235.
+Package pdftex.def Info: Figures/bias_ac.png used on input line 1262.
 (pdftex.def)             Requested size: 223.07504pt x 204.86244pt.
 
 [30 <./Figures/Gyro_bias.png> <./Figures/bias_ac.png>]
-Underfull \hbox (badness 10000) in paragraph at lines 1249--1250
+Underfull \hbox (badness 10000) in paragraph at lines 1276--1277
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 1250--1251
+Underfull \hbox (badness 10000) in paragraph at lines 1277--1278
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 1251--1252
+Underfull \hbox (badness 10000) in paragraph at lines 1278--1279
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 1252--1253
+Underfull \hbox (badness 10000) in paragraph at lines 1279--1280
 
  []
 
-[31] <Figures/gyrox180.png, id=200, 495.8525pt x 411.5375pt>
+[31]
+
+LaTeX Warning: Reference `fig:gx' on page 32 undefined on input line 1295.
+
+
+LaTeX Warning: Reference `fig:gy' on page 32 undefined on input line 1297.
+
+
+LaTeX Warning: Reference `fig:gyy' on page 32 undefined on input line 1299.
+
+
+LaTeX Warning: Reference `fig:gz' on page 32 undefined on input line 1301.
+
+
+LaTeX Warning: Reference `fig:gy1' on page 32 undefined on input line 1304.
+
+<Figures/gyrox180.png, id=193, 495.8525pt x 411.5375pt>
 File: Figures/gyrox180.png Graphic file (type png)
 
 <use Figures/gyrox180.png>
-Package pdftex.def Info: Figures/gyrox180.png used on input line 1282.
+Package pdftex.def Info: Figures/gyrox180.png used on input line 1309.
 (pdftex.def)             Requested size: 223.07103pt x 128.0337pt.
 
-<Figures/gyroy90.png, id=201, 496.85625pt x 411.5375pt>
+<Figures/gyroy90.png, id=194, 496.85625pt x 411.5375pt>
 File: Figures/gyroy90.png Graphic file (type png)
 
 <use Figures/gyroy90.png>
-Package pdftex.def Info: Figures/gyroy90.png used on input line 1287.
+Package pdftex.def Info: Figures/gyroy90.png used on input line 1314.
 (pdftex.def)             Requested size: 223.07529pt x 122.34444pt.
 
-<Figures/gyroy2.png, id=202, 496.85625pt x 404.51125pt>
+<Figures/gyroy2.png, id=195, 496.85625pt x 404.51125pt>
 File: Figures/gyroy2.png Graphic file (type png)
 
 <use Figures/gyroy2.png>
-Package pdftex.def Info: Figures/gyroy2.png used on input line 1292.
+Package pdftex.def Info: Figures/gyroy2.png used on input line 1319.
 (pdftex.def)             Requested size: 223.07529pt x 128.03894pt.
 
-<Figures/gyrox360.png, id=203, 496.85625pt x 405.515pt>
+<Figures/gyrox360.png, id=196, 496.85625pt x 405.515pt>
 File: Figures/gyrox360.png Graphic file (type png)
 
 <use Figures/gyrox360.png>
-Package pdftex.def Info: Figures/gyrox360.png used on input line 1297.
+Package pdftex.def Info: Figures/gyrox360.png used on input line 1324.
 (pdftex.def)             Requested size: 223.07529pt x 122.34845pt.
  [32 <./Figures/gyrox180.png> <./Figures/gyroy90.png> <./Figures/gyroy2.png> <.
 /Figures/gyrox360.png>]
-<Figures/Drawing3.png, id=208, 759.58781pt x 552.56438pt>
+
+LaTeX Warning: Reference `eq:trmod' on page 33 undefined on input line 1395.
+
+
+LaTeX Warning: Reference `fig:kindiag' on page 33 undefined on input line 1395.
+
+
+<Figures/Drawing3.png, id=201, 759.58781pt x 552.56438pt>
 File: Figures/Drawing3.png Graphic file (type png)
 
 <use Figures/Drawing3.png>
-Package pdftex.def Info: Figures/Drawing3.png used on input line 1371.
+Package pdftex.def Info: Figures/Drawing3.png used on input line 1398.
 (pdftex.def)             Requested size: 455.25781pt x 364.19615pt.
  [33 <./Figures/Drawing3.png>]
-Underfull \hbox (badness 10000) in paragraph at lines 1381--1384
+Underfull \hbox (badness 10000) in paragraph at lines 1408--1411
 
  []
 
-[34] <Figures/accx_1_traj.png, id=215, 421.575pt x 316.18124pt>
+[34]
+
+LaTeX Warning: Reference `fig:xacc' on page 35 undefined on input line 1427.
+
+
+LaTeX Warning: Reference `fig:yrot' on page 35 undefined on input line 1429.
+
+
+LaTeX Warning: Reference `fig:zplane' on page 35 undefined on input line 1431.
+
+<Figures/accx_1_traj.png, id=209, 421.575pt x 316.18124pt>
 File: Figures/accx_1_traj.png Graphic file (type png)
 
 <use Figures/accx_1_traj.png>
-Package pdftex.def Info: Figures/accx_1_traj.png used on input line 1409.
+Package pdftex.def Info: Figures/accx_1_traj.png used on input line 1436.
 (pdftex.def)             Requested size: 223.07344pt x 165.02791pt.
 
-<Figures/90rotx_traj.png, id=216, 421.575pt x 316.18124pt>
+<Figures/90rotx_traj.png, id=210, 421.575pt x 316.18124pt>
 File: Figures/90rotx_traj.png Graphic file (type png)
 
 <use Figures/90rotx_traj.png>
-Package pdftex.def Info: Figures/90rotx_traj.png used on input line 1414.
+Package pdftex.def Info: Figures/90rotx_traj.png used on input line 1441.
 (pdftex.def)             Requested size: 223.07344pt x 165.02791pt.
 
-<Figures/xy_block_traj.png, id=217, 421.575pt x 316.18124pt>
+<Figures/xy_block_traj.png, id=211, 421.575pt x 316.18124pt>
 File: Figures/xy_block_traj.png Graphic file (type png)
 
 <use Figures/xy_block_traj.png>
-Package pdftex.def Info: Figures/xy_block_traj.png used on input line 1420.
+Package pdftex.def Info: Figures/xy_block_traj.png used on input line 1447.
 (pdftex.def)             Requested size: 295.911pt x 165.02791pt.
- [35 <./Figures/accx_1_traj.png (PNG copy)> <./Figures/90rotx_traj.png (PNG cop
-y)> <./Figures/xy_block_traj.png (PNG copy)>]
-[36] <Figures/xhigh.png, id=224, 473.77pt x 384.43625pt>
-File: Figures/xhigh.png Graphic file (type png)
 
-<use Figures/xhigh.png>
-Package pdftex.def Info: Figures/xhigh.png used on input line 1457.
+
+LaTeX Warning: Reference `sec:EKF' on page 35 undefined on input line 1456.
+
+[35 <./Figures/accx_1_traj.png (PNG copy)> <./Figures/90rotx_traj.png (PNG copy
+)> <./Figures/xy_block_traj.png (PNG copy)>]
+
+LaTeX Warning: Reference `fig:notraj' on page 36 undefined on input line 1473.
+
+
+LaTeX Warning: Reference `fig:noz' on page 36 undefined on input line 1473.
+
+
+LaTeX Warning: Reference `fig:equaltraj' on page 36 undefined on input line 147
+5.
+
+
+LaTeX Warning: Reference `fig:equalz' on page 36 undefined on input line 1475.
+
+[36]
+
+LaTeX Warning: Reference `fig:high_traj' on page 37 undefined on input line 147
+7.
+
+
+LaTeX Warning: Reference `fig:xhigh' on page 37 undefined on input line 1477.
+
+
+LaTeX Warning: Reference `fig:meastraj' on page 37 undefined on input line 1479
+.
+
+
+LaTeX Warning: Reference `fig:equalz' on page 37 undefined on input line 1479.
+
+<Figures/xhigh.png, id=218, 473.77pt x 384.43625pt>
+File: Figures/xhigh.png Graphic file (type png)
+ <use Figures/xhigh.png>
+Package pdftex.def Info: Figures/xhigh.png used on input line 1484.
 (pdftex.def)             Requested size: 223.06953pt x 170.71869pt.
 
-<Figures/high_traj.png, id=225, 517.935pt x 402.50375pt>
+<Figures/high_traj.png, id=219, 517.935pt x 402.50375pt>
 File: Figures/high_traj.png Graphic file (type png)
 
 <use Figures/high_traj.png>
-Package pdftex.def Info: Figures/high_traj.png used on input line 1462.
+Package pdftex.def Info: Figures/high_traj.png used on input line 1489.
 (pdftex.def)             Requested size: 223.07124pt x 170.71481pt.
 
-<Figures/kf_none_x.png, id=226, 421.575pt x 316.18124pt>
+<Figures/kf_none_x.png, id=220, 421.575pt x 316.18124pt>
 File: Figures/kf_none_x.png Graphic file (type png)
 
 <use Figures/kf_none_x.png>
-Package pdftex.def Info: Figures/kf_none_x.png used on input line 1473.
+Package pdftex.def Info: Figures/kf_none_x.png used on input line 1500.
 (pdftex.def)             Requested size: 223.07344pt x 182.10191pt.
 
-<Figures/kf_none_traj.png, id=227, 421.575pt x 316.18124pt>
+<Figures/kf_none_traj.png, id=221, 421.575pt x 316.18124pt>
 File: Figures/kf_none_traj.png Graphic file (type png)
 
 <use Figures/kf_none_traj.png>
-Package pdftex.def Info: Figures/kf_none_traj.png used on input line 1478.
+Package pdftex.def Info: Figures/kf_none_traj.png used on input line 1505.
 (pdftex.def)             Requested size: 223.07344pt x 182.10191pt.
 
-<Figures/kf_eq001_y.png, id=228, 421.575pt x 316.18124pt>
+<Figures/kf_eq001_y.png, id=222, 421.575pt x 316.18124pt>
 File: Figures/kf_eq001_y.png Graphic file (type png)
 
 <use Figures/kf_eq001_y.png>
-Package pdftex.def Info: Figures/kf_eq001_y.png used on input line 1483.
+Package pdftex.def Info: Figures/kf_eq001_y.png used on input line 1510.
 (pdftex.def)             Requested size: 223.07344pt x 184.94356pt.
 
-<Figures/kf_eq001_traj.png, id=229, 421.575pt x 316.18124pt>
+<Figures/kf_eq001_traj.png, id=223, 421.575pt x 316.18124pt>
 File: Figures/kf_eq001_traj.png Graphic file (type png)
 
 <use Figures/kf_eq001_traj.png>
-Package pdftex.def Info: Figures/kf_eq001_traj.png used on input line 1488.
+Package pdftex.def Info: Figures/kf_eq001_traj.png used on input line 1515.
 (pdftex.def)             Requested size: 223.07344pt x 184.94356pt.
 
-<Figures/kf_pro10to1_z.png, id=230, 421.575pt x 316.18124pt>
+<Figures/kf_pro10to1_z.png, id=224, 421.575pt x 316.18124pt>
 File: Figures/kf_pro10to1_z.png Graphic file (type png)
 
 <use Figures/kf_pro10to1_z.png>
-Package pdftex.def Info: Figures/kf_pro10to1_z.png used on input line 1493.
+Package pdftex.def Info: Figures/kf_pro10to1_z.png used on input line 1520.
 (pdftex.def)             Requested size: 223.07344pt x 184.94356pt.
 
-<Figures/kf_pro10to1_traj.png, id=231, 421.575pt x 316.18124pt>
+<Figures/kf_pro10to1_traj.png, id=225, 421.575pt x 316.18124pt>
 File: Figures/kf_pro10to1_traj.png Graphic file (type png)
 
 <use Figures/kf_pro10to1_traj.png>
-Package pdftex.def Info: Figures/kf_pro10to1_traj.png used on input line 1498.
+Package pdftex.def Info: Figures/kf_pro10to1_traj.png used on input line 1525.
 (pdftex.def)             Requested size: 223.07344pt x 184.94356pt.
  [37 <./Figures/xhigh.png> <./Figures/high_traj.png>]
 Overfull \vbox (3.40593pt too high) has occurred while \output is active []
@@ -1008,40 +1417,71 @@ Overfull \vbox (3.40593pt too high) has occurred while \output is active []
  copy)>] [39] [40] [41] [42]
 Missing character: There is no Õ in font cmr12!
 
-Underfull \hbox (badness 10000) in paragraph at lines 1609--1612
+Underfull \hbox (badness 10000) in paragraph at lines 1636--1639
 
  []
 
-[43] [44]
-Underfull \hbox (badness 10000) in paragraph at lines 1690--1691
+[43]
+
+LaTeX Warning: Reference `eq:disc' on page 44 undefined on input line 1703.
+
+[44]
+Underfull \hbox (badness 10000) in paragraph at lines 1717--1718
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 1703--1706
+LaTeX Warning: Reference `fig:frame' on page 45 undefined on input line 1719.
+
+
+LaTeX Warning: Reference `eq:fmmd1' on page 45 undefined on input line 1732.
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 1730--1733
 
  []
 
-[45] [46]
-Underfull \hbox (badness 10000) in paragraph at lines 1746--1750
+
+LaTeX Warning: Reference `sec:cam' on page 45 undefined on input line 1746.
+
+
+LaTeX Warning: Reference `eq:fmmd' on page 45 undefined on input line 1748.
+
+[45]
+
+LaTeX Warning: Citation `dav2007' on page 46 undefined on input line 1762.
+
+[46]
+
+LaTeX Warning: Citation `dav2007' on page 47 undefined on input line 1775.
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 1773--1777
 
  []
 
-[47] <Figures/Schematic_bb.png, id=268, 338.866pt x 202.356pt>
+
+LaTeX Warning: Citation `dav2007' on page 47 undefined on input line 1778.
+
+[47] <Figures/Schematic_bb.png, id=262, 338.866pt x 202.356pt>
 File: Figures/Schematic_bb.png Graphic file (type png)
 
 <use Figures/Schematic_bb.png>
-Package pdftex.def Info: Figures/Schematic_bb.png used on input line 1759.
+Package pdftex.def Info: Figures/Schematic_bb.png used on input line 1786.
 (pdftex.def)             Requested size: 364.21695pt x 209.42633pt.
 
-<Figures/Schematic.png, id=269, 472.164pt x 249.733pt>
+<Figures/Schematic.png, id=263, 472.164pt x 249.733pt>
 File: Figures/Schematic.png Graphic file (type png)
 
 <use Figures/Schematic.png>
-Package pdftex.def Info: Figures/Schematic.png used on input line 1766.
+Package pdftex.def Info: Figures/Schematic.png used on input line 1793.
 (pdftex.def)             Requested size: 455.24635pt x 227.63081pt.
- [48 <./Figures/Schematic_bb.png> <./Figures/Schematic.png>] (./Report.bbl [49]
 
+
+LaTeX Warning: Citation `create' on page 48 undefined on input line 1798.
+
+[48 <./Figures/Schematic_bb.png> <./Figures/Schematic.png>] (./Report.bbl
+[49]
 Underfull \hbox (badness 10000) in paragraph at lines 142--144
 []\OT1/cmr/m/n/12 C. Com-mons, ``At-tri-bu-tion non-com-mer-cial share-alike 3.
 0.''
@@ -1067,14 +1507,14 @@ This document will not have a glossary.
 LaTeX Warning: There were undefined references.
 
 
-LaTeX Warning: There were multiply-defined labels.
+LaTeX Warning: Label(s) may have changed. Rerun to get cross-references right.
 
  ) 
 Here is how much of TeX's memory you used:
- 7570 strings out of 493488
- 113170 string characters out of 3141326
- 208910 words of memory out of 3000000
- 10660 multiletter control sequences out of 15000+200000
+ 7575 strings out of 493488
+ 113221 string characters out of 3141326
+ 207972 words of memory out of 3000000
+ 10665 multiletter control sequences out of 15000+200000
  17768 words of font info for 66 fonts, out of 3000000 for 9000
  957 hyphenation exceptions out of 8191
  38i,34n,74p,2475b,564s stack positions out of 5000i,500n,10000p,200000b,50000s
@@ -1096,10 +1536,10 @@ cal/texlive/2012/texmf-dist/fonts/type1/public/amsfonts/cm/cmr8.pfb></usr/local
 texlive/2012/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy6.pfb></usr/local/te
 xlive/2012/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy8.pfb></usr/local/texl
 ive/2012/texmf-dist/fonts/type1/public/amsfonts/cm/cmti12.pfb>
-Output written on Report.pdf (63 pages, 4160362 bytes).
+Output written on Report.pdf (61 pages, 4159588 bytes).
 PDF statistics:
- 344 PDF objects out of 1000 (max. 8388607)
- 196 compressed objects within 2 object streams
+ 338 PDF objects out of 1000 (max. 8388607)
+ 192 compressed objects within 2 object streams
  0 named destinations out of 1000 (max. 500000)
  231 words of extra memory for PDF output out of 10000 (max. 10000000)
 

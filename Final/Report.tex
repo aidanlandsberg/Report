@@ -175,7 +175,7 @@ $\boldsymbol{\mu}$ & Mean vector of a Gaussian random variable \\
 $\boldsymbol{\Sigma}$ & Covariance matrix of a Gaussian random variable \\
 $\eta$ & Normalisation contant \\
 $ \textbf{I}$ & Identity matrix \\
-$\boldsymbol{\omega}$ & Angular Rate (expressed in radians per second)\\
+$\boldsymbol{\omega}$ & angular velocity (expressed in radians per second)\\
 $\textbf{R}^{CW}$ & Rotation matrix projecting an entity from the body frame to the inertial frame \\ 
 $\textbf{C}$ & Camera calibration matrix\\
 $f$ & Focal length of camera\\
@@ -352,9 +352,9 @@ There are however, inherent disadvantages of a MonoSLAM system. Firstly, the uti
 \end{figure}
 Information obtained from additional sensors could potentially improve the disadvantages presented by MonoSLAM. Single camera SLAM implementations using information from an additional measurement sensor (e.g. a laser range finder), such as that presented in a study by Fu et al.~\cite{lasermono}, are not only too expensive but would be difficult to integrate with a single camera system from a modelling perspective. A more elegant solution that uses measurements to improve the motion estimates is required.   
 
-To extend the range of practical applications of MonoSLAM, a motion model capable of estimating the pose of a robot due to a variety of movements is essential. The current constant linear and angular velocity model limits the robot to smooth movements and therefore needs to be adjusted or replaced. Using additional information can provide the current velocity motion model with more accurate state estimates, but cannot allow movements that aren't ``smooth". Davison et. al~\cite{dav2007}, confirms that additional information such as angular rates obtained from a \textit{gyroscope} improve the state estimates, but cannot compensate for a change in motion dynamics. 
+To extend the range of practical applications of MonoSLAM, a motion model capable of estimating the pose of a robot due to a variety of movements is essential. The current constant linear and angular velocity model limits the robot to smooth movements and therefore needs to be adjusted or replaced. Using additional information can provide the current velocity motion model with more accurate state estimates, but cannot allow movements that aren't ``smooth". Davison et. al~\cite{dav2007}, confirms that additional information such as angular velocities obtained from a \textit{gyroscope} improve the state estimates, but cannot compensate for a change in motion dynamics. 
 
-A \textit{kinematic estimator} directly measures the derivatives (first and second order) of the position and orientation of the robot as opposed to calculating them from the control inputs and the system's physical model. Inertial measurement units (IMU) can directly measure these derivates and typically comprise of an accelerometer and a gyroscope (and sometimes a magnetometer) that record the accelerations and angular rates respectively. Incorporating such a subsystem could allow a wider variety of practical scenarios as the target system isn't constrained to a specific motion.
+A \textit{kinematic estimator} directly measures the derivatives (first and second order) of the position and orientation of the robot as opposed to calculating them from the control inputs and the system's physical model. Inertial measurement units (IMU) can directly measure these derivates and typically comprise of an accelerometer and a gyroscope (and sometimes a magnetometer) that record the accelerations and angular velocities respectively. Incorporating such a subsystem could allow a wider variety of practical scenarios as the target system isn't constrained to a specific motion.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Project Objectives}
 This project seeks to utilise the aforementioned MonoSLAM system of Davison et al. and improve the localisation thereof by using \textit{additional} sensor information. The improvement(s) of the system should allow the existing system to obtain better localisation and extend the range of applications upon which the system can be applied while maintaining the original performance standard: repeatable localisation at 30 Hz for approximately 100 features. The system should utilise a \textit{single} camera as the measurement sensor and preferably support real-time operation. All processing regarding the SLAM algorithm can be done on a standard PC that communicates with the sensors via a serial port. The project budget is R $1500.00$. The primary objectives of this project include:
@@ -410,7 +410,7 @@ The following chapter will provide a brief, yet concise introduction to the fund
 Initially, the Bayes filter; that is the algorithm that forms the basis of all state estimation techniques presented in this report, will be introduced and formally discussed. Thereafter, the Gaussian Filter family - particularly the \textit{Kalman Filter} (KF) - as well as its variants - are to be introduced, discussed and defined in terms of the context of this project. It is worthwhile to note that theory in this chapter resembles material from the book Probabilistic Robotics by Thrun et al.~\cite{probrob} and is adapted therefrom for convenience.  
 %This chapter provides a brief, yet concise introduction to the fundamental theoretical concepts and algorithms that are necessary to implement SLAM. Firstly, the concept of estimating state variables using a motion model and sensor measurements is initially described. The chapter then presents a suitable state estimation method, namely the Bayes filter. Additionally, the KF, a particular implementation of the Bayes filter is derived. Finally, the KF is appropriately extended to present the EKF, the state estimation algorithm chosen to realise this project.    
 
-\subsection{Recursive State Estimation}
+\subsection{Recursive State Estimation}\label{sec:state}
  %Quantities exist that are not directly observable, yet are still able to be obtained through sensor data. Sensors though, obtain limited data regarding certain quantities and most importantly, are affected and often corrupted by \textit{noise}.   
 %Probabilistic robotics yields a unique yet fundamental concept at its core, that is: estimating a state through sensor data. \\
 State variables define the mathematical state of a system's dynamics and describe the impact of the system's future behaviour in the absence of external factors. Although a robot's dynamics can be mathematically modelled, they have quantities that are not directly observable but can be obtained through sensor measurements. Sensors though, obtain limited data regarding certain quantities and most importantly, are corrupted by \textit{noise}.
@@ -422,7 +422,7 @@ State estimation then, seeks to recover state variables using measured sensor da
 In the case of SLAM, the robot is required to know its location at each time instance $t$. The belief must thus be calculated at each time step.  In order to achieve recursive state estimation, the state estimates of the robot should only incorporate the latest measurements. Additionally, the calculation of the belief should incorporate the previous estimates. Provided that the the system also obeys the Markov assumption - that previous data and future data are independent provided that the current state $\textbf{x}_t$ is known - the \textit{Bayes filter} provides such recursive state estimation. 
 \newpage
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\subsection{Bayes filter}
+\subsection{Bayes filter}\label{sec:bayes}
 The previously mentioned belief of a robot can be represented by a probability distribution that assigns a probability to each state outcome. The belief distribution is a posterior probability over the state variable that is conditioned over the measurements and control data~\cite{probrob}. Mathematically the belief with regard to a state variable $\textbf{x}_t$ is, as shown in the book Probabilistic Robotics by Thrun et al.~\cite{probrob}:     
 %A key concept worth describing is the previously mentioned \textit{belief} of a robot. The belief represents the robot's understanding regarding the state of its own dynamics (its position, orientation etc.) as well as that of the surrounding environment. This critical concept proves a fundamental basis in probabilistic robotics. The belief can be represented as a conditional probability distribution whereby each possible scenario (state) is assigned a probability (density). 
 \begin{equation} \label{eq:belief}
@@ -463,7 +463,7 @@ The Bayes filter provides a suitable solution through recursive state estimation
 The mathematical derivation of the Bayes filter contains further technicalities. The techniques presented in this project require only a basic understanding of the Bayes filter. A detailed analysis of the Bayes filter can be obtained from the book Probabilistic Robotics by Thrun et al.~\cite{probrob}. 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \newpage
-\subsection{Gaussian Filters}
+\subsection{Gaussian Filters}\label{sec:Gausfil}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 Amongst the many different implementations of the Bayes filter are the \textit{Gaussian filter} family. The basic idea behind a Gaussian filter is that a belief can be represented as a multivariate Gaussian distribution, represented mathematically as follows~\cite{probrob}:
 \begin{equation} \label{eq:normal}
@@ -471,7 +471,7 @@ p(\textbf{x}_t)=\cfrac{1}{\sqrt{|2\pi\boldsymbol{\Sigma}|}}\hspace{0.1cm}\text{e
 \end{equation} 
 where the density across the state variable $\textbf{x}_t$ is characterised through two fundamental parameters: the mean $\boldsymbol{\mu}$ and the covariance $\boldsymbol{\Sigma}$. Such a parameterisation is known as the \textit{moments parameterisation} (as the mean and covariance represent the first and second order moments respectively). This parameterisation allows a number of recursive filter algorithms to be derived, two of which are examined in this project: the \textit{Kalman filter} (KF) and its non-linear counterpart, the \textit{extended Kalman filter} (EKF). It is important to realise that both of the aforementioned filters belong to the same sub-class of filters - namely the KF Family - and therefore most of the fundamental concepts and functionality between them are identical. Each filter is discussed in further detail in the subsections that follow.   
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\subsubsection{Kalman Filter}    
+\subsubsection{Kalman Filter} \label{sec:KF}
 Probably the most fundamental of all Gaussian filter algorithms, is the \textit{Kalman filter}. Introduced in a study presented by Kalman~\cite{kalman}, the KF can be briefly described as an optimal estimator. It remains a popular technique for filtering and prediction of \textit{linear} systems that contains Gaussian uncertainty. The KF seeks to describe a belief distribution of a state variable $\textbf{{x}}_t$ as described in Equation~\ref{eq:normal}. Subsequently, the state vector $\textbf{{x}}_t$ is modelled by a single multivariate Gaussian distribution with a mean $\boldsymbol{\mu}_t$ and covariance $\boldsymbol{\Sigma}_t$, at each time instance $t$ (while previous time steps are denoted as $t-1$, $t-2$, etc.). The general implementation as described above though, is only valid provided that the following three properties hold true - as listed in~\cite{probrob}: 
 \begin{enumerate}
 \item The state transition model probability \textbf{must} be a \textit{linear} function with additive Gaussian (process) noise. %The state transition model probability is shown according to Thrun et al.\cite{probrob}:\\
@@ -494,7 +494,7 @@ where $\textbf{w}_t$ and $\textbf{v}_t$ represent process and sensor noise respe
 %\end{equation}
 
 %with the aforementioned distribution described at every discrete time instance $t$.\\ A brief description would yield that the distribution above, describes, for a given time instance $t$, a joint density of the robot state as well as the landmark locations \textbf{given} all of the previously recorded observations, $\textbf{z}_{1:t}$ and control inputs, $\textbf{u}_{1:t}$.\\
-The input to the KF is the belief $\overline{bel}(\textbf{x}_t)$ at time $t-1$, represented by $\boldsymbol{\mu}_{t-1}$ and $\boldsymbol{\Sigma}_{t-1}$. The KF requires a control input $\textbf{u}_t$ and a measurement $\textbf{z}_t$ at time $t$ to update the belief. Like the Bayes filter, the KF too is executed in two (sequential) steps: the \textit{prediction step} and the \textit{update step}. 
+The input to the KF is the belief $\overline{bel}(\textbf{x}_t)$ at time $t-1$, represented by $\boldsymbol{\mu}_{t-1}$ and $\boldsymbol{\Sigma}_{t-1}$. The KF requires a control input $\textbf{u}_t$ and a measurement $\textbf{z}_t$ at time $t$ to update the belief. Like the Bayes filter, the KF too is executed in two (sequential) steps: the \textit{control update step} and the \textit{measurement update step}. 
 
 At time $t$, the prediction step aims to calculate a predicted belief $\overline{bel}(\textbf{x}_t)$ represented by $\overline{\boldsymbol{\mu}}_{t}$ and $\overline{\boldsymbol{\Sigma}}_{t}$. The predicted belief is modelled by a deterministic version of the state transition probability (Equation~\ref{eq:SSmodelg}) that incorporates the control input $\textbf{u}_t$ to the mean and covariance estimates. The update step aims to obtain the belief $bel(\textbf{x}_t)$ from the predicted belief $\overline{bel}(\textbf{x}_t)$ by incorporating the measurements $\textbf{z}_t$. The KF computes a Kalman gain, that determines the influence of a measurement in the new state estimate. The update step of the incorporates a product of two Gaussian probabilities. This product results is a new Gaussian with a weighted \textit{optimal} mean. The Kalman gain is thus optimal and is used to update the mean and covariance estimates such that the resulting belief distribution is optimal. An illustration of the weighted mean is depicted in Figure~\ref{fig:weight}:
 \begin{figure}[H]
@@ -516,12 +516,12 @@ Each of the aforementioned steps are later discussed in more detail - with refer
 \textbf{Output}: &mean $\boldsymbol{\mu}_{t}$, covariance $\boldsymbol{\Sigma}_{t}$\\
 \hline
 \hline
-&\textbf{Prediction step} \\
+&\textbf{Control update step} \\
 \hline
 1. & $\boldsymbol{\bar \mu}_{t}$ = $g(\textbf{u}_{t}, \boldsymbol{\mu}_{t-1})$ = $\textbf{A}_t\hspace{0.05cm}\boldsymbol{\mu}_{t-1} + \textbf{B}_t\hspace{0.05cm}\boldsymbol{\mu}_t$ + $\textbf{w}_t$\\
 2. & $\boldsymbol{\bar \Sigma}_t = \textbf{A}_t \boldsymbol{\Sigma}_{t-1} \textbf{A}_t^T + \textbf{R}_{w,t}$ \\
 \hline
-&\textbf{Correction step}\\
+&\textbf{Measurement update step}\\
 \hline
 3. & $\textbf{K}_t = \boldsymbol{\bar \Sigma}_{t} \textbf{C}_t^T (\textbf{C}_t \boldsymbol{\bar \Sigma}_{t} \textbf{C}_t^T + \textbf{R}_{v,t})^{-1}$ \\
 4. & $\boldsymbol{\mu}_t = \boldsymbol{\bar \mu}_t + \textbf{K}_t[\textbf{z}_t-\textbf{C}_t\boldsymbol{\bar \mu}_t]$\\  
@@ -531,7 +531,7 @@ Each of the aforementioned steps are later discussed in more detail - with refer
 \end{center}
 \end{table}%
 
-The KF is generally considered an efficient algorithm for sparse sets. The \textit{computational complexity} of a matrix inversion is bounded by an order of $O(d^{2.4})$~\cite{probrob}, where $d$ represents the dimensions of the measurements vector $\textbf{z}_t$.  
+The KF is generally considered an efficient algorithm for sparse sets. The \textit{computational complexity} of a matrix inversion is bounded by an order of $O(d^{2.8}+n^2)$~\cite{probrob}, where $d$ represents the dimensions of the measurements vector $\textbf{z}_t$ and $n$ the state space.  
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \newpage
 \subsubsection{Extended Kalman Filter} \label{sec:EKF}
@@ -586,12 +586,12 @@ Table~\ref{tab:EKF}  below, systematically and mathematically represents the ste
 \textbf{Output}: &mean $\boldsymbol{\mu}_{t}$, covariance $\boldsymbol{\Sigma}_{t}$\\
 \hline
 \hline
-&\textbf{Prediction step} \\
+&\textbf{Control update step} \\
 \hline
 1. & $ \boldsymbol{\bar \mu}_t$ = $g(\textbf{u}_t,  \boldsymbol{\bar \mu}_{t-1})$ \\
 2. & $\boldsymbol{\bar \Sigma_t} = \textbf{G}_t^{x_{t-1}} \boldsymbol{\bar \Sigma_{t-1}} {\textbf{G}_t^{x_{t-1}}}^T + \textbf{R}_{w,t}$ \\
 \hline
-&\textbf{Correction step}\\ 
+&\textbf{Measurement update step}\\ 
 \hline
 3. & $\textbf{K}_t = \boldsymbol{\bar \Sigma_{t}} {\textbf{H}_t^{x_{t-1}}}^T (\textbf{H}_t^{x_{t-1}} \boldsymbol{\bar \Sigma_{t}} {\textbf{H}_t^{x_{t-1}}}^T + \textbf{R}_{v,t})^{-1}$ \\
 4. & $\boldsymbol{\mu_t} = \boldsymbol{\bar \mu}+ \textbf{K}_t[\textbf{z}_t-h(\boldsymbol{\bar \mu})]$\\  
@@ -616,30 +616,30 @@ This chapter sets out to provide an overview of the MonoSLAM algorithm. Initiall
 \end{figure}
 
 \subsection{MonoSLAM}
-Originally presented in a study by Davison et al.~\cite{dav2007}, MonoSLAM provides suitable real-time and repeatable localisation using a single camera SLAM implementation. In MonoSLAM, the robot (typically a handheld camera) assumes a constant linear and angular velocity motion model, using the images from the camera to correct the state estimates. MonoSLAM is not the only successful implementation of single camera SLAM. Separate studies presented by Sola~\cite{sola} and Klein~\cite{ptam} respectively show alternative solutions to the single camera SLAM problem. MonoSLAM and the work succeeding it~\cite{dav2007,highspeed2008,scale2010,idp} however, has achieved successful results in retrieving the trajectory of a robot, forming a persistent SLAM map and ultimately maintaining repeatable localisation. Davison et al.~\cite{dav2007} also provides the source code of MonoSLAM, a \textit{modular} system, under the GNU version 3 license so that possible improvements, such as those presented in this project, can be made. This modularity and apparent ease of implementation as opposed to the particle filter based implementations presented by the alternative methods suggest MonoSLAM as an appropriate choice. 
+Originally presented in a study by Davison et al.~\cite{dav2007}, MonoSLAM provides suitable real-time and repeatable localisation using a single camera SLAM implementation. In MonoSLAM, the robot (typically a handheld camera) assumes a constant linear and angular velocity motion model, using the images from the camera to correct the state estimates. MonoSLAM is not the only successful implementation of single camera SLAM. Separate studies presented by Sola~\cite{sola} and Klein~\cite{ptam} respectively show alternative solutions to the single camera SLAM problem. Davison et al.~\cite{dav2007} however, provides the source code of MonoSLAM, a \textit{modular} system, under the GNU version 3 license so that possible improvements, such as those presented in this project, can be practised. This modularity and apparent ease of implementation as opposed to the particle filter based implementations presented by the alternative methods suggest MonoSLAM as an appropriate choice. 
 
-As previously mentioned, a MonoSLAM system has certain disadvantages. The lack of an initial accurate depth estimate, constrained movement and lack of sufficient knowledge regarding the robot's motion means that MonoSLAM is not well suited in certain practical scenarios. 
+MonoSLAM differs from other SLAM implementations in that it has no observable control inputs or other odometry. The system itself (a handheld camera) has no prior information of the users movements. Instead, the users movements are statically modelled through a constant linear and angular velocity model that expects linear and angular accelerations of a Gaussian profile. Incorporating additional measurements of the motion of the robot doesn't violate the methodology of MonoSLAM. The system still contains no prior information regarding its movement, but rather incorporates a control input equivalent that measures the movement.
 
-Figure~\ref{fig:system} depicts a functional diagram of the proposed MonoSLAM system. The sections in red have been added/or altered from the original MonoSLAM implementation. This project seeks to utilise a kinematic estimator as an alternative to the current velocity and angular velocity motion model incorporated within the control update. The kinematic estimator will measure the information provided from an inertial measurement unit that subsequently measures the angular rates and accelerations of the robot as opposed to calculating them from physical models.  
+Figure~\ref{fig:system} depicts a functional diagram of the proposed MonoSLAM system. The sections in red have been added/or altered from the original MonoSLAM implementation. This project seeks to utilise a kinematic estimator as an alternative to the current velocity and angular velocity motion model incorporated within the control update. The kinematic estimator will measure the angular velocities and linear accelerations of the robot from an inertial measurement unit as opposed to calculating them from physical models.  
 
-The remaining components of the proposed approach presented in this paper are identical to that of the MonoSLAM implementation: that is, using an EKF vision based implementation where the update stage of the EKF depends on the measurements of images from a single camera. These processes are shown in black on Figure~\ref{fig:system}. 
+The remaining components of the proposed approach presented in this study are identical to that of the MonoSLAM implementation: that is, using an EKF where the measurement update of the EKF depends on the measurements from a single camera. 
 
-This particular vision based approach aims to use salient image \textit{patches} as long term landmarks as presented in \cite{dav2007,actvis}. These aforementioned patches are typically 11 $\times$ 11 pixels and are obtained through the image detection operator of Shi and Tomasi~\cite{shitom} from raw monochrome (greyscale) image data presented by the measurement sensor. This procedure is the block named ``Search for Image" in Figure~\ref{fig:system}. The goal is to repeatedly re-identify these image template patches over time after considerable camera movements. Invariably, basic 2D template matching algorithms are of little use, considering that any particular movements of the camera (even minimal) can severely alter the shape of a saved template patch. As a result, MonoSLAM assumes that each patch lies on a locally planar surface and that the surface normal is parallel to the vector from the feature to the camera at the instance that it is initialised. This procedure is shown in the block named ``Predict Patch Appearance" in Figure~\ref{fig:system}. Once the depth of a patch has been determined - this is done through a small particle filter - the patch is stored to be used as a long term landmark. The block named Image Patches in Figure~\ref{fig:system} stores these patches to provide a template for matching against a newly obtained 2D image at a later stage. Because the patches are never updated and remain in memory, long term localisation is possible. The \textit{innovation search} in Figure~\ref{fig:system} uses the measurement model to obtain a search area around which the system expects an initialised feature should be.
+This particular vision based approach aims to use salient image \textit{patches} as long term landmarks as presented in \cite{dav2007,actvis}. These aforementioned patches are typically 11 $\times$ 11 pixels and are obtained through the image detection operator of Shi and Tomasi~\cite{shitom} from raw monochrome (greyscale) images. The goal is to repeatedly re-identify these image template patches over time after considerable camera movements. Invariably, basic 2D template matching algorithms are of little use, considering that any particular movements of the camera (even minimal) can severely alter the shape of a saved template patch. As a result, MonoSLAM assumes that each patch lies on a locally planar surface and that the surface normal is parallel to the vector from the feature to the camera at the instance that it is initialised. Once the depth of a patch has been determined - this is done through a small particle filter - the patch is stored to be used as a long term landmark. MonoSLAM stores these patches to provide a template for matching against a newly obtained 2D image at a later stage. Because the patches are never updated and remain in memory, long term localisation is possible. The \textit{innovation search} in Figure~\ref{fig:system} uses the measurement model to obtain a search area around which the system expects an initialised feature should be.
 
-With regard to the management of the probabilistic map (block named ``Map Management" in Figure~\ref{fig:system}), it remains essential to the SLAM algorithm that decisions regarding the identification and deletion of landmarks be accurate and efficient. MonoSLAM's map-maintenance criterion demands that 12 reliable ``good" features be visible within the camera's field of view in order to maintain accurate localisation. A good feature implies that a feature remains visible within the camera's field of view. A new feature is initialised using the image operator of Shi and Tomasi~\cite{shitom} upon a box of pixels (80 $\times$ 60 pixels) placed within an image. This box position is chosen at random with the constraints that it shouldn't overlap with any existing features and that according to the camera's linear and angular velocities, features cannot immediately disappear from the camera's field of view. If a visible feature is unsuccessfully matched more than 50\% of the time, the landmark is deleted. It must be stressed that the aforementioned methods regarding vision based MonoSLAM measurements and map-management are described and implemented in this project exactly as they are in ~\cite{dav2007}. 
+With regard to the management of the probabilistic map, it remains essential to the SLAM algorithm that decisions regarding the identification and deletion of landmarks be accurate and efficient. MonoSLAM's map-maintenance criterion demands that 12 reliable ``good" features be visible within the camera's field of view in order to maintain accurate localisation. A good feature implies that a feature remains visible within the camera's field of view. A new feature is initialised using the image operator of Shi and Tomasi~\cite{shitom} upon a box of pixels (80 $\times$ 60 pixels) placed within an image. This box position is chosen at random with the constraints that it shouldn't overlap with any existing features and that it remains in the camera's field of view. If a visible feature is unsuccessfully matched more than 50\% of the time, the landmark is deleted. It must be stressed that the aforementioned methods regarding vision based MonoSLAM measurements and map-management are described and implemented in this project exactly as they are in ~\cite{dav2007}. 
 
 %The ultimate goal of the approach presented here, is to obtain a probabilistic three dimensional (3D) map of features, representing at every time instance, the estimates of both the state of the camera as well as the cartesian positions of every feature observed. This scenario is one approach of the previously discussed SLAM problem. Such a problem, is typically solved through the utilisation of the EKF. The goal of a single camera based SLAM algorithm (Monocular vision based SLAM), is to ultimately realise the objective of obtaining the aforementioned probabilistic map, through the utilisation of a single camera as achieved by Davison et al.~\cite{dav2007}. Various \textbf{successful} SLAM algorithms exist that utilise sensors other than cameras (laser range finders, ultrasonic sensors etc.)~\cite{2dlaser,ultra,lidar}. 
 
 %Cameras though, prove a capable yet economical alternative to these sensors. Another successful and popular SLAM implementation is stereo vision (two calibrated cameras), yet the obvious disadvantage regarding such an approach is that double the cost is required as opposed to a single camera approach. Also, the calibration setup of a stereo vision system is generally quite complex. \\  
 
-%It can be argued though, that the general approach presented in~\cite{dav2007} - more commonly referred to as \textit{MonoSLAM} - as well as the variants thereof ~\cite{idp,scale2010,highspeed2008,sola} can be improved through the utilisation of additional information regarding the motion of the robot. As previously discussed, the MonoSLAM system utilises a single camera as its only sensor. Apart from the inability to immediately estimate depth, a MonoSLAM system possesses no knowledge regarding its movement. The approach presented in this paper then, seeks to utilise exactly such information through the utilisation of an inertial measurement unit (IMU) as an extension to the original implementation. IMU's have been successfully implemented in SLAM based systems before, as implemented in ~\cite{IMU}. With the addition of an IMU, information regarding the changes in movement and orientation of the camera (namely the linear accelerations and the angular rates) can be obtained and directly \textit{observed}. Ultimately, the stochastic constant velocity motion model of the general MonoSLAM algorithm can then be replaced with a kinematic estimation based motion model - one that is initially assumed to be more accurate - as it contains a considerably larger amount of information directly associated with a robot's movement.\\\\ 
+%It can be argued though, that the general approach presented in~\cite{dav2007} - more commonly referred to as \textit{MonoSLAM} - as well as the variants thereof ~\cite{idp,scale2010,highspeed2008,sola} can be improved through the utilisation of additional information regarding the motion of the robot. As previously discussed, the MonoSLAM system utilises a single camera as its only sensor. Apart from the inability to immediately estimate depth, a MonoSLAM system possesses no knowledge regarding its movement. The approach presented in this paper then, seeks to utilise exactly such information through the utilisation of an inertial measurement unit (IMU) as an extension to the original implementation. IMU's have been successfully implemented in SLAM based systems before, as implemented in ~\cite{IMU}. With the addition of an IMU, information regarding the changes in movement and orientation of the camera (namely the linear accelerations and the angular velocities) can be obtained and directly \textit{observed}. Ultimately, the stochastic constant velocity motion model of the general MonoSLAM algorithm can then be replaced with a kinematic estimation based motion model - one that is initially assumed to be more accurate - as it contains a considerably larger amount of information directly associated with a robot's movement.\\\\ 
 
 %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \newpage
 \subsection{State Representation}
-As previously mentioned, state variables represent the mathematical ``state" of system. In order to calculate a belief distribution, the system must possess a model to predict future states. This model previously discussed as the state transition probability is commonly referred to as the \textit{motion model}. All relevant states are embedded within the state vector $\textbf{{x}}_t$. The state vector is defined at each timestep and consists of the robot's \textit{actual} pose and the \textit{actual} landmark positions within the map.\\
-Mathematically, the probabilistic map is typically represented as a state \textit{estimate} that consists of a mean state vector $\boldsymbol{\mu}_t$ and a covariance matrix $\boldsymbol{\Sigma}_{t}$, the subscript $t$ denotes a particular time instance. The mean state vector is a single column vector containing the means of the estimates of the robot as well as the landmark positions, and the covariance matrix is a square matrix containing the covariances of each state with respect to every other state. These quantities can be mathematically shown according to the book Probabilistic Robotics by Thrun et al.~\cite{probrob}:
+With reference to Chapter~\ref{sec:state}, state variables represent the mathematical ``state" of system. In order to calculate a belief distribution, the system must possess a model to predict future states. This model previously introduced as the state transition probability is commonly referred to as the \textit{motion model}. All relevant states are embedded within the state vector $\textbf{{x}}_t$. The state vector is defined at each timestep and consists of the robot's \textit{actual} pose and the \textit{actual} landmark positions within the map.\\
+Mathematically, the probabilistic map is typically represented as a state \textit{estimate} that consists of a mean state vector $\boldsymbol{\mu}_t$ and a covariance matrix $\boldsymbol{\Sigma}_{t}$, represented at each time instance $t$. The mean state vector is a single column vector containing the means of the estimates of the robot as well as the landmark positions, and the covariance matrix is a square matrix containing the covariances of each state estimate with respect to every other state estimate. These quantities can be mathematically shown according to the book Probabilistic Robotics by Thrun et al.~\cite{probrob}:
 
 \begin{equation}
 \boldsymbol{\mu}_t = 
@@ -662,7 +662,7 @@ Mathematically, the probabilistic map is typically represented as a state \texti
 These quantities then allow us to approximate the uncertainty regarding the generated feature map as a $N$-dimensional single multi-variate Gaussian distribution, where $N$, as stated above, is the total number of state estimates within the state vector and $n$ is the total number of landmarks within the map.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsubsection{Position State Representation}
-The camera position state $\textbf{x}_v$ represents all relevant information regarding the camera's position and orientation in a 3D space. The position state vector is comprised of the 3D position vector, $\textbf{{r}}^W$, the unit orientation \textit{quaternion} $\textbf{{q}}^{WC}$ and the linear velocity vector, $\textbf{V}^W$ representing the first derivatives of the position vector. The state camera vector - comprising 10 individual states - is mathematically described as follows:
+The camera position state $\textbf{x}_v$ represents all relevant information regarding the camera's position and orientation in a 3D space. The position state vector is comprised of the 3D position vector $\textbf{{r}}^W$, the unit orientation \textit{quaternion} $\textbf{{q}}^{WC}$ and the linear velocity vector, $\textbf{v}^W$ representing the first derivatives of the position vector. The state camera vector - comprising 10 individual states - is described as presented in a study by Davison et al.~\cite{dav2007}:
 \begin{equation}
 \label{eq:camvec}
 \textbf{{x}}_v=  
@@ -683,9 +683,9 @@ A quaternion, as previously mentioned, represents the camera's orientation. Quat
 \begin{equation}
 \textit{q}_{0,t}^2 + \textit{q}_{1,t}^2 + \textit{q}_{2,t}^2 + \textit{q}_{3,t}^2 = 1.
 \end{equation}
-When a robot's orientation changes, the process of computing the quaternions that causes this orientation change involves obtaining an angle-axis as well as a magnitude by which this axis is to be rotated. This process is described later in this chapter with reference to the state transition model.
+When a robot's orientation changes, the process of computing the quaternions that causes this orientation change involves obtaining an angle-axis as well as a magnitude by which this axis is to be rotated. This process is described later in this chapter with reference to the state transition model probability.
 
-Often, the modelling of dynamic systems require that additional parameters - apart from those describing the position and orientation of the robot - be included in the state vector along with the position state vector. This is illustrated in Equation~\ref{eq:camvec}, where the linear velocity vector, $\textbf{v}^W$, forms the additional information required for system modelling. This is due to the control inputs, which are of such a nature that intermediary state (namely the linear velocity) is required to describe the control input's effect on the actual position. 
+Often, the modelling of dynamic systems require that additional parameters - apart from those describing the position and orientation of the robot - be included in the state vector. This is illustrated in Equation~\ref{eq:camvec}, where the linear velocity vector, $\textbf{v}^W$, forms the additional information required for system modelling. This is due to the equivalent control input, that is of such a nature that an intermediary state (namely the linear velocity) is required to describe the control input's effect on the actual position. 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%   
@@ -752,13 +752,12 @@ where $K_1$ and $r$ represent the radial distortion parameters.
 %\textbf{Still reading up on some literature before properly defining this section}
 The following concept describes the dynamics to the system as a result of external influences. Upon considering the original MonoSLAM approach, it is evident that there are no \textit{observable} control inputs. The approach presented in this paper though, aims to use measurements obtained through an IMU as an equivalent control input in order to derive a motion model that is potentially more accurate than the implementation of Davison et al.~\cite{dav2007}.
 
-In most instances of robotics, it is essential to describe the dynamics involving a robot's movement. In the context of this paper, the robot/camera is free to move as it pleases. Evidently, these requests exert forces upon the robot which are unknown to the system.
+In most instances of robotics, it is essential to describe the dynamics involving a robot's movement. In the context of this paper, the robot (camera) is free to move as it pleases. %Evidently, these requests exert forces upon the robot which are unknown to the system. 
+In the approach presented by Davison et al., a constant velocity model is assumed and at each time step, unknown linear and angular acceleration zero-mean, Gaussian processes are introduced that cause linear and angular velocity impulses. The model contains very little, if any information about the movement of the camera. It can be assumed that utilising additional information regarding the camera's movement will provide greater accuracy upon state estimation.
 
-In the approach presented by Davison et al., a constant velocity model is assumed and at each timestep, unknown linear and angular acceleration zero-mean, Gaussian processes are introduced that cause linear and angular velocity impulses. The model contains very little, if any information on the movement of the camera. It can be assumed that utilising additional information regarding the camera's movement will provide greater accuracy upon state estimation.
+The IMU is comprised of inertial sensors, namely the accelerometer and gyroscope, that are mounted onto the camera. This allows the camera to be modelled as a rigid body upon which a kinematic estimation can be applied. The IMU directly measures the total acceleration $\textbf{f}_t$ as well as the total angular velocities $\boldsymbol{\psi}_t$ with respect to the camera's rigid body frame $C$. 
 
-The inertial sensors, namely the accelerometer and gyroscope, are mounted onto the camera. This allows the camera to be modelled as a rigid body upon which a kinematic estimation can be applied. The IMU directly measures the total acceleration $\textbf{f}_t$ as well as the total angular rates $\boldsymbol{\psi}_t$ with respect to the camera's rigid body frame $C$. 
-
-The measured acceleration and gyroscope measurements form the \textit{equivalent control vector} $\textbf{{u}}_t$ that describes, at each timestep, the external forces exerted on the system with additive noise. The control vector equivalent is adapted as follows:
+The measured acceleration and gyroscope measurements form the \textit{equivalent control vector} $\textbf{{u}}_t$ that describes, at each time step, the external forces exerted on the system with noise. The control vector equivalent is adapted as follows:
 
 \begin{equation}
 \textbf{u}_t = 
@@ -776,7 +775,7 @@ f_{z,t}&
 \end{pmatrix}^T.
 \end{equation}
 
-Because the IMU measures the actual movements through sensors, namely an accelerometer and a gyroscope, the process noise is embedded within these measurements. Moreover, the uncertainty regarding the transition model, namely the process noise, is all incorporated within the noise measurements of the IMU. This noise can be modelled as a zero mean, Gaussian RV's $\textbf{w}_t$ with a corresponding covariance matrix $\textbf{R}_w$. The system noise can be then be mathematically described as follows:
+Because the IMU measures the actual movements through sensors, namely an accelerometer and a gyroscope, the process noise is embedded within these measurements. Moreover, the uncertainty regarding the state transition model probability, namely the process noise, is all incorporated within the noise measurements of the IMU. This noise can be modelled as a zero mean, Gaussian RV's $\textbf{w}_t$ with a corresponding covariance matrix $\textbf{R}_w$. Because changes in orientation incorporates additional uncertainty to the system, this covariance matrix is required to be updated at each time step. The system noise can be then be mathematically described as follows:
  
 \begin{equation} \label{eq:pertn}
 \textbf{w}_t =
@@ -788,14 +787,28 @@ Because the IMU measures the actual movements through sensors, namely an acceler
 \end{pmatrix}^T,
 \end{equation}
 with the aforementioned noise model is assumed to be a Gaussian random variable for each of the above elements.  
-   
-The Kinematic estimatior however, requires that the linear portion of the total acceleration $\textbf{f}_t$ be obtained from the IMU measurement. It is known that the total acceleration measured by the IMU's accelerometer is adapted from a study presented by Servent et. al~\cite{IMU}:
+
+Furthermore the covariance matrix corresponding to the process noise is defined as follows:
+
+\begin{equation}\label{eq:proR}
+\textbf{R}_w =  
+\begin{pmatrix}
+n_{a_x,t}& 0 & 0 & 0 & 0 & 0 \\
+0& n_{a_y,t} & 0 & 0 & 0 & 0 \\
+0& 0 & n_{a_z,t} & 0 & 0 & 0 \\
+0& 0 & 0 & n_{\psi_{x},t} & 0 & 0 \\
+0& 0 & 0 & 0 & n_{\psi_{y},t} & 0 \\
+0& 0 & 0 & 0 & 0 & n_{\psi_{z},t} \\
+\end{pmatrix} ^2.
+\end{equation}
+
+The Kinematic estimator however, requires that the linear portion of the total acceleration $\textbf{f}_t$ be obtained from the IMU measurement. It is known that the total acceleration measured by the IMU's accelerometer is adapted from a study presented by Servent et. al~\cite{IMU}:
 
 \begin{equation}\label{eq:acc}
 \textbf{f}_t = \textbf{\text{R}}^{CW}(\textbf{a}^C_t + \textbf{g}),
 \end{equation}
 with $\textbf{a}_t$ is the linear acceleration vector with respect to the cameras reference frame $C$, $\textbf{g}$ is the gravity vector and $\textbf{\text R}^{CW}$ is the rotation matrix that transforms the camera's body coordinate frame $C$, into the inertial reference frame $W$.\\
-The rotation matrix is defined according to~\cite{models}:
+The rotation matrix is defined according to a tutorial presented by Davison~\cite{models}:
 \begin{equation}
 \textbf{R}^{CW} = 
 \begin{pmatrix}
@@ -816,30 +829,33 @@ where $\textbf{R}^{WC}$ is the inverse of the rotation matrix $\textbf{R}^{CW}$ 
 \textbf{R}^{WC}=(\textbf{R}^{CW})^{-1}=  (\textbf{R}^{CW})^T.
 \end{equation}
 
-The rotation in Equation~\ref{eq:lina} presents an uncertainty that cannot be modelled as the additive noise defined in Equation~\ref{eq:pertn}. Incorporating the uncertainty regarding this uncertainty is discussed in Chapter~\ref{sec:covup}. 
+The rotation in Equation~\ref{eq:lina} presents an uncertainty that cannot be modelled as the additive noise defined in Equation~\ref{eq:pertn}. Incorporating this uncertainty is discussed in Chapter~\ref{sec:covup}.
+%with the perturbation levels $n_{w,t}$ as defined in equation~\ref{eq:pertn}.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \newpage
-\subsection{Control Update}
-This section presents the necessary steps to incorporate the control update of the EKF.
-
-The state transition model is assumed to take the form of a Markov process, yielding that the current state $\textbf{{x}}_{t}$ is only dependent upon the state immediately preceding it - $\textbf{{x}}_{t-1}$ - as well as the input control $\textbf{{u}}_t$. Additionally, the uncertainty regarding the state transition model is independent of the uncertainty regarding both the observation model as well as that of the probabilistic map itself.
+\subsection{Control Update Step}
+With reference to the probabilistic form of the solution to the SLAM problem, the control update step requires a description in terms of a belief distribution. The description of the aforementioned belief, in terms of the probability distribution on the state transitions, is described in Equation~\ref{eq:belief} and repeated for convenience :
+\begin{equation}
+\overline {bel}(\textbf{x}_t) = \int p(\textbf{x}_t\hspace{0.1cm}|\hspace{0.1cm}\textbf{u}_{t},\hspace{0.1cm}\textbf{x}_{t-1})bel(\textbf{x}_{t-1})\hspace{0.1cm}d\textbf{x}_{t-1} ,
+\end{equation}
+The state transition model however, assumes the form of a Markov process, yielding that the current state $\textbf{{x}}_{t}$ is only dependent upon the state immediately preceding it - $\textbf{{x}}_{t-1}$ - as well as the input control $\textbf{{u}}_t$. Additionally, the uncertainty regarding the state transition model is independent of the uncertainty regarding both the observation model. This allows an implementation of the Bayes filter to be used, more specifically the EKF. This section presents the necessary steps to incorporate the control update of the EKF. 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\subsubsection{State Transition Model} 
+\subsubsection{State Transition Probability Model} 
 The description of the aforementioned state transition model can then, in terms of the probability distribution on the state transitions, take the following form:
 \begin{equation}
 \begin{split}
 p(\textbf{{x}}_t\hspace{0.15cm}|\hspace{0.15cm}\textbf{x}_{t-1}, \textbf{u}_t)&=\cfrac{1}{\sqrt{|2\pi\textbf{R}_w|}}\hspace{0.1cm}\text{exp}\hspace{0.1cm}\bigg\{ \frac{1}{2}\big[\textbf{{x}}_t-g(\textbf{u}_t, \hspace{0.1cm}\boldsymbol{\mu}_{t-1}) - \textbf{G}_t^{\textbf{x}_{t-1}}(\textbf{x}_{t-1} - \boldsymbol{\mu}_{t-1})\big]^T\\
-\textbf{R}^{-1}_w&\big[\textbf{{x}}_t-g(\textbf{u}_t, \hspace{0.1cm}\boldsymbol{\mu}_{t-1}) - \textbf{G}_t^{\textbf{x}_{t-1}}(\textbf{x}_{t-1} - \boldsymbol{\mu}_{t-1})\big]\bigg \},
+&\textbf{R}^{-1}_w\big[\textbf{{x}}_t-g(\textbf{u}_t, \hspace{0.1cm}\boldsymbol{\mu}_{t-1}) - \textbf{G}_t^{\textbf{x}_{t-1}}(\textbf{x}_{t-1} - \boldsymbol{\mu}_{t-1})\big]\bigg \}
 \end{split},
 \end{equation} 
 where $\textbf{G}_t^{\textbf{x}_{t-1}}$ represents the Jacobian of the state transition motion and $\textbf{R}_w$ is the process noise.
 
-As previously discussed, the EKF requires a state transition (motion) model in order to obtain the mean estimate $ \boldsymbol{\bar \mu}_t$, of  current state of the system. In short, the motion model describes the transition from the previous state to the following state with regard to the robot’s kinematic motion as well as the control inputs. In order to derive the state transition model for the system at hand, it is vital that the certain characteristics of the system be understood. Firstly, the robot system - from here on in to be referred to as the \textbf{camera} - is comprised of a monocular camera and an attached IMU package. Secondly, the camera is to be considered as a six degree of freedom (DOF) rigid body. Briefly the six DOF describe the camera's three \textit{translational} and three \textit{rotational} degrees of freedom. 
+With reference to Chapter~\ref{sec:EKF}, the EKF requires a state transition probability model in order to obtain the mean estimate $ \boldsymbol{\bar \mu}_t$, of  current state of the system. In short, the state transition probability model describes the transition from the previous state to the following state with regard to the robot’s kinematic motion as well as the control inputs. In order to derive the state transition model for the system at hand, it is vital that certain characteristics of the system be understood. Firstly, the robot system - from here on in to be referred to as the \textbf{camera} - is comprised of a monocular camera and an attached IMU package. Secondly, the camera is to be considered as a six degree of freedom (DOF) rigid body. Briefly the six DOF describe the camera's three \textit{translational} and three \textit{rotational} degrees of freedom. 
 
-We therefore set out to define a kinematic estimation based motion model - using Newton's laws of motion - to describe the camera's movement through the environment as a result of initially unknown, external inputs to the system. Lastly, it should be stressed that embedded within the motion model should be the impacts of uncertainty through both internal and external factors.
+We therefore set out to define a kinematic estimation based state transition probability model - using Newton's laws of motion - to describe the camera's movement through the environment as a result of initially unknown, external inputs to the system. Lastly, embedded within the motion model should be the impacts of uncertainty through both internal and external factors (noise).
 
-A derivation for the suitable motion model will obtained before a first order Taylor approximation is obtained as required by the EKF. The states and control inputs:
+A derivation for the suitable motion model will be obtained before a first order Taylor approximation is obtained as required by the EKF. recall the states and control inputs (equivalents):
 
 \begin{equation}
 \begin{split}
@@ -868,7 +884,7 @@ Considering that the EKF is a recursive, numerical evaluation, it is necessary t
 \end{equation}  
 Newton's second law of motion, describing the relationship between a body's mass and its acceleration, is used to derive the linear motion model after which the aforementioned method of discretisation is applied to obtain the discrete motion model. A full derivation of the linear state transition model is shown in Appendix~\ref{App:Concepts}.
 
-The non-linear state transition function of the kinematic estimator $\textbf{g}(\textbf{u}_{t},\textbf{x}_{t-1})$ is defined at the current time $t$, is dependent on both the current control input equivalents $\textbf{u}_t$ as well as the actual states $\textbf{x}_{t-1}$. The non-linear behaviour is a result of the change in orientation of the camera. The state transition function is defined adapted from a tutorial presented by Davison~\cite{models}:
+The non-linear state transition function of the kinematic estimator $\textbf{g}(\textbf{u}_{t},\textbf{x}_{t-1})$ is defined at the current time $t$, is dependent on both the current control input equivalents $\textbf{u}_t$ as well as the actual states $\textbf{x}_{t-1}$. The non-linear behaviour is a result of the change in orientation of the camera. The state transition function is defined and adapted from a tutorial presented by Davison~\cite{models}:
 \begin{equation} \label{eq:trmod}
 \begin{split}
 \textbf{g}(\textbf{u}_{t},\textbf{x}_{t-1}) =
@@ -891,9 +907,9 @@ The non-linear state transition function of the kinematic estimator $\textbf{g}(
 \end{equation}
 where $\text{quat}\big(\boldsymbol{\omega}_t^C\Delta T\big)$ denotes the process of obtaining the quaternions of the rotation $\boldsymbol{\omega}_t^C\Delta T$ and $\Delta T$ is defined as the sample period between the previous time $t-1$ and $t$.  
 
-The angular rates $\boldsymbol{\omega}_t^C$ and the linear accelerations $\textbf{a}_{t-1}^W$ are measured from the control input equivalent $\textbf{u}_t$ and the position $\textbf{r}^{W}_{t-1}$, linear velocity $\textbf{v}^{W}_{t-1}$ and the orientation quaternion $\textbf{q}_{t-1}^{WC}$ - and subsequently the rotation matrix $ \textbf{R}_{t-1}^{CW}$ - are obtained from the previous state vector.\\
+The angular velocities $\boldsymbol{\omega}_t^C$ and the linear accelerations $\textbf{a}_{t-1}^W$ are measured from the control input equivalent $\textbf{u}_t$ and the position $\textbf{r}^{W}_{t-1}$, linear velocity $\textbf{v}^{W}_{t-1}$ and the orientation quaternion $\textbf{q}_{t-1}^{WC}$ - and subsequently the rotation matrix $ \textbf{R}_{t-1}^{CW}$ - are obtained from the previous state vector.\\
 
-In order to compute the quaternions, the rate at which the camera's rotational degrees of freedom are changing is required. The control input equivalent measurements from the gyroscope however, measure exactly this quantity - the angular rate. The angular rate is subsequently numerically integrated in order to obtain the angular position $\boldsymbol{\theta}_t$, before the quaternion is taken thereof. As previously mentioned, an angle-axis as well as a magnitude by which this axis is to be rotated is required to compute a quaternion. The angle-axis $\boldsymbol{\gamma}_t$ is defined as at a particular time instance $t$~\cite{models}:
+In order to compute the quaternions, the rate at which the camera's rotational degrees of freedom are changing is required. The control input equivalent, measure exactly this quantity from the gyroscope - the angular velocity. The angular velocity is subsequently numerically integrated in order to obtain the angular position $\boldsymbol{\theta}_t$, before the quaternion is taken thereof. As previously mentioned, an angle-axis as well as a magnitude by which this axis is to be rotated is required to compute a quaternion. The angle-axis $\boldsymbol{\gamma}_t$ is defined at a particular time instance $t$ according to a tutorial presented by Davidson~\cite{models}:
 \begin{equation} \label{eq:axis}
 \begin{split}
 \boldsymbol{\gamma}_t &= \begin{pmatrix}
@@ -922,7 +938,7 @@ where $\omega_{t,\beta}$, $\beta \in \{X, Y, Z\}$ denotes the angular velocity a
 \textbf{q} = \bigg(\cos \frac{\alpha}{2} \hspace{0.4cm} \frac{\theta_x}{\norm{\boldsymbol{\theta}}}\sin\frac{\alpha}{2} \hspace{0.4cm} \frac{\theta_y}{\norm{\boldsymbol{\theta}}}\sin\frac{\alpha}{2} \hspace{0.4cm} \frac{\theta_z}{\norm{\boldsymbol{\theta}}}\sin\frac{\alpha}{2} \bigg)^T.
 \end{equation}
 
-A quaternion multiplication between the quaternion $\textbf{q}^{WC}_{t-1}$ and the angle-axis rotation quaternion in Equation~\ref{eq:quat} represents the product of the two rotation matrices each quaternion represents. This quaternion multiplication is dented by the $\otimes$ operator in equation~\ref{eq:trmod} is formally defined according to a tutorial presented by Davidson~\cite{models}:
+A quaternion multiplication between the quaternion $\textbf{q}^{WC}_{t-1}$ and the angle-axis rotation quaternion in Equation~\ref{eq:quat} represents the product of the two rotation matrices each quaternion represents. This quaternion multiplication is denoted by the $\otimes$ operator in equation~\ref{eq:trmod} is formally defined according to a tutorial presented by Davidson~\cite{models}:
 
 \begin{equation}
 \begin{split}
@@ -948,9 +964,11 @@ A quaternion multiplication between the quaternion $\textbf{q}^{WC}_{t-1}$ and t
 \end{pmatrix}
 \end{split}.
 \end{equation}
+This completes the steps necessary to implement the state transition probability model. 
+\newpage
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsubsection{Mean Estimate}\label{sec:kinest}
-The control update uses the previously defined state transition function to obtain a state estimate $\boldsymbol{\bar \mu}_t$ at the current time instance. This procedure is shown in Step 1 of Table~\ref{tab:EKF}. Recalling Equation~\ref{eq:trmod}, the state transition function is dependent on both the current equivalent control inputs as well as the actual states to obtain a suitable state estimate:
+The control update uses the previously defined state transition probability function to obtain a state estimate $\boldsymbol{\bar \mu}_t$ at the current time instance. This procedure is shown in Step 1 of Table~\ref{tab:EKF}. Recalling Equation~\ref{eq:trmod}, the state transition function is dependent on both the current equivalent control inputs as well as the actual states to obtain a suitable state estimate:
 
 \begin{equation} \label{eq:trmod1}
 \begin{split}
@@ -963,17 +981,17 @@ The control update uses the previously defined state transition function to obta
 \end{split}.
 \end{equation}
 
-It is worthwhile to note that the equivalent control inputs (which are the measurements from the IMU) incorporate process noise that is modelled accordingly in the covariance update in Chapter~\ref{sec:covup}.
+It is worthwhile to note that the equivalent control inputs (which are the measurements from the IMU) incorporates zero-mean process noise but is modelled accordingly in the covariance update in Chapter~\ref{sec:covup}.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsubsection{Covariance Update}\label{sec:covup}
-Before the control update can be concluded, the covariance matrix $\boldsymbol{\bar \Sigma_t}$, corresponding to the previously determined mean vector $\boldsymbol{\bar \mu_t}$ is required to be updated as a result of the linearisation process undertaken by the EKF. This procedure is denoted in Step 2 of Table~\ref{tab:EKF}. It can be noticed that the previously described Jacobian matrix of $\textbf{g}(\textbf{u}_{t},\textbf{x}_{t-1})$ is thus required to realise this procedure. The Jacobian matrix $\textbf{G}_t^{\textbf{x}_{t-1}}$ can be mathematically defined using Equation~\ref{eq:par}:
+Before the control update can be concluded, the covariance matrix $\boldsymbol{\bar \Sigma_t}$, corresponding to the previously determined mean vector $\boldsymbol{\bar \mu_t}$ is required to be updated as a result of the linearisation process undertaken by the EKF. This procedure is denoted in Step 2 of Table~\ref{tab:EKF}. It can be noticed that the previously described Jacobian matrix of $\textbf{g}(\textbf{u}_{t},\textbf{x}_{t-1})$ evaluated at the predicted mean $\boldsymbol{\mu}_{t-1} $ is thus required to realise this procedure. The Jacobian matrix $\textbf{G}_t^{\textbf{x}_{t-1}}$ can be mathematically defined using Equation~\ref{eq:par}:
 
 \begin{equation} \label{eq:jacG}
 \textbf{G}_t^{\textbf{x}_{t-1}} = \frac{\partial \textbf{g}(\textbf{u}_{t},\textbf{x}_{t-1})}{\partial \textbf{x}_{t-1}}\bigg|_{\textbf{x}_{t-1}= \boldsymbol{\mu}_{t-1}} 
 =\begin{pmatrix}
 \frac{\partial \textbf{r}^W_t}{\partial \textbf{r}^W_{t-1}} & \boldsymbol{0} & \frac{\partial \textbf{r}^W_{t}}{\partial \textbf{v}^W_{t-1}}\\
 \boldsymbol{0} & \frac{\partial \textbf{q}^{WC}_{t}}{\partial \textbf{q}^{WC}_{t-1}} & \boldsymbol{0}  \\
-\frac{\partial \textbf{v}^W_{t}}{\partial \textbf{r}^W_{t-1}}& \boldsymbol{0} & \frac{\partial \textbf{v}^W_{t}}{\partial \textbf{v}^W_{t-1}}  \\
+\boldsymbol{0} & \boldsymbol{0} & \frac{\partial \textbf{v}^W_{t}}{\partial \textbf{v}^W_{t-1}}  \\
 \end{pmatrix}, 
 \end{equation}   
 with the non-zero elements of the Jacobian further trivially defined as follows (and according to the model defined in Equation~\ref{eq:trmod}),
@@ -996,7 +1014,7 @@ and
 0 & 0 & 1\\
 \end{pmatrix} = \Delta T\hspace{0.2cm}\textbf{I}.
 \end{equation}
-The specially defined Jacobian with a partial derivative that is taken with respect to a quaternion however, requires a more intricate solution. The process of defining a new quaternion from the measured angular rate $\boldsymbol{\omega}_t^C$ - is shown in Equation~\ref{eq:cat}%as denoted in Equation~\ref{eq:trmod} can be more formally defined from a tutorial a tutorial presented by Davison~\cite{models}:
+The specially defined Jacobian with a partial derivative that is taken with respect to a quaternion however, requires a more intricate solution. The process of defining a new quaternion from the measured angular velocity $\boldsymbol{\omega}_t^C$ - is shown in Equation~\ref{eq:quat}%as denoted in Equation~\ref{eq:trmod} can be more formally defined from a tutorial a tutorial presented by Davison~\cite{models}:
 
 \begin{equation}
 %\begin{split}
@@ -1016,21 +1034,30 @@ Hereafter, the final non zero element of the Jacobian can be defined in terms of
  q^C_{4,t}& -q^C_{3,t} &  q^C_{2,t} &  q^C_{1,t} \\
 \end{pmatrix}.
 \end{equation}
+%\textcolor{blue}{TODO: show noise uncertainty that i used in practical application}
+In order to complete the covariance update, the process noise covariance is still required to be updated. The additive process noise is captured by the IMU measurements and modelled as a zero-mean Gaussian process. The noise covariance $\textbf{R}_w$ however, incorporates additional uncertainty regarding the processing of the linear acceleration $\textbf{a}_t$ from the total acceleration $\textbf{f}_t$ :
 
-\textcolor{blue}{TODO: show noise uncertainty that i used in practical application}
-%In order to complete the covariance update, the process noise covariance is still required to be updated. The process noise is captured by the IMU measurements and modelled as a zero-mean Gaussian process. The noise covariance $\textbf{R}_w$ however, incorporates additional uncertainty regarding the processing of the linear acceleration $\textbf{a}_t$ from the total acceleration $\textbf{f}_t$. :
-%\begin{equation}\label{eq:proR}
-%\textbf{R}_w = \frac{\partial \textbf{}}{} 
-%%\begin{pmatrix}
-%%n_{\ddot{x},t}& 0 & 0 & 0 & 0 & 0 \\
-%%0& n_{\ddot{y},t} & 0 & 0 & 0 & 0 \\
-%%0& 0 & n_{\ddot{z},t} & 0 & 0 & 0 \\
-%%0& 0 & 0 & n_{\omega_{x},t} & 0 & 0 \\
-%%0& 0 & 0 & 0 & n_{\omega{y},t} & 0 \\
-%%0& 0 & 0 & 0 & 0 & n_{\omega{z},t} \\
-%%\end{pmatrix} ^2,
-%\end{equation}
-%with the perturbation levels $n_{w,t}$ as defined in equation~\ref{eq:pertn}.
+\begin{equation}
+\label{eq:Rt}
+\begin{split}
+\textbf{R}_{w,t} &= 
+\frac{\partial \textbf{g}(\textbf{u}_{t},\boldsymbol{\mu}_{t-1})}{\partial \textbf{w}_{t-1}} 
+\textbf{R}_{w_{t-1}}
+\frac{\partial \textbf{g}(\textbf{u}_t,\boldsymbol{\mu}_{t-1})}{\partial \textbf{w}_{t-1}}^T \\  
+&= \begin{pmatrix}
+\textbf{I} \Delta T & \boldsymbol{0} \\
+\boldsymbol{0} &  \frac{\partial \textbf{q}^{WC}_{t}}{\partial \boldsymbol{\omega}^{C}_{t-1}} \\
+\end{pmatrix} \textbf{R}_{w_{t-1}}
+ \begin{pmatrix}
+\textbf{I} \Delta T & \boldsymbol{0} \\
+\boldsymbol{0} &  \frac{\partial \textbf{q}^{WC}_{t}}{\partial \boldsymbol{\omega}^{C}_{t-1}} \\
+\end{pmatrix}^T
+\end{split},
+\end{equation}
+
+where the Jacobian element $\frac{\partial \textbf{q}^{WC}_{t}}{\partial \boldsymbol{\omega}^{C}_{t-1}}$ incorporates an uncertainty due to rotations.
+
+This completes the deviations necessary to fully incorporate the control update step of the EKF.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \newpage
 \subsection{Measurement Update}
@@ -1228,7 +1255,7 @@ Register & Value & Name & Function \\
 The IMU sensors can now be measured and subsequently converted from analog to digital values and transferred to the PC. Both devices (accelerometer and gyroscope) are set a 10 bit resolution. This means that the analog value will be represented as 10 bits and each measurement will be stored in two separate bytes (16 bits). There are a total of 6 IMU measurements - 3 from the gyroscope and 3 from the accelerometer. %A suitable baud rate must also be determined to ensure these measurement are sent to the PC within the sample period.
 %The I2C protocol for the IMU~\cite{gyro} suggests that 60 bits per measurement are required. 
 \subsubsection{Gyroscope Biases}
-Gyroscopes often have an offset on each individual axis that causes a \textit{bias}. These biases are unique to each device but can however be measured and subsequently subtracted from each measurement. The procedure for measuring such a bias is quite simple: the gyroscope is place flat on a surface and the angular rates are measured. The expected value on each axis should be zero but an averaging of the measurements will show a non-zero value as depicted in Figure~\ref{fig:gyrobias}. This value is the bias and needs to be subtracted from subsequent measurements.   
+Gyroscopes often have an offset on each individual axis that causes a \textit{bias}. These biases are unique to each device but can however be measured and subsequently subtracted from each measurement. The procedure for measuring such a bias is quite simple: the gyroscope is place flat on a surface and the angular velocities are measured. The expected value on each axis should be zero but an averaging of the measurements will show a non-zero value as depicted in Figure~\ref{fig:gyrobias}. This value is the bias and needs to be subtracted from subsequent measurements.   
 \begin{figure}[h]
 %\centering%\begin{center}
 \includegraphics[width=0.49\textwidth, height=0.45\textwidth]{Figures/Gyro_bias.png}
@@ -1239,7 +1266,7 @@ Gyroscopes often have an offset on each individual axis that causes a \textit{bi
 \subsection{Hardware Simulation}
 The performance of the hardware components of this project is requires analysis through physical measurements and simulation before being integrated into the final system. In order to successfully implement a project of this magnitude that incorporates several subsystems, it is essential that the design as well as analysis thereof is accurate. The components are initially designed to meet the relevant specifications. Thereafter, simulation and measurement equipment can be used to verify that the subsystems do indeed behave as predicted. This process will greatly simplify the final integration process. 
 
-In order to verify the functionality of the gyroscope measurements, the physical measurements need to be measured and analysed. It is very difficult to intuitively analyse an angular rate. The angular displacement however, is a much better test case upon verifying the gyroscope measurements. The IMU can be approximately rotated at known angles and the resulting angular rates can be numerically integrated to obtain the angular displacement. This is a suitable method of analysing whether the information obtained form the gyroscope measurements resemble the actual forces exerted upon it.
+In order to verify the functionality of the gyroscope measurements, the physical measurements need to be measured and analysed. It is very difficult to intuitively analyse an angular velocity. The angular displacement however, is a much better test case upon verifying the gyroscope measurements. The IMU can be approximately rotated at known angles and the resulting angular velocities can be numerically integrated to obtain the angular displacement. This is a suitable method of analysing whether the information obtained form the gyroscope measurements resemble the actual forces exerted upon it.
 
 \subsubsection{Test 1: Approximately Known Angular Displacements}
 The following set of test conditions will utilise actual gyroscope measurements. An approximately known angular displacements will be exerted upon the IMU e.g. rotate $90^{\circ}$ about the positive x-axis. The resulting gyroscope measurements will be plotted and analysed to verify its functionality.
@@ -1252,7 +1279,7 @@ The set of test conditions as are listed below (the measurements are sampled at 
 \item \textbf{Positive $360^{\circ}$ rotation about the z-axis:}\\
 \end{enumerate}
 
-Considering that the sample period is relatively small, the angular displacement $\Theta_t$ can be approximated in terms of the measured angular rates $\psi_t$ as follows:
+Considering that the sample period is relatively small, the angular displacement $\Theta_t$ can be approximated in terms of the measured angular velocities $\psi_t$ as follows:
 \begin{equation}
 \begin{split}
 \psi_t &= \cfrac{d\Theta_t}{dt}\\
@@ -1260,7 +1287,7 @@ Considering that the sample period is relatively small, the angular displacement
 \end{split}
 \end{equation}
 
-It can also be assumed that given the small sample period, the relationship between the angular displacement and the angular rate (velocity) can be approximated as linear.
+It can also be assumed that given the small sample period, the relationship between the angular displacement and the angular velocity (velocity) can be approximated as linear.
 \newpage
 \subsubsection{Test 1: Results}
 \begin{enumerate}

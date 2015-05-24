@@ -13,13 +13,13 @@
 \contentsline {section}{\numberline {3}System Overview}{13}
 \contentsline {subsection}{\numberline {3.1}Introduction}{13}
 \contentsline {subsection}{\numberline {3.2}MonoSLAM}{13}
-\contentsline {subsection}{\numberline {3.3}State Representation}{16}
-\contentsline {subsubsection}{\numberline {3.3.1}Position State Representation}{16}
-\contentsline {subsubsection}{\numberline {3.3.2}Feature Representation}{17}
-\contentsline {subsubsection}{\numberline {3.3.3}Sensor Model: Camera}{18}
-\contentsline {subsubsection}{\numberline {3.3.4}Control Input Equivalent}{20}
-\contentsline {subsection}{\numberline {3.4}Control Update}{22}
-\contentsline {subsubsection}{\numberline {3.4.1}State Transition Model}{22}
+\contentsline {subsection}{\numberline {3.3}State Representation}{15}
+\contentsline {subsubsection}{\numberline {3.3.1}Position State Representation}{15}
+\contentsline {subsubsection}{\numberline {3.3.2}Feature Representation}{16}
+\contentsline {subsubsection}{\numberline {3.3.3}Sensor Model: Camera}{17}
+\contentsline {subsubsection}{\numberline {3.3.4}Control Input Equivalent}{19}
+\contentsline {subsection}{\numberline {3.4}Control Update Step}{21}
+\contentsline {subsubsection}{\numberline {3.4.1}State Transition Probability Model}{21}
 \contentsline {subsubsection}{\numberline {3.4.2}Mean Estimate}{24}
 \contentsline {subsubsection}{\numberline {3.4.3}Covariance Update}{24}
 \contentsline {subsection}{\numberline {3.5}Measurement Update}{26}

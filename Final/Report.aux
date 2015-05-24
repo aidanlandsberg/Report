@@ -1,20 +1,9 @@
 \relax 
 \@newglossary{main}{glg}{gls}{glo}
-\citation{octomap}
-\citation{scale_visodom}
-\citation{step1}
-\citation{dav2007}
-\citation{cyril}
-\citation{dav2007}
-\citation{master}
-\citation{dav2007}
-\citation{create}
-\citation{create}
-\citation{imsrc}
 \providecommand*\caption@xref[2]{\@setref\relax\@undefined{#1}}
-\newlabel{accr}{{\caption@xref {accr}{ on input line 159}}{vii}}
-\newlabel{sym}{{\caption@xref {sym}{ on input line 188}}{viii}}
-\newlabel{not}{{\caption@xref {not}{ on input line 241}}{ix}}
+\newlabel{accr}{{\caption@xref {accr}{ on input line 159}}{v}}
+\newlabel{sym}{{\caption@xref {sym}{ on input line 188}}{vi}}
+\newlabel{not}{{\caption@xref {not}{ on input line 241}}{vii}}
 \citation{mars}
 \citation{indus}
 \citation{occupancy}
@@ -63,11 +52,13 @@
 \@writefile{toc}{\contentsline {section}{\numberline {2}Theory: Probabilistic State Estimation Techniques}{7}}
 \@writefile{toc}{\contentsline {subsection}{\numberline {2.1}Introduction}{7}}
 \@writefile{toc}{\contentsline {subsection}{\numberline {2.2}Recursive State Estimation}{7}}
+\newlabel{sec:state}{{2.2}{7}}
 \citation{probrob}
 \citation{probrob}
 \citation{probrob}
 \citation{probrob}
 \@writefile{toc}{\contentsline {subsection}{\numberline {2.3}Bayes filter}{8}}
+\newlabel{sec:bayes}{{2.3}{8}}
 \newlabel{eq:belief}{{2.1}{8}}
 \@writefile{lot}{\contentsline {table}{\numberline {2.1}{\ignorespaces The Bayes filter Algorithm\relax }}{8}}
 \newlabel{tab:BF}{{2.1}{8}}
@@ -77,8 +68,10 @@
 \citation{cyril}
 \citation{cyril}
 \@writefile{toc}{\contentsline {subsection}{\numberline {2.4}Gaussian Filters}{9}}
+\newlabel{sec:Gausfil}{{2.4}{9}}
 \newlabel{eq:normal}{{2.2}{9}}
 \@writefile{toc}{\contentsline {subsubsection}{\numberline {2.4.1}Kalman Filter}{9}}
+\newlabel{sec:KF}{{2.4.1}{9}}
 \newlabel{eq:SSmodelg}{{2.3}{9}}
 \newlabel{eq:SSmodelh}{{2.4}{9}}
 \citation{probrob}
@@ -100,10 +93,6 @@
 \citation{sola}
 \citation{ptam}
 \citation{dav2007}
-\citation{highspeed2008}
-\citation{scale2010}
-\citation{idp}
-\citation{dav2007}
 \@writefile{toc}{\contentsline {section}{\numberline {3}System Overview}{13}}
 \@writefile{toc}{\contentsline {subsection}{\numberline {3.1}Introduction}{13}}
 \@writefile{lof}{\contentsline {figure}{\numberline {8}{\ignorespaces System functional diagram also depicting the relevant subsystems.\relax }}{13}}
@@ -117,48 +106,51 @@
 \citation{probrob}
 \citation{dav2007}
 \citation{dav2007}
-\@writefile{toc}{\contentsline {subsection}{\numberline {3.3}State Representation}{16}}
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {3.3.1}Position State Representation}{16}}
-\newlabel{eq:camvec}{{3.2}{16}}
-\@writefile{lof}{\contentsline {figure}{\numberline {9}{\ignorespaces Graphical representation of the appropriate reference frames. Adapted from\nobreakspace  {}\cite  {dav2007}\relax }}{17}}
-\newlabel{fig:frame}{{9}{17}}
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {3.3.2}Feature Representation}{17}}
+\citation{dav2007}
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.3}State Representation}{15}}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {3.3.1}Position State Representation}{15}}
+\newlabel{eq:camvec}{{3.2}{15}}
+\@writefile{lof}{\contentsline {figure}{\numberline {9}{\ignorespaces Graphical representation of the appropriate reference frames. Adapted from\nobreakspace  {}\cite  {dav2007}\relax }}{16}}
+\newlabel{fig:frame}{{9}{16}}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {3.3.2}Feature Representation}{16}}
 \citation{master}
 \citation{master}
 \citation{master}
 \citation{dav2007}
 \citation{distort}
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {3.3.3}Sensor Model: Camera}{18}}
-\newlabel{sec:cam}{{3.3.3}{18}}
-\@writefile{lof}{\contentsline {figure}{\numberline {10}{\ignorespaces The pinhole camera model. The red lines show the displacement of a point $P_i$ from the optical centre, the blues line show the displacement of a point $Q_i$ from the image centre and the green line shows the projection from the point $P_i$ point $Q_i$. Adapted from\nobreakspace  {}\cite  {master}\relax }}{18}}
-\newlabel{fig:pinhole}{{10}{18}}
-\newlabel{eq:fmmd1}{{3.5}{18}}
-\newlabel{eq:raddist}{{3.6}{19}}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {3.3.3}Sensor Model: Camera}{17}}
+\newlabel{sec:cam}{{3.3.3}{17}}
+\@writefile{lof}{\contentsline {figure}{\numberline {10}{\ignorespaces The pinhole camera model. The red lines show the displacement of a point $P_i$ from the optical centre, the blues line show the displacement of a point $Q_i$ from the image centre and the green line shows the projection from the point $P_i$ point $Q_i$. Adapted from\nobreakspace  {}\cite  {master}\relax }}{17}}
+\newlabel{fig:pinhole}{{10}{17}}
+\newlabel{eq:fmmd1}{{3.5}{17}}
+\newlabel{eq:raddist}{{3.6}{18}}
 \citation{dav2007}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {3.3.4}Control Input Equivalent}{19}}
+\newlabel{sec:imu}{{3.3.4}{19}}
+\newlabel{eq:pertn}{{3.8}{19}}
 \citation{IMU}
 \citation{models}
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {3.3.4}Control Input Equivalent}{20}}
-\newlabel{sec:imu}{{3.3.4}{20}}
-\newlabel{eq:pertn}{{3.8}{20}}
-\newlabel{eq:acc}{{3.9}{20}}
-\newlabel{eq:lina}{{3.11}{21}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {3.4}Control Update}{22}}
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {3.4.1}State Transition Model}{22}}
+\newlabel{eq:proR}{{3.9}{20}}
+\newlabel{eq:acc}{{3.10}{20}}
+\newlabel{eq:lina}{{3.12}{20}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.4}Control Update Step}{21}}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {3.4.1}State Transition Probability Model}{21}}
 \citation{models}
 \citation{models}
+\newlabel{eq:trmod}{{3.18}{22}}
 \citation{models}
-\newlabel{eq:trmod}{{3.16}{23}}
-\newlabel{eq:axis}{{3.17}{23}}
 \citation{models}
-\newlabel{eq:quat}{{3.18}{24}}
+\newlabel{eq:axis}{{3.19}{23}}
+\newlabel{eq:quat}{{3.20}{23}}
 \@writefile{toc}{\contentsline {subsubsection}{\numberline {3.4.2}Mean Estimate}{24}}
 \newlabel{sec:kinest}{{3.4.2}{24}}
-\newlabel{eq:trmod1}{{3.20}{24}}
+\newlabel{eq:trmod1}{{3.22}{24}}
 \@writefile{toc}{\contentsline {subsubsection}{\numberline {3.4.3}Covariance Update}{24}}
 \newlabel{sec:covup}{{3.4.3}{24}}
-\newlabel{eq:jacG}{{3.21}{24}}
-\newlabel{eq:iden}{{3.22}{25}}
-\newlabel{eq:tiden}{{3.23}{25}}
+\newlabel{eq:jacG}{{3.23}{24}}
+\newlabel{eq:iden}{{3.24}{24}}
+\newlabel{eq:tiden}{{3.25}{24}}
+\newlabel{eq:Rt}{{3.28}{25}}
 \citation{dav2007}
 \citation{dav2007}
 \@writefile{toc}{\contentsline {subsection}{\numberline {3.5}Measurement Update}{26}}
@@ -228,7 +220,7 @@
 \newlabel{sub@fig:xhigh}{{a}{37}}
 \newlabel{fig:high_traj}{{18b}{37}}
 \newlabel{sub@fig:high_traj}{{b}{37}}
-\newlabel{fig:extra}{{\caption@xref {fig:extra}{ on input line 1466}}{37}}
+\newlabel{fig:extra}{{\caption@xref {fig:extra}{ on input line 1493}}{37}}
 \@writefile{lof}{\contentsline {figure}{\numberline {18}{\ignorespaces Results of the conditions depicting random equivalent control inputs with uncertainty.\relax }}{37}}
 \newlabel{fig:noz}{{19a}{38}}
 \newlabel{sub@fig:noz}{{a}{38}}
