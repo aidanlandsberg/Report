@@ -22,7 +22,7 @@
 \usepackage{subcaption}
 \usepackage{wrapfig}
 %\usepackage{natbib}
-%==== TITLE PAGE ====================================================
+%==== TITLE PAGE ======================================================================================
 
 
 
@@ -337,7 +337,7 @@ $9$ & \pbox{15cm}{Because the feature locations and robot's pose estimates are n
 %A meaningful comparison between the aforementioned algorithms is given by~\cite{comp}. 
 \newpage
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%    
-\subsection{Problem Description}
+\subsection{Problem Description}\label{sec:into2}
 A vision-based autonomous vehicle operating within an unknown and restricted environment requires a constant update regarding its \textit{current location}. Many autonomous systems have limited knowledge regarding the surrounding environment but may possess a sensor capable of observing the environment - in this case a camera(s). It is therefore essential that a solution to this specific localisation problem incorporates the ability to use sensor measurements to build a map on the fly while concurrently locating itself within the map. In a restricted environment, it is likely that a robot will return to a previously observed region, making it essential to incorporate robust \textit{repeatable} localisation where drift from ground truth can be corrected. % Cameras are easily accessible, relatively accurate sensors that are far less expensive than other sensors such as ultrasonic or laser rangefinder sensors. A vision-based solution that utilises a camera should therefore be considered.
 
 Vision-based SLAM implementations as depicted in Figure~\ref{fig:slam} provide the necessary functionality to achieve repeatable localisation. SLAM algorithms utilising single cameras~\cite{dav2007,sola,ptam} have provided elegant yet accurate solutions to the SLAM problem, reconstructing accurate SLAM maps and subsequently achieving localisation. One such algorithm presented by Davison et al.~\cite{dav2007}, termed \textit{MonoSLAM}, allows for real-time repeatable localisation of a handheld camera moving within a restricted environment. MonoSLAM, along with the work succeeding it~\cite{dav2007,highspeed2008,scale2010,idp}, has achieved successful results in retrieving the trajectory of a robot, forming a persistent SLAM map and ultimately maintaining repeatable localisation. Although a map of features is not the desired outcome, it remains essential to solving the localisation problem. 
@@ -834,15 +834,21 @@ The rotation in Equation~\ref{eq:lina} presents an uncertainty that cannot be mo
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \newpage
 \subsection{Control Update Step}
-With reference to the probabilistic form of the solution to the SLAM problem, the control update step requires a description in terms of a belief distribution. The description of the aforementioned belief, in terms of the probability distribution on the state transitions, is described in Equation~\ref{eq:belief} and repeated for convenience :
+With reference to the probabilistic form of the solution to the SLAM problem, the control update step requires a description in terms of a belief distribution. The description of the aforementioned belief, in terms of the probability distribution on the state transitions, is described in step 1 of Table~\ref{tab:BF} and repeated for convenience :
 \begin{equation}
 \overline {bel}(\textbf{x}_t) = \int p(\textbf{x}_t\hspace{0.1cm}|\hspace{0.1cm}\textbf{u}_{t},\hspace{0.1cm}\textbf{x}_{t-1})bel(\textbf{x}_{t-1})\hspace{0.1cm}d\textbf{x}_{t-1} ,
 \end{equation}
 The state transition model however, assumes the form of a Markov process, yielding that the current state $\textbf{{x}}_{t}$ is only dependent upon the state immediately preceding it - $\textbf{{x}}_{t-1}$ - as well as the input control $\textbf{{u}}_t$. Additionally, the uncertainty regarding the state transition model is independent of the uncertainty regarding both the observation model. This allows an implementation of the Bayes filter to be used, more specifically the EKF. This section presents the necessary steps to incorporate the control update of the EKF. 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{figure}[h]%{0.5\textwidth}
+\centering
+\includegraphics[width=\linewidth,height=0.78\textwidth]{Figures/Control_Update.png}
+\caption{A detailed functional diagram of the control update step of the EKF. The greyed blocks depict functional subsystems}
+\label{fig:contrup}
+\end{figure}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsubsection{State Transition Probability Model} 
-The description of the aforementioned state transition model can then, in terms of the probability distribution on the state transitions, take the following form:
+The description of the aforementioned state transition probability model can then, in terms of the probability distribution on the state transitions, take the following form:
 \begin{equation}
 \begin{split}
 p(\textbf{{x}}_t\hspace{0.15cm}|\hspace{0.15cm}\textbf{x}_{t-1}, \textbf{u}_t)&=\cfrac{1}{\sqrt{|2\pi\textbf{R}_w|}}\hspace{0.1cm}\text{exp}\hspace{0.1cm}\bigg\{ \frac{1}{2}\big[\textbf{{x}}_t-g(\textbf{u}_t, \hspace{0.1cm}\boldsymbol{\mu}_{t-1}) - \textbf{G}_t^{\textbf{x}_{t-1}}(\textbf{x}_{t-1} - \boldsymbol{\mu}_{t-1})\big]^T\\
@@ -965,7 +971,6 @@ A quaternion multiplication between the quaternion $\textbf{q}^{WC}_{t-1}$ and t
 \end{split}.
 \end{equation}
 This completes the steps necessary to implement the state transition probability model. 
-\newpage
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsubsection{Mean Estimate}\label{sec:kinest}
 The control update uses the previously defined state transition probability function to obtain a state estimate $\boldsymbol{\bar \mu}_t$ at the current time instance. This procedure is shown in Step 1 of Table~\ref{tab:EKF}. Recalling Equation~\ref{eq:trmod}, the state transition function is dependent on both the current equivalent control inputs as well as the actual states to obtain a suitable state estimate:
@@ -1061,16 +1066,30 @@ This completes the deviations necessary to fully incorporate the control update 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \newpage
 \subsection{Measurement Update}
-This section presents the necessary steps to incorporate the measurement update of the EKF.
-It can be (reasonably) assumed that the uncertainty regarding the measurements are conditionally independent given the uncertainty regarding the robot and landmark locations if indeed they are completely defined. Also, the correction step seeks to obtain the difference between the actual measurements $\textbf{{z}}_k$ and the predicted measurements. These predicted measurements are to be obtained through an observation model that we from hereon in refer to as the measurement function, denoted as $\textbf{h}(\boldsymbol{\bar \mu})$.  
+With reference again to the probabilistic form of the solution to the SLAM problem, the measurement step too, requires a description in terms of a belief distribution. This belief, in terms of the probability distribution on the measurements, is described in step 2 of Table~\ref{tab:BF} and repeated for convenience :
+\begin{equation}\label{eq:belpred}
+ {bel}(\textbf{x}_t) = \eta p(\textbf{z}_t\hspace{0.1cm}|\hspace{0.1cm}\textbf{x}_{t})\overline {bel}(\textbf{x}_t)
+\end{equation}
+The correction step seeks to incorporate an actual measurement $\textbf{{z}}_t$ into the state estimate through incorporating the previously mentioned weighted mean upon updating the mean prediction and covariance prediction estimates. The measurement update of the EKF in this project is identical to the measurement update of the existing MonoSLAM implementation~\cite{dav2007}. A functional diagram of the measurement update is shown in Figure~\ref{fig:measup}.
+
+The focus of this project is to incorporate additional information to improve the motion estimation of a robot. The literature study showed that the utilisation of additional measurement sensor is both expensive and difficult to integrate with the existing implementation (this is stated in Chapter~\ref{sec:into2}). It is also expected that improvements to the existing measurement update of MonoSLAM will not improve the state estimates significantly. As a result, a decision is made to incorporate the existing measurement update directly as presented in the study by Davidson et al.~\cite{dav2007}
 \begin{figure}[h]%{0.5\textwidth}
 \centering
-\includegraphics[width=\linewidth,height=0.85\textwidth]{Figures/Drawing7.png}
-\caption{Graphical representation of the appropriate reference frames. Adapted from~\cite{dav2007}}
-\label{fig:frame}
+\includegraphics[width=\linewidth,height=0.78\textwidth]{Figures/Mes_alt.png}
+\caption{A detailed functional diagram of the measurement update step of the EKF. The greyed blocks depict functional subsystems}
+\label{fig:measup}
 \end{figure}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%\subsubsection{}
+\subsubsection{Overview}
+This section seeks to provide an informative yet concise overview of the measurement update that is implemented in this project. No   
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsubsection{Probabilistic Map Management}
+In order to realise a solution to the SLAM problem, the measurement update of a system requires an additional process - namely \textit{data association}. Data association can be briefly described as the management of the probabilistic map. The criteria regarding this map management typically differs according to the application.
+
+In MonoSLAM, the criteria of this map management is determined via a trade off between two factors: number of features in a camera's field of view and the computation expense. MonoSLAM seeks to, at every given time instance, keep the number of features visible within the camera's field of view close to a predetermined value. This value is 12 by default, but can be adjusted according to the computing power available. 
+
+The detection operator of Shi and Tomasi~\cite{shitom} seeks to initialise new features if the number of features visible in the cameras field of view drops below the predetermined value. These features are initialised if a prediction based on the camera's movement suggests that the feature will remain in the camera's field of view in the subsequent frames. Additionally, a feature is deleted from the map if it fails 50\% of successive detection and matching attempts.  
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %\subsubsection{System Update}
