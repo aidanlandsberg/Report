@@ -370,8 +370,8 @@ If time allows, a set of tests are required to be derived and implemented to est
 \end{itemize}
 \begin{figure}[h]
 %\begin{center}
-\includegraphics[width=\textwidth, height=0.45\textwidth]{Figures/Drawing2.png}
-\caption{Functional diagram of the interaction between the system's hardware components}
+\includegraphics[width=\textwidth, height=0.45\textwidth]{Figures/Overview.png}
+\caption{Diagram representing the interaction between the system's hardware and software components}
 \label{fig:sys}
 %\includegraphics[width=\textwidth, height=0.5\textwidth]{Figures/rob.jpg}
 %\end{center}
@@ -609,8 +609,8 @@ This chapter sets out to provide an overview of the MonoSLAM algorithm. Initiall
 %Initially, the adequate state representation of the system at hand will be denoted, whereby the components of the state vector - namely the camera position and cartesian feature states - will be defined and discussed. Additionally, the affect of the proposed extension - namely the IMU measurements as the control inputs to the system - will be properly defined and described. Furthermore, this section will seek to use the aforementioned definitions to completely define the two sequential steps required to successfully implement the EKF, namely the \textit{prediction} and \textit{update} steps. 
 \begin{figure}[H]
 %\begin{center}
-\includegraphics[width=\textwidth, height=0.8\textwidth]{Figures/System1.png}
-\caption{System functional diagram also depicting the relevant subsystems.}
+\includegraphics[width=\textwidth, height=0.7\textwidth]{Figures/Entier_System.png}
+\caption{Functional diagram of the complete SLAM system. The sections in red depict the subsystems that have been accordingly altered or replaced in the implementation proposed in this project. The dashed lines show the internal processes of the measurement update - initially this is not trivial.}
 \label{fig:system}
 %\end{center}
 \end{figure}
@@ -704,8 +704,8 @@ The sensor of the the robot is a single CMOS digital camera. The camera is model
 The pinhole camera model can be described as a two-dimensional plane, containing the projections of the 3D point $P_i = (x_i\hspace{0.2cm} y_i\hspace{0.2cm}z_i)^T$. The process of representing a 3D coordinate in terms of a 2D coordinate $Q_i = (u_i\hspace{0.2cm}v_i)^T$ is known as \textit{perspective projection}. The 2D plane is commonly referred to as the \textit{pinhole plane} which contains a infinitesimal hole at its centre - the \textit{pinhole}. The camera possess its own 3D coordinate system with coordinate axes $X_C$, $Y_C$ and $Z_C$ (also referred to as the camera's \textit{optical axis}). The pinhole is situated at the origin of this 3D coordinate system - this is also referred to as the \textit{optical centre}, \textit{O}. The \textit{image plane} is located at a positive distance \textit{f} from the optical centre \textit{O}, parallel to the pinhole plane. This distance $f$ is referred to as the camera's \textit{focal length}.     
 \begin{figure}[h]
 \begin{center}
-\includegraphics[width=0.9\textwidth, height=0.45\textwidth]{Figures/1.png}
-\caption{The pinhole camera model. The red lines show the displacement of a point $P_i$ from the optical centre, the blues line show the displacement of a point $Q_i$ from the image centre and the green line shows the projection from the point $P_i$ point $Q_i$. Adapted from~\cite{master}}
+\includegraphics[width=0.9\textwidth, height=0.45\textwidth]{Figures/pinhole1.png}
+\caption{Graphical representation of the pinhole camera model. The Figure shows the projection of a scene feature onto the camera image plain with respect to the camera's optic centre. The camera reference frame $C$ is defined at the optic centre of the camera. Adapted from~\cite{pinhole}.}
 \label{fig:pinhole}
 \end{center}
 \end{figure}
@@ -1080,12 +1080,20 @@ The focus of this project is to incorporate additional information to improve th
 \label{fig:measup}
 \end{figure}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\subsubsection{Overview}
-This section seeks to provide an informative yet concise overview of the measurement update that is implemented in this project. No   
+\subsubsection{General Overview}
+This section seeks to provide an informative yet concise overview of the measurement update that is implemented in this project. Although no alterations were made to this subsection of the project, the reader requires an understanding of the basic operations that are fundamental to the realisation of this project.       
+
+This particular vision based approach aims to use salient image \textit{patches} as long term landmarks as presented in \cite{dav2007,actvis}. These aforementioned patches are typically 11 $\times$ 11 pixels and are obtained through the image detection operator of Shi and Tomasi~\cite{shitom} from raw monochrome images. The goal is to repeatedly re-identify these image template patches over time after considerable camera movements. Invariably, basic 2D template matching algorithms are of little use, considering that any particular movements of the camera (even minimal) can severely alter the shape of a saved template patch. As a result, MonoSLAM assumes that each patch lies on a locally planar surface and that the surface normal is parallel to the vector from the feature to the camera. Once the depth of a patch has been determined - this is done through a small particle filter - the patch is stored to be used as a long term landmark. MonoSLAM stores these patches to provide a template for matching against a newly obtained 2D image at a later stage. A warped version of the patch is projected back into the image upon matching to account for the potential error provided by the orientation assumption. Because the appearance of the patches are never updated and remain in memory, long term localisation is possible. The orientation of the features however, are updated using a separate EKF - this is depicted in Figure~\ref{fig:measup}.
+
+%The measurement model is able to obtain a search area around which the system expects an initialised feature to be. 
+The measurement model can provide a prediction regarding a feature's coordinate in the current image based on the prior movement estimates of the camera. The \textit{innovation matrix} describes the 2D Gaussian uncertainty regarding this position, providing an elliptical region around the predicted coordinate. A normalised cross-correlation is conducted within this search region seeking to match an initialised feature within the current image.  
+
+The EKF measurement update is concluded through the steps shown in Table~\ref{tab:EKF} after the probabilistic map is updated. An additional process outside of the operation of the EKF is required to achieve this process. This process is described in Chapter~\ref{sec:mapman}.   
+%With regard to the management of the probabilistic map, it remains essential to the SLAM algorithm that decisions regarding the identification and deletion of landmarks be accurate and efficient. MonoSLAM's map-maintenance criterion demands that 12 reliable ``good" features be visible within the camera's field of view in order to maintain accurate localisation. A good feature implies that a feature remains visible within the camera's field of view. A new feature is initialised using the image operator of Shi and Tomasi~\cite{shitom} upon a box of pixels (80 $\times$ 60 pixels) placed within an image. This box position is chosen at random with the constraints that it shouldn't overlap with any existing features and that it remains in the camera's field of view. If a visible feature is unsuccessfully matched more than 50\% of the time, the landmark is deleted. It must be stressed that the aforementioned methods regarding vision based MonoSLAM measurements and map-management are described and implemented in this project exactly as they are in ~\cite{dav2007}. 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\subsubsection{Probabilistic Map Management}
-In order to realise a solution to the SLAM problem, the measurement update of a system requires an additional process - namely \textit{data association}. Data association can be briefly described as the management of the probabilistic map. The criteria regarding this map management typically differs according to the application.
+\subsubsection{Probabilistic Map Management}\label{sec:mapman}
+In order to realise the solution to the SLAM problem, the measurement update of a system requires an additional process - namely \textit{data association} or \textit{map management}. The criteria regarding this map management typically differs according to the application, but the general idea is that the map continuously deletes and adds features accordingly.
 
 In MonoSLAM, the criteria of this map management is determined via a trade off between two factors: number of features in a camera's field of view and the computation expense. MonoSLAM seeks to, at every given time instance, keep the number of features visible within the camera's field of view close to a predetermined value. This value is 12 by default, but can be adjusted according to the computing power available. 
 
