@@ -1,5 +1,5 @@
-\contentsline {table}{\numberline {1.1}{\ignorespaces SLAM individual steps.\relax }}{3}
-\contentsline {table}{\numberline {2.1}{\ignorespaces The Bayes Filter Algorithm\relax }}{8}
+\contentsline {table}{\numberline {1.1}{\ignorespaces Individual steps undertaken to solve the SLAM problem.\relax }}{3}
+\contentsline {table}{\numberline {2.1}{\ignorespaces The Bayes filter Algorithm\relax }}{8}
 \contentsline {table}{\numberline {2.2}{\ignorespaces The KF Algorithm\relax }}{10}
 \contentsline {table}{\numberline {2.3}{\ignorespaces The EKF Algorithm\relax }}{12}
 \contentsline {table}{\numberline {4.1}{\ignorespaces IMU necessary characteristics\relax }}{28}
