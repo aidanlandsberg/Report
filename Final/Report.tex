@@ -472,13 +472,13 @@ p(\textbf{x}_t)=\cfrac{1}{\sqrt{|2\pi\boldsymbol{\Sigma}|}}\hspace{0.1cm}\text{e
 where the density across the state variable $\textbf{x}_t$ is characterised through two fundamental parameters: the mean $\boldsymbol{\mu}$ and the covariance $\boldsymbol{\Sigma}$. Such a parameterisation is known as the \textit{moments parameterisation} (as the mean and covariance represent the first and second order moments respectively). This parameterisation allows a number of recursive filter algorithms to be derived, two of which are examined in this project: the \textit{Kalman filter} (KF) and its non-linear counterpart, the \textit{extended Kalman filter} (EKF). It is important to realise that both of the aforementioned filters belong to the same sub-class of filters - namely the KF Family - and therefore most of the fundamental concepts and functionality between them are identical. Each filter is discussed in further detail in the subsections that follow.   
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsubsection{Kalman Filter}    
-Probably the most fundamental of all Gaussian filter algorithms, is the \textit{Kalman filter}. The KF can be briefly described as an optimal estimator. It remains a popular technique for filtering and prediction of \textit{linear} systems that contains Gaussian uncertainty. The KF seeks to describe a belief distribution of a state variable $\textbf{{x}}_t$ as described in Equation~\ref{eq:normal}. Subsequently, the state vector $\textbf{{x}}_t$ is modelled by a single multivariate Gaussian distribution with a mean $\boldsymbol{\mu}_t$ and covariance $\boldsymbol{\Sigma}_t$, at each time instance $t$ (while previous time steps are denoted as $t-1$, $t-2$, etc.). The general implementation as described above though, is only valid provided that the following three properties hold true - as listed in~\cite{probrob}: 
+Probably the most fundamental of all Gaussian filter algorithms, is the \textit{Kalman filter}. Introduced in a study presented by Kalman~\cite{kalman}, the KF can be briefly described as an optimal estimator. It remains a popular technique for filtering and prediction of \textit{linear} systems that contains Gaussian uncertainty. The KF seeks to describe a belief distribution of a state variable $\textbf{{x}}_t$ as described in Equation~\ref{eq:normal}. Subsequently, the state vector $\textbf{{x}}_t$ is modelled by a single multivariate Gaussian distribution with a mean $\boldsymbol{\mu}_t$ and covariance $\boldsymbol{\Sigma}_t$, at each time instance $t$ (while previous time steps are denoted as $t-1$, $t-2$, etc.). The general implementation as described above though, is only valid provided that the following three properties hold true - as listed in~\cite{probrob}: 
 \begin{enumerate}
-\item The state transition model probability \textbf{must} be a \textit{linear} function with additive Gaussian (process) noise. The state transition model probability is shown according to Thrun et al.\cite{probrob}:\\
+\item The state transition model probability \textbf{must} be a \textit{linear} function with additive Gaussian (process) noise. %The state transition model probability is shown according to Thrun et al.\cite{probrob}:\\
 \begin{equation}\label{eq:SSmodelg}
 g(\textbf{u}_{t}, \textbf{x}_{t-1}) :  \textbf{x}_t = \textbf{A}_t\textbf{x}_{t-1} + \textbf{B}_t\textbf{x}_t + \textbf{w}_t.
 \end{equation}
-\item The observation model probability \textbf{must} be a \textit{linear} function with additive Gaussian (sensor) noise. The observation model probability is shown according to Thrun et al.\cite{probrob}:\\
+\item The observation model probability \textbf{must} be a \textit{linear} function with additive Gaussian (sensor) noise. %The observation model probability is shown according to Thrun et al.\cite{probrob}:\\
 \begin{equation}\label{eq:SSmodelh}
 h(\overline{\boldsymbol{\mu}}_t) : \textbf{z}_t = \textbf{C}_t\textbf{x}_t + \textbf{v}_t,
 \end{equation}
@@ -494,11 +494,16 @@ where $\textbf{w}_t$ and $\textbf{v}_t$ represent process and sensor noise respe
 %\end{equation}
 
 %with the aforementioned distribution described at every discrete time instance $t$.\\ A brief description would yield that the distribution above, describes, for a given time instance $t$, a joint density of the robot state as well as the landmark locations \textbf{given} all of the previously recorded observations, $\textbf{z}_{1:t}$ and control inputs, $\textbf{u}_{1:t}$.\\
-
 The input to the KF is the belief $\overline{bel}(\textbf{x}_t)$ at time $t-1$, represented by $\boldsymbol{\mu}_{t-1}$ and $\boldsymbol{\Sigma}_{t-1}$. The KF requires a control input $\textbf{u}_t$ and a measurement $\textbf{z}_t$ at time $t$ to update the belief. Like the Bayes filter, the KF too is executed in two (sequential) steps: the \textit{prediction step} and the \textit{update step}. 
 
-Firstly at time $t$, the prediction step aims to calculate a predicted belief $\overline{bel}(\textbf{x}_t)$ represented by $\overline{\boldsymbol{\mu}_{t}}$ and $\overline{\boldsymbol{\Sigma}_{t}}$. The predicted belief is modelled by the state transition probability that incorporates the control input $\textbf{u}_t$ to subsequently update the mean and covariance estimates. The update step aims to obtain the belief $bel(\textbf{x}_t)$ from the predicted belief $\overline{bel}(\textbf{x}_t)$ by incorporating the measurements $\textbf{z}_t$. The KF computes a Kalman gain, that determines the influence of a measurement in the new state estimate. The update step of the Bayes filter incorporates a product of probabilities and in the case of the KF, these probabilities are represented as Gaussian. The resultant of the product of these Gaussian probabilities is a new Gaussian with a weighted \textit{optimal} mean. The Kalman gain is thus optimal and used to update the mean and covariance estimates such that the resulting belief distribution is optimal.
-
+At time $t$, the prediction step aims to calculate a predicted belief $\overline{bel}(\textbf{x}_t)$ represented by $\overline{\boldsymbol{\mu}}_{t}$ and $\overline{\boldsymbol{\Sigma}}_{t}$. The predicted belief is modelled by a deterministic version of the state transition probability (Equation~\ref{eq:SSmodelg}) that incorporates the control input $\textbf{u}_t$ to the mean and covariance estimates. The update step aims to obtain the belief $bel(\textbf{x}_t)$ from the predicted belief $\overline{bel}(\textbf{x}_t)$ by incorporating the measurements $\textbf{z}_t$. The KF computes a Kalman gain, that determines the influence of a measurement in the new state estimate. The update step of the incorporates a product of two Gaussian probabilities. This product results is a new Gaussian with a weighted \textit{optimal} mean. The Kalman gain is thus optimal and is used to update the mean and covariance estimates such that the resulting belief distribution is optimal. An illustration of the weighted mean is depicted in Figure~\ref{fig:weight}:
+\begin{figure}[H]
+\centering%\begin{center}
+\includegraphics[width=0.8\textwidth, height=0.5\textwidth]{Figures/weight.png}
+\caption{A graphical illustration of how the weighted mean is obtained. The correction (blue) is the product of the prediction (red) and measurement (green) Gaussian PDF's. Adapted from~\cite{cyril}.}
+\label{fig:weight}
+%\end{center}
+\end{figure}
 Each of the aforementioned steps are later discussed in more detail - with reference to implementations specific to this paper. Table~\ref{tab:KF} below, presents a pseudo-algorithm of the KF~\cite{probrob}:
 % estimate the state into which the system will be transitioned from the previous state estimate ($\boldsymbol{\mu}_{t-1}$, $\boldsymbol{\Sigma}_{t-1}$) as a result of a set of internal and/or external dynamics to the system. These dynamics are typically described through the state transition function $g(\textbf{u}_t, \boldsymbol{\mu}_{t-1})$. Once an estimate is obtained for the transitioned state estimate ($\boldsymbol{\bar \mu}_t$, $\boldsymbol{\bar \Sigma}_t$), a measurement prediction is made in order to provide the expected measurements provided that the system were to find itself within the estimated transitioned state. These measurements are obtained through an observation model which has a function $h(\boldsymbol{\bar \mu}_t)$. Thereafter, an actual measurement, $\textbf{z}_t$ is then obtained through the system sensors in order to determine the actual state of the system ($\boldsymbol{\mu}_t$, $\boldsymbol{\Sigma}_t$). Ultimately, the actual state of the system and the previously predicted state are then compared with one another in order  to obtain the (optimally weighted) \textit{Kalman gain}: This 
 
@@ -526,11 +531,11 @@ Each of the aforementioned steps are later discussed in more detail - with refer
 \end{center}
 \end{table}%
 
-The KF is generally considered an efficient algorithm for sparse sets. The \textit{computational complexity} of a matrix inversion is bounded by an order of $O(d^{2.4})$~\cite{probrob}, where d represents the dimensions of the measurements vectro $\textbf{z}_t$.  
+The KF is generally considered an efficient algorithm for sparse sets. The \textit{computational complexity} of a matrix inversion is bounded by an order of $O(d^{2.4})$~\cite{probrob}, where $d$ represents the dimensions of the measurements vector $\textbf{z}_t$.  
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \newpage
 \subsubsection{Extended Kalman Filter} \label{sec:EKF}
-Considering that most practical systems of interest yield non-linear behaviour, the KF in its purest form cannot be successfully implemented upon the vast majority of modern day systems. Non-linear transformations of Gaussian random variables (RV) result in a different RV while any linear transformation of a Gaussian random variable yields another \textbf{different} Gaussian variable. This violates an important condition of the KF algorithm. This phenomenon can be illustrated through Figure~\ref{fig:lin}: % where a linear transform yields a transformed Gaussian RV and a non linear transform yields a RV with a different probability density:
+Considering that most practical systems of interest are non-linear, the KF in its purest form cannot be successfully implemented upon most modern day systems - including SLAM. Non-linear transformations of Gaussian random variables (RV) result in a different RV while any linear transformation of a Gaussian random variable yields another \textbf{different} Gaussian variable. This violates the important condition of the KF algorithm. This phenomenon can be illustrated through Figure~\ref{fig:lin}: % where a linear transform yields a transformed Gaussian RV and a non linear transform yields a RV with a different probability density:
 
 \begin{figure}[h]
 %\begin{center}
@@ -547,28 +552,28 @@ Considering that most practical systems of interest yield non-linear behaviour, 
 %\label{fig:non}
 %\end{center}
 %\end{figure}
-The \textit{EKF}, an extension of the general KF, aims to enable the modelling of non-linear systems through linearisation. As previously mentioned, the state transition function $g(\textbf{u}_t, \textbf{x}_{t-1})$, as well as the observation model $h(\textbf{x}_{t-1})$ of most practical systems are typically both non-linear in nature. Considering the aforementioned statement; it is necessary to determine a method for approximating a non-linear function as a linear function, more commonly referred to as linearisation. The linearisation process of EKF aims to linearise these functions so that the fundamental operations of the KF algorithm remain valid.
+The \textit{extended Kalman filter (EKF)}, an extension of the general KF, aims to enable the modelling of non-linear systems through local linearisation. As previously mentioned, the state transition function $g(\textbf{u}_t, \textbf{x}_{t-1})$, as well as the observation model $h(\textbf{x}_{t-1})$ of most practical systems are typically both non-linear in nature. These are typically only moderate non-linearities. Considering the aforementioned statement; it is necessary to determine a method for approximating a non-linear function as a linear function, more commonly referred to as linearisation. The linearisation process of EKF aims to linearise these functions so that the fundamental operations of the KF algorithm remain valid.
 
-The linearisation process approximates an arbitrary non-linear function $f$ by a linear function that is \textit{tangent} to $f$ at the mean value of the Gaussian, $\boldsymbol{\mu}$. If the Gaussian is then projected through this new linear approximation, the resultant transformation would yield a random variable that is Gaussian in nature (as in Figure~\ref{fig:lin}). This technique is applied to both the state transition and observation functions. Many methods exist for linearisation of non-linear functions, but the EKF utilises the method of (first order) \textit{Taylor expansion}. The Taylor expansion creates a linear approximation of a non linear function, say $f$, by its own value as well as that of its gradient $f'$. The tangent of $f$ can be depicted by its partial derivative with respect to the state vector $\textbf{x}_{t-1}$:
+The linearisation process approximates an arbitrary non-linear function $k$ by a linear function that is \textit{tangent} to $k$ at the mean value of the Gaussian, $\boldsymbol{\mu}$. If the Gaussian is then projected through this new linear approximation, the resultant transformation would yield a random variable that is Gaussian in nature (as in Figure~\ref{fig:lin}). This technique is applied to both the state transition and observation functions. Many methods exist for linearisation of non-linear functions, but the EKF utilises the method of (first order) \textit{Taylor expansion}. The Taylor expansion creates a linear approximation of a non linear function, say $k$, by its own value as well as that of its gradient $k'$. The tangent of $k$ can be depicted by its partial derivative with respect to the state vector $\textbf{x}_{t-1}$:
 \begin{equation}\label{eq:par}
-f'(\textbf{x}_{t-1}, \textbf{u}_t) := \frac{\partial f(\textbf{x}_{t-1}, \textbf{u}_t)}{\partial \textbf{x}_{t-1}}.
+k'(\textbf{x}_{t-1}, \textbf{u}_t) := \frac{\partial k(\textbf{x}_{t-1}, \textbf{u}_t)}{\partial \textbf{x}_{t-1}}.
 \end{equation}
 
-The argument of the function $f$ is chosen as the most likely point at the linearisation instance. For Gaussians, the most likely point is the mean $\mu_{t-1}$. The linear approximation of the function $f$ can then be achieved through the linear extrapolation evaluated at its most likely point $\mu_{t-1}$:
+The argument of the function $f$ is chosen as the most likely point at the linearisation instance. For Gaussians, the most likely point is the mean $\boldsymbol{\mu}_{t-1}$. The linear approximation of the function $k$ can then be achieved through the linear extrapolation evaluated at its most likely point $\boldsymbol{\mu}_{t-1}$:
 \begin{equation}\label{eq:app}
 \begin{split}
-f(\textbf{x}_{t-1}, \textbf{u}_t) &\approx f(\textbf{x}_{t-1}, \textbf{u}_t) + f'(\textbf{u}_{t},\boldsymbol{\mu}_{t-1})(\textbf{x}_{t-1}-\boldsymbol{\mu}_{t-1}) \\
-&= f(\textbf{x}_{t-1}, \textbf{u}_t) + \textbf{F}_t^{\textbf{x}_{t-1}}(\textbf{x}_{t-1}-\boldsymbol{\mu}_{t-1}),
-\end{split}
+k(\textbf{x}_{t-1}, \textbf{u}_t) &\approx f(\textbf{x}_{t-1}, \textbf{u}_t) + k'(\textbf{u}_{t},\boldsymbol{\mu}_{t-1})(\textbf{x}_{t-1}-\boldsymbol{\mu}_{t-1}) \\
+&= k(\textbf{x}_{t-1}, \textbf{u}_t) + \textbf{K}_t^{\textbf{x}_{t-1}}(\textbf{x}_{t-1}-\boldsymbol{\mu}_{t-1})
+\end{split},
 \end{equation}
-where $\textbf{F}_t^{\textbf{x}_{t-1}} = f'(\textbf{u}_{t},\textbf{x}_{t-1})$ is the \textit{Jacobian} matrix. 
+where $\textbf{K}_t^{\textbf{x}_{t-1}} = k'(\textbf{u}_{t},\textbf{x}_{t-1})$ is the \textit{Jacobian} matrix. 
 
-It is important to note that {Jacobian} matrix is determined at each linearisation instance (each individual timestep) as its parameters differ from one linearisation instance to the next. 
+It is important to note that {Jacobian} matrix is determined at each linearisation instance (each individual time step) as its parameters differ from one linearisation instance to the next. 
 
 %Once linearisation is achieved, the EKF which behaves otherwise identically in terms of operation to the general KF, can be implemented upon non-linear systems. 
 It is very important to note that because only a first order Taylor expansion is used to \textit{approximate} the linearisation, severe non-linearities will prohibit acceptable approximations of the Gaussian distribution upon transformations. If the linearisation point is chosen at a point close to the mean, the EKF will yield an acceptable approximation from the linearisation process. 
 
-There are other variants of the KF that aren't discussed in this project, but have been carefully considered. It is assumed that the first order Taylor approximation provides a suitable approximation of the non-linearities that are expected in the system, namely the uncertainty regarding angle orientation errors. The \textit{Unscented KF} is assumed to be a less appropriate choice of filter to the EKF considering the the lack of severe system non-linearities. The objective of the project seeks to provide localisation for a set of approximately 100 landmarks. The \textit{Information Filter} will only provide a better computational complexity than the EKF if the number of landmarks are much larger. This analysis suggests that the EKF provides a suitable yet simple implementation of the Bayes filter.%The EKF is chosen as a suitable implementation of the Bayes filter as the non-linearities the first order Taylor approximation is poor due to severe non-linearities. This project however, assumes that the the number of landmarks aren't large enough for the UKF to provide a better efficiency and that the transition and measurement probabilities are reasonably approximated by the Taylor expansion. 
+There are other variants of the KF that aren't discussed in this project, but have been carefully considered. It is assumed that the first order Taylor approximation provides a suitable approximation of the non-linearities that are expected in the system, namely the uncertainty regarding angle orientation errors. The \textit{Unscented KF} is assumed to be a less appropriate choice of filter to the EKF considering the the lack of severe system non-linearities. The objective of this project seeks to provide localisation for a set of approximately 100 landmarks. The \textit{Information Filter} will only provide a better computational complexity than the EKF if the number of landmarks are much larger. This analysis suggests that the EKF provides a suitable yet simple implementation of the Bayes filter.%The EKF is chosen as a suitable implementation of the Bayes filter as the non-linearities the first order Taylor approximation is poor due to severe non-linearities. This project however, assumes that the the number of landmarks aren't large enough for the UKF to provide a better efficiency and that the transition and measurement probabilities are reasonably approximated by the Taylor expansion. 
 
 Table~\ref{tab:EKF}  below, systematically and mathematically represents the steps associated with the EKF~\cite{probrob}:
 
@@ -584,13 +589,13 @@ Table~\ref{tab:EKF}  below, systematically and mathematically represents the ste
 &\textbf{Prediction step} \\
 \hline
 1. & $ \boldsymbol{\bar \mu}_t$ = $g(\textbf{u}_t,  \boldsymbol{\bar \mu}_{t-1})$ \\
-2. & $\boldsymbol{\bar \Sigma_t} = \textbf{G}_t' \boldsymbol{\bar \Sigma_{t-1}} \textbf{G}_t'^T + \textbf{R}_{w,t}$ \\
+2. & $\boldsymbol{\bar \Sigma_t} = \textbf{G}_t^{x_{t-1}} \boldsymbol{\bar \Sigma_{t-1}} {\textbf{G}_t^{x_{t-1}}}^T + \textbf{R}_{w,t}$ \\
 \hline
 &\textbf{Correction step}\\ 
 \hline
-3. & $\textbf{K}_t = \boldsymbol{\bar \Sigma_{t}} \textbf{H}_t'^T (\textbf{H}_t' \boldsymbol{\bar \Sigma_{t}} \textbf{H}_t'^T + \textbf{R}_{v,t})^{-1}$ \\
+3. & $\textbf{K}_t = \boldsymbol{\bar \Sigma_{t}} {\textbf{H}_t^{x_{t-1}}}^T (\textbf{H}_t^{x_{t-1}} \boldsymbol{\bar \Sigma_{t}} {\textbf{H}_t^{x_{t-1}}}^T + \textbf{R}_{v,t})^{-1}$ \\
 4. & $\boldsymbol{\mu_t} = \boldsymbol{\bar \mu}+ \textbf{K}_t[\textbf{z}_t-h(\boldsymbol{\bar \mu})]$\\  
-5. & $\boldsymbol{\Sigma}_{t} = (\textbf{I}-\textbf{K}_t \textbf{H}_t')\boldsymbol{\bar \Sigma_t}$ \\
+5. & $\boldsymbol{\Sigma}_{t} = (\textbf{I}-\textbf{K}_t {\textbf{H}_t^{x_{t-1}}}^T)\boldsymbol{\bar \Sigma_t}$ \\
 \hline\hline
 \end{tabular}
 %\end{center}
