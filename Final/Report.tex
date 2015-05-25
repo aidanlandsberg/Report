@@ -18,6 +18,7 @@
 \usepackage{commath}
 \usepackage{float}
 \usepackage{pbox}
+\usepackage{lipsum}
 %\usepackage{caption}
 \usepackage{subcaption}
 \usepackage{wrapfig}
@@ -1341,7 +1342,11 @@ Register & Value & Name & Function \\
 \label{default}
 \end{table}%
 
-The IMU sensors can now be measured and subsequently converted from analog to digital values and transferred to the PC. Both devices (accelerometer and gyroscope) are set a 10 bit resolution. This means that the analog value will be represented as 10 bits and each measurement will be stored in two separate bytes (16 bits). There are a total of 6 IMU measurements - 3 from the gyroscope and 3 from the accelerometer. A suitable baud rate must also be determined to ensure these measurement are sent to the PC within the sample period.
+The IMU sensors can now be measured and subsequently converted from analog to digital values and transferred to the PC. Both devices (accelerometer and gyroscope) are set a 10 bit resolution. This means that the analog value will be represented as 10 bits and each measurement will be stored in two separate bytes (16 bits). There are a total of 6 IMU measurements - 3 from the gyroscope and 3 from the accelerometer. A suitable baud rate must also be determined to ensure these measurement are sent to the PC within the sample period. 
+
+The baud rate represents the number of bits per second that are transferred on a bus. The system sample period contains $\frac{1}{30} = 0.0\overline{333}$ seconds, meaning that the data sampled from the IMU needs to be transferred over the USB in-between the instances that a trigger to sample the camera is set and that 33 ms elapses. 
+
+The I2C burst-read protocol~\cite{gyro,acc} for reading from a slave device at 100 kHz results in a 20 bits $\times$ 6 measurements $\approx$ 120 bits. At 100 kHz this data transfer consumes only 1.2 ms, well within the system sampling period of 30 Hz. The baud rate for the data transfer between the Arduino and the PC is thus essential. The 120 bits $\times$ 30 times per second (since a baud rate's units are bits per second) $\approx$ 3600 bits. It is essential that a baud rate that exceeds twice 3600 bits per second is used (delimiters between the data bytes are also sent). This project uses a baud rate of 19200.   
 %The I2C protocol for the IMU~\cite{gyro} suggests that 60 bits per measurement are required. 
 \subsubsection{Sensor Bias and Variance}
 Measurement sensors often have offsets that cause a measurement \textit{bias}. These biases can however be measured and subsequently subtracted from each measurement. If each measurement is modelled with additive Gaussian RV, the bias is the mean of this noise. The procedure for measuring such a bias is quite simple: if the gyroscope is stationary, the angular velocities are expected to be zero. The procedure for measuring the accelerometer bias is slightly more difficult, as an accelerometer measures gravitational acceleration. If the accelerometer is rotated about each axis, the accelerations of the x- and y-accelerations should resemble a sinusoid due with a peak equal to the gravitational acceleration. The offset of this sinusoid is typically the measurement bias. The expected value on each axis should be zero but the measurements will show a varying non-zero value as depicted in Figure~\ref{fig:gyrobias}. The average of this varying value is the bias. 
@@ -1384,16 +1389,16 @@ The modelling of the additive noise in Chapter~\ref{sec:imu} is based statistica
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \newpage
 \subsubsection{Micro-controller}
-\begin{wrapfigure}{R}{0.3\textwidth}
+\begin{wrapfigure}[18]{R}{0.3\textwidth}
 %\centering
-\includegraphics[width=\linewidth, height=13.5cm]{Figures/loop.png}
+\includegraphics[width=\linewidth, height=14cm]{Figures/loop.png}
 \caption{A flow diagram for the micro-controller program required to synchronise the sampling of the IMU and camera measurements.}
 \label{fig:ISR}
 \end{wrapfigure}
-The IMU and camera measurements need to be \textit{synchronised}. A suitable method to achieve such synchronisation is to run a timer interrupt every sample period of the camera (i.e 30 Hz). The interrupt subsequently calls an interrupt service routine (ISR) that triggers a pulse to the camera to capture a frame while simultaneously sampling the IMU measurements. According to the data sheet of the camera~\cite{trigger}, a digital pulse must be set high for at least $10\mu$ seconds in order to set the moment of exposure. The exposure itself is set through external software.This procedure is shown in Figure~\ref{fig:ISR}.
+The IMU and camera measurements need to be \textit{synchronised}. A suitable method to achieve such synchronisation is to run a timer interrupt every sample period of the camera (i.e 30 Hz). The interrupt subsequently calls an interrupt service routine (ISR) that triggers a pulse to the camera to capture a frame while simultaneously sampling the IMU measurements. According to the data sheet of the camera~\cite{trigger}, a digital pulse must be set high for at least $10\mu$ seconds in order to set the moment of exposure. The exposure itself is set through external software. This procedure is shown in Figure~\ref{fig:ISR}.
 
 Communication between the IMU and the Arduino is done via I2C. The accelerometer and the gyroscope are slave devices on the bus while the Arduino is the master. The IMU is configured according to the configuration explained in Chapter~\ref{sec:IMUconfig} in the once-off setup function before entering the infinite loop() function that waits for a command from the PC in order to send the IMU data.  
-
+\clearpage
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \newpage
 \section{Analysis: Testing \& Results}
@@ -1437,22 +1442,22 @@ It can also be assumed that given the small sample period, the relationship betw
 \begin{figure}[H]
 \centering
 \begin{subfigure}[H]{0.49\textwidth}
-\includegraphics[width=\textwidth, height=6cm]{Figures/gyrox180.png} 
+\includegraphics[width=\textwidth, height=5.5cm]{Figures/gyrox180.png} 
 \caption{Angular displacement after positive $180^{\circ}$ rotation about the x-axis.}
 \label{fig:gx}
 \end{subfigure}
 \begin{subfigure}[H]{0.49\textwidth}
-\includegraphics[width=\textwidth, height=6cm]{Figures/gyroy90.png}
+\includegraphics[width=\textwidth, height=5.5cm]{Figures/gyroy90.png}
 \caption{Angular displacement after positive $90^{\circ}$ rotation about the y-axis.}
 \label{fig:gy}
 \end{subfigure}
 \begin{subfigure}[H]{0.49\textwidth}
-\includegraphics[width=\textwidth, height=6cm]{Figures/gyroy2.png}
+\includegraphics[width=\textwidth, height=5.5cm]{Figures/gyroy2.png}
 \caption{Angular displacement after positive $90^{\circ}$ negative then $90^{\circ}$ rotation about the y-axis.}
 \label{fig:gyy}
 \end{subfigure} 
 \begin{subfigure}[H]{0.49\textwidth}
-\includegraphics[width=\textwidth, height=6cm]{Figures/gyrox360.png}
+\includegraphics[width=\textwidth, height=5.5cm]{Figures/gyrox360.png}
 \caption{Angular displacement after positive $360^{\circ}$ rotation about the z-axis.}
 \label{fig:gz}
 \end{subfigure} 
