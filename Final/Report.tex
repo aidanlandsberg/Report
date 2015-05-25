@@ -1104,7 +1104,7 @@ The detection operator of Shi and Tomasi~\cite{shitom} seeks to initialise new f
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \newpage
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{Implementation}
+\section{Implementation}\label{sec:impl}
 \subsection{Introduction}
 This Chapter sets out to discuss the hardware and software decisions that are made with respect to this project. Initially, the system requirements are presented and possible solutions are discussed. Thereafter, the individual hardware components used in this project are presented and motivated. This chapter also provides the  necessary configuration for each component to realise the system requirements. %Lastly, the core of this project, the kinematic estimator, is simulated and analysed as a possible alternative to the current velocity and angular velocity model. 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -1130,9 +1130,9 @@ Each of of the subsystems require a unique setup configuration in order to repre
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \newpage
 \subsubsection{Inertial Measurement Unit}
-Chapter~\ref{sec:kinest} shows that inertial measurements are required in order to realise the implementation proposed in this project. The inertial measurements consists of 3 accelerometer and 3 gyroscope measurements. The combination of these sensors form a 6 \textit{degrees of freedom} (DOF) IMU. Accelerometers and gyroscopes can be analogue or digital devices that represent their measurements as either a voltage or a digital value respectively. 
+Chapter~\ref{sec:kinest} shows that inertial measurements are required in order to realise the implementation proposed in this project. The inertial measurements consists of 3 accelerometer and 3 gyroscope measurements. The combination of these sensors form a 6 \textit{degrees of freedom} (DOF) IMU. Accelerometers and gyroscopes can be analogue or digital devices that represent their measurements as either a voltage or a digital value respectively. This project seeks digital values that can be used by the PC to incorporate the measurements into the MonoSLAM algorithm.
 
-This project seeks digital values that can be used by the PC to incorporate the measurements into the MonoSLAM algorithm. A digital IMU with an accelerometer and gyroscope mounted on the same IC should ideally be purchased as there is time limit imposed on this project. Table~\ref{tab:imuspec} compares the necessary characteristics with a suitable IMU option, the SparkFun 6DOF IMU:
+A digital IMU with an accelerometer and gyroscope mounted on the same IC should ideally be purchased as there is time limit imposed on this project. Table~\ref{tab:imuspec} compares the necessary characteristics with a suitable IMU option, the SparkFun 6DOF IMU:
 \begin{table}[H]
 \caption{IMU necessary characteristics}
 \centering
@@ -1141,21 +1141,22 @@ This project seeks digital values that can be used by the PC to incorporate the 
 Characteristic & SparkFun 6DOF IMU & SparkFun 9DOF IMU & Required\\
 \hline
 \hline
-Serial communication & I2C/SPI & I2C/SPI & I2C \\
+\pbox{3cm}{Serial communication} & \pbox{3cm}{I2C/SPI (100 kHz \& 400 kHz)} & \pbox{3cm}{I2C/SPI (100 kHz \& 400 kHz)}& I2C (100 kHz) \\
 \hline
-Components & Accelerometer, Groscope & Accelerometer, Groscope Magnetometer & Accelerometer, Groscope\\
+\pbox{3cm}{Components} & \pbox{3cm}{Accelerometer, Gyroscope} &  \pbox{3cm}{Accelerometer, Gyroscope, Magnetometer} &  \pbox{3cm}{Accelerometer, Groscope}\\
 \hline
-Low pass filter (anti-aliasing) & YES  & YES & YES  \\
+\pbox{3cm}{Low pass filter (anti-aliasing)} & yes  & yes & yes  \\
 \hline
-Maximum measurement data rate & $3200$ Hz & $3200$ Hz  & 30 Hz \\
+\pbox{3cm}{Maximum data rate} & $3200$ Hz & $3200$ Hz  & 30 Hz \\
 \hline
 \hline
-\textbf{Price} & R 489.99 &  $\leq$ R 500 \\
+\textbf{Price} & R 489.99 & R620 &  $\leq$ R 500 \\
 \hline
 \end{tabular}
 \label{tab:imuspec}
 \end{table}%
 
+The IMU cannot precisely sample measurements at the given system sampling period (30 Hz). The closest possible output data rate that exceeds the required system sampling period is 50 Hz. This however shouldn't limit the system functionality as the output data rate is greater than what is required. It should be noted that the IMU internal sampling rate is set to 3200 Hz for the accelerometer and 1000 Hz for the gyroscope - far more than the Nyqvist frequency. Additionally, the low pass filter is set to a bandwidth of 100 Hz to prevent aliasing.
 
 %\begin{itemize}
 %\item Communication with a master device (in this case a micro-controller).
@@ -1166,9 +1167,20 @@ Maximum measurement data rate & $3200$ Hz & $3200$ Hz  & 30 Hz \\
 %\item Sample code.
 %\end{itemize}
 %
-The SparkFun 6 DOF IMU as depicted in Figure~\ref{fig:imu} provides the necessary characteristics for this project. This board is comprised of a ITG3200 MEMS 3-axis gyroscope~\cite{gyro} and a ADXL345 3-axis linear accelerometer~\cite{acc}. This component was chosen as it contains both the necessary sensors on the same chip while supporting I2C communication, low pass filtering, suitable range, sample code and a maximum sample rate of 3.2 kHz. Alternative products generally contain an additional 3 DOF and greater range, both of which are overlooked considering that these products are generally more expensive than the chosen component. \\\\
-%\newpage
-The IMU is configured in measurement mode with the following properties:
+\begin{figure}[H]
+\centering%\begin{center}
+\includegraphics[keepaspectratio=true, scale = 1.4]{Figures/imu1.jpg}
+\includegraphics[keepaspectratio=true, scale = 0.275]{Figures/cam.png}
+\caption{Left: SparkFun 6DOF IMU. Photo by SparkFun. Adapted from~\cite{create}. Right: The Imaging Source 22BUC03-ML CMOS board camera. Adapted from~\cite{imsrc}}
+\label{fig:imu}
+%\end{center}
+\end{figure}
+\newpage
+The SparkFun 6 DOF IMU as depicted in Figure~\ref{fig:imu} provides the necessary characteristics for this project. This board is comprised of a ITG3200 MEMS 3-axis gyroscope~\cite{gyro} and a ADXL345 3-axis linear accelerometer~\cite{acc}. This component was chosen as it contains both the necessary sensors on the same chip while supporting I2C communication, an anti-alias filter, suitable range, sample code. 
+
+Alternative products such as the 9DOF SparkFun IMU shown in Table~\ref{tab:imuspec} generally contain an additional 3 DOF while the required project specifications are identical or marginally better than that of the SparkFun 6DOF IMU. The additional 3 DOF provided by the magnetometer are assumed to be redundant and overlooked considering that these products are considerably more expensive than the chosen component. 
+
+Finally, the IMU is configured in measurement mode with the following properties:
 \begin{table}[h]
 \caption{IMU configuration properties}
 \centering
@@ -1184,67 +1196,17 @@ Resolution & 10 bits \\
 \hline
 Gyroscope range & $\pm2000^{\circ}$ per second\\
 \hline
-Low pass filter & 50 Hz (for 100Hz sampling)\\ 
+Output data rate & 50 Hz (100Hz Low pass filter)\\ 
 \hline
 \end{tabular}
 \label{tab:imuset}
 \end{table}%
 
-\begin{figure}[h]
-\centering%\begin{center}
-\includegraphics[keepaspectratio=true, scale = 1.25]{Figures/imu1.jpg}
-\includegraphics[keepaspectratio=true, scale = 0.25]{Figures/cam.png}
-\caption{\\Left: SparkFun 6DOF IMU. Photo by SparkFun. Adapted from~\cite{create}. Right: The Imaging Source 22BUC03-ML CMOS board camera. Adapted from~\cite{imsrc}}
-\label{fig:imu}
-%\end{center}
-\end{figure}
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\newpage
-\subsubsection{Micro-controller}
-
-\begin{wrapfigure}{r}{0.3\textwidth}
-%\centering
-\includegraphics[width=\linewidth, height=15cm]{Figures/loop.png}
-\caption{The micro-controller program required to synchronise the sampling of the IMU and camera measurements}
-\label{fig:ISR}
-\end{wrapfigure}
-This project requires a micro-controller for the following two reasons: 
-\begin{itemize}
-\item Digital interface with the IMU.
-\item Synchronisation between the IMU and camera measurements. 
-\end{itemize}
-
-In order for the system to provide accurate results, the IMU and camera measurements need to be \textit{synchronised}. A suitable method to achieve such synchronisation is to run a timer interrupt every sample period of the camera. The interrupt subsequently calls an interrupt service routine (ISR) that triggers a pulse to the camera to capture a frame while simultaneously sampling the IMU measurements. The IMU data is then sent to a PC via the micro-controller's individual serial ports. 
-
-The following three micro-controllers are considered to realise the 
-
-\begin{table}[b]
-\caption{IMU necessary characteristics}
-\centering
-\begin{tabular}{|c|c|c|c|}
-\hline
-Characteristic & SparkFun 6DOF IMU & Required\\
-\hline
-\hline
-\hline
-\end{tabular}
-\label{tab:imuspec}
-\end{table}%
-
-Although more expensive than the alternatives, the Arduino Uno SMD Rev3 depicted in Figure~\ref{fig:arduno} micro-controller still provide a suitable, low cost solution and it the controller chosen to be implemented in this project. Although it provides less functionality the original Uno, the SMD rev3 still provides the functionality necessary to this project. This is an important factor to consider as micro-controllers with additional redundant functionality are often bought without carefully considering the functionality of the system at hand. The user friendly integrated development environment, helpful developer community along with source code for existing IMU implementations also contributed to the decision. 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\begin{figure}[h]
-\centering
-\includegraphics[width=0.5\textwidth, height=0.275\textwidth]{Figures/arduino.jpg}
-\caption{Arduino UNO SMD by Arduino. Adapted from~\cite{create}.}
-\label{fig:arduno}
-\end{figure}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsubsection{CMOS Machine Vision Camera}
-The measurement sensor is required to be a single camera. The problem description only requires the camera to have a 30 Hz frame rate. The camera chosen for this project is a CMOS camera by The Imaging Source as depicted in Figure~\ref{fig:imu}. The DFM 22BUC03-ML model is a machine vision board contains 4 GPIO pins that allow the shutter to be triggered by a digital pulse. The camera was used for a previous project and incorporated in this project due to cost constrains.\\\\ 
+The measurement sensor is required to be a single camera. The problem description only requires the camera to have a 30 Hz frame rate. The camera chosen for this project is a CMOS camera by The Imaging Source as depicted in Figure~\ref{fig:imu}. The DFM 22BUC03-ML model is a machine vision board that contains 4 general purpose input/output (GPIO) pins that allow the shutter to be triggered by a digital pulse. The camera was used for a previous project and incorporated in this project due to a limited budget. The camera however still remains  
 %The camera is configured with the following properties:
 %\begin{itemize}
 %\item Trigger mode, receiving a pulse to sample a frame (typically 30 Hz).
@@ -1267,12 +1229,79 @@ Principal point $u_0$& 319 pixels \\
 \hline
 Principal point $v_0$& 241 pixels \\
 \hline
-Radial distortion coefficient $K_1$ &  0.504\\
+Radial distortion coefficient $k_1$ &  0.504\\
+\hline
+Radial distortion coefficient $k_2$ &  0.493\\
 \hline
 \end{tabular}
 %\end{center}
 \label{camval}
+\end{table}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\newpage
+\subsubsection{Micro-controller}
+%\begin{wrapfigure}{r}{0.3\textwidth}
+%%\centering
+%\includegraphics[width=\linewidth, height=15cm]{Figures/loop.png}
+%\caption{The micro-controller program required to synchronise the sampling of the IMU and camera measurements}
+%\label{fig:ISR}
+%\end{wrapfigure}
+This project requires a micro-controller for the following two reasons: 
+\begin{itemize}
+\item Digital interface with the IMU.
+\item Synchronisation between the IMU and camera measurements. 
+\end{itemize}
+
+The requirements state that only a small micro-controller is required. In order to realise these requirements, the micro-controller only requires 1 GPIO pin that can be triggered by a timer interrupt as well as a I2C interface that can operate at the IMU's specified 100 Khz or 400 Khz. A board based micro-controller (like an Arduino) shouldn't only be considered, micro controllers seated in dual in-line packages (DIP) are considerably cheaper and will also be considered.  
+
+Three micro-controllers are considered in project. These include the board based Arduino Uno SMD Rev3 and PIC32-Pinguino and the DIP  MSP430 Launchpad. Table~\ref{tab:micro} provides a general overview of some important aspects regarding theses micro-controllers.
+\begin{table}[H]
+\caption{General overview of the considered micro-controllers}
+%\centering
+\begin{tabular}{|c|c|c|c|c|}
+\hline
+Characteristic & Arduino Uno & Pinguino & MSP430 Launchpad & Required\\
+\hline
+\hline
+Clock Frequency & 16 MHz & 80 MHz & 32 KHz & 400 kHz\\
+\hline
+%\hline
+%Adapters & USB & USB & USB & USB \\
+I2C (400 kHz) & yes & yes & yes & yes\\ 
+\hline
+IDE & yes & yes & yes & no \\
+\hline
+Interruptible GPIO & yes & yes & yes & 1 pin \\
+\hline
+Deliver Community & Large & Moderate & Small & No\\
+\hline \hline
+Price & R 267 & R 210 & R 120 & $\leq$ R350 \\
+\hline
+\end{tabular}
+\label{tab:micro}
 \end{table}%
+
+Although very cheap, the MSP430 Launchpad provides the necessary specifications (one interruptible GPIO pin, I2C and minimum clock frequency) for this project, the developer community is very small, with limited the support compared to the Arduino and the Pinguino. 
+
+The Pinguino also provides the necessary specifications but with a much larger developer community than the Launchpad. The powerful MIPS processor however will not influence this project as the micro-controller is only used for data communication. 
+
+Although more expensive than the alternatives, the Arduino Uno SMD Rev3 depicted in Figure~\ref{fig:arduno} micro-controller still provide a suitable, low cost solution and it the controller chosen to be implemented in this project. Although it provides less functionality the original Uno, the SMD rev3 still provides the functionality necessary to this project. This is an important factor to consider as micro-controllers with additional redundant functionality are often bought without carefully considering the functionality of the system at hand. The user friendly integrated development environment, very helpful developer community along with source code for existing IMU implementations also contributed to the decision. 
+
+\begin{figure}[h]
+\centering
+\includegraphics[width=0.5\textwidth, height=0.275\textwidth]{Figures/arduino.jpg}
+\caption{Arduino UNO SMD by Arduino. Adapted from~\cite{create}.}
+\label{fig:arduno}
+\end{figure}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
 %
 %The trigger pulse is set by the micro-controller, this will be discussed next.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -1284,6 +1313,8 @@ The hardware components need to be designed in order to meet the following speci
 \item Reliable data transfer from hardware to PC.
 \end{itemize}
 
+\subsubsection{Micro-controller}
+In order for the system to provide accurate results, the IMU and camera measurements need to be \textit{synchronised}. A suitable method to achieve such synchronisation is to run a timer interrupt every sample period of the camera. The interrupt subsequently calls an interrupt service routine (ISR) that triggers a pulse to the camera to capture a frame while simultaneously sampling the IMU measurements. The IMU data is then sent to a PC via the micro-controller's individual serial ports. 
 \subsubsection{Inertial Measurement Unit}
 Before any measurements can be obtained from the IMU, the IMU needs to be correctly configured. Communication between the micro-controller and the IMU is done via I2C where the micro-controller is the master. The appropriate registers of the accelerometer and the gyroscope need to be set to resemble the configuration shown in Table~\ref{tab:imuset}:
 \begin{table}[htdp]
@@ -1304,8 +1335,6 @@ Register & Value & Name & Function \\
 \hline
 0x16 & 0x1B & Full Scale &  \pbox{7.5cm}{Set the gyroscope to $\pm 2000^{\circ}$, 1 kHz sample rate and 50 Hz low pass filter}\\
 \hline
-0x25 & 0x09 & Sample Rate Divider & \pbox{7.5cm}{Set the internal sample rate divider to 10}\\
-\hline
 \end{tabular}
 %\end{center}
 \label{default}
@@ -1313,7 +1342,7 @@ Register & Value & Name & Function \\
 
 The IMU sensors can now be measured and subsequently converted from analog to digital values and transferred to the PC. Both devices (accelerometer and gyroscope) are set a 10 bit resolution. This means that the analog value will be represented as 10 bits and each measurement will be stored in two separate bytes (16 bits). There are a total of 6 IMU measurements - 3 from the gyroscope and 3 from the accelerometer. %A suitable baud rate must also be determined to ensure these measurement are sent to the PC within the sample period.
 %The I2C protocol for the IMU~\cite{gyro} suggests that 60 bits per measurement are required. 
-\subsubsection{Gyroscope Biases}
+\subsubsection{Accelerometer and Gyroscope Bias and Variance}
 Gyroscopes often have an offset on each individual axis that causes a \textit{bias}. These biases are unique to each device but can however be measured and subsequently subtracted from each measurement. The procedure for measuring such a bias is quite simple: the gyroscope is place flat on a surface and the angular velocities are measured. The expected value on each axis should be zero but an averaging of the measurements will show a non-zero value as depicted in Figure~\ref{fig:gyrobias}. This value is the bias and needs to be subtracted from subsequent measurements.   
 \begin{figure}[h]
 %\centering%\begin{center}
@@ -1322,12 +1351,21 @@ Gyroscopes often have an offset on each individual axis that causes a \textit{bi
 \caption{Gyroscope bias calibration.}
 \label{fig:gyrobias}
 \end{figure}
-\subsection{Hardware Simulation}
-The performance of the hardware components of this project is requires analysis through physical measurements and simulation before being integrated into the final system. In order to successfully implement a project of this magnitude that incorporates several subsystems, it is essential that the design as well as analysis thereof is accurate. The components are initially designed to meet the relevant specifications. Thereafter, simulation and measurement equipment can be used to verify that the subsystems do indeed behave as predicted. This process will greatly simplify the final integration process. 
 
-In order to verify the functionality of the gyroscope measurements, the physical measurements need to be measured and analysed. It is very difficult to intuitively analyse an angular velocity. The angular displacement however, is a much better test case upon verifying the gyroscope measurements. The IMU can be approximately rotated at known angles and the resulting angular velocities can be numerically integrated to obtain the angular displacement. This is a suitable method of analysing whether the information obtained form the gyroscope measurements resemble the actual forces exerted upon it.
 
-\subsubsection{Test 1: Approximately Known Angular Displacements}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\newpage
+\section{Analysis: Testing \& Results}
+\subsection{Introduction}
+Due to the time constraints imposed on this project, a detailed testing analysis of the entire system is not possible. Instead, tests that seek validate the functionality according each subsystem
+\subsection{Subsystem testing}
+The performance of the hardware components of this project requires analysis through physical measurements and simulation before being integrated into the final system. In order to successfully implement a project of this magnitude that incorporates several subsystems, it is essential that the design as well as analysis thereof is accurate. The components are initially designed to meet the relevant specifications stated in Chapter~\ref{sec:impl}. Thereafter, simulation and measurement equipment can be used to verify that the subsystems do indeed behave as predicted. This process will greatly simplify the final integration process. 
+
+In order to verify the functionality of the gyroscope measurements, the physical measurements need to be measured and analysed. It is very difficult to intuitively analyse an angular velocity. The angular displacement however, is a much better test case upon verifying that the gyroscope measurements are correct. The gyroscope can be approximately rotated at known angles and the resulting angular velocities can be numerically integrated to obtain the angular displacement. This is a suitable method of analysing whether the information obtained form the gyroscope measurements resemble the actual movements .
+
+\subsubsection{Measurements of gyroscope}
 The following set of test conditions will utilise actual gyroscope measurements. An approximately known angular displacements will be exerted upon the IMU e.g. rotate $90^{\circ}$ about the positive x-axis. The resulting gyroscope measurements will be plotted and analysed to verify its functionality.
 
 The set of test conditions as are listed below (the measurements are sampled at 30 Hz): 
@@ -1347,7 +1385,6 @@ Considering that the sample period is relatively small, the angular displacement
 \end{equation}
 
 It can also be assumed that given the small sample period, the relationship between the angular displacement and the angular velocity (velocity) can be approximated as linear.
-\newpage
 \subsubsection{Test 1: Results}
 \begin{enumerate}
 \item \textbf{Positive $180^{\circ}$ rotation about the x-axis:}\\
@@ -1595,8 +1632,7 @@ This simulation depicted in Figure~\ref{fig:meastraj} shows a trajectory estimat
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\newpage
-\section{Analysis: Testing \& Results}
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -1887,4 +1923,5 @@ These images were created by Fritzing (http://fritzing.org)~\cite{create}.
 \newpage
 \bibliographystyle{ieeetr}
 \bibliography{Report_bib}
+
 \end{document}   
