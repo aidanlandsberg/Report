@@ -1342,39 +1342,71 @@ Register & Value & Name & Function \\
 
 The IMU sensors can now be measured and subsequently converted from analog to digital values and transferred to the PC. Both devices (accelerometer and gyroscope) are set a 10 bit resolution. This means that the analog value will be represented as 10 bits and each measurement will be stored in two separate bytes (16 bits). There are a total of 6 IMU measurements - 3 from the gyroscope and 3 from the accelerometer. %A suitable baud rate must also be determined to ensure these measurement are sent to the PC within the sample period.
 %The I2C protocol for the IMU~\cite{gyro} suggests that 60 bits per measurement are required. 
-\subsubsection{Accelerometer and Gyroscope Bias and Variance}
-Gyroscopes often have an offset on each individual axis that causes a \textit{bias}. These biases are unique to each device but can however be measured and subsequently subtracted from each measurement. The procedure for measuring such a bias is quite simple: the gyroscope is place flat on a surface and the angular velocities are measured. The expected value on each axis should be zero but an averaging of the measurements will show a non-zero value as depicted in Figure~\ref{fig:gyrobias}. This value is the bias and needs to be subtracted from subsequent measurements.   
+\subsubsection{Sensor Bias and Variance}
+Measurement sensors often have offsets that cause a measurement \textit{bias}. These biases can however be measured and subsequently subtracted from each measurement. If each measurement is modelled with additive Gaussian RV, the bias is the mean of this noise. The procedure for measuring such a bias is quite simple: if the gyroscope is stationary, the angular velocities are expected to be zero. The procedure for measuring the accelerometer bias is slightly more difficult, as an accelerometer measures gravitational acceleration. If the accelerometer is rotated about each axis, the accelerations of the x- and y-accelerations should resemble a sinusoid due with a peak equal to the gravitational acceleration. The offset of this sinusoid is typically the measurement bias. The expected value on each axis should be zero but the measurements will show a varying non-zero value as depicted in Figure~\ref{fig:gyrobias}. The average of this value is the bias. 
 \begin{figure}[h]
 %\centering%\begin{center}
-\includegraphics[width=0.49\textwidth, height=0.45\textwidth]{Figures/Gyro_bias.png}
-\includegraphics[width=0.49\textwidth, height=0.45\textwidth]{Figures/bias_ac.png}
-\caption{Gyroscope bias calibration.}
+\includegraphics[width=0.49\textwidth, height=0.45\textwidth]{Figures/Gyro_bias1.png}
+\includegraphics[width=0.49\textwidth, height=0.45\textwidth]{Figures/acc_bias_flat.png}
+\caption{Left: Measurements of the stationary gyroscope. Right: Averaged measurements from the accelerometer after 3-axis individual rotations.}
 \label{fig:gyrobias}
 \end{figure}
+\begin{table}[htdp]
+\caption{Statistical quantities of the measurement noise.}
+\centering
+%\begin{center}
+\begin{tabular}{|c|c|c|}
+\hline
+Parameter & Mean & Variance\\
+\hline
+Acceleration $x-$axis & 0.3405 & 6.7923e-04  \\
+\hline 
+Acceleration $y-$axis & 0.6026 & 7.2212e-04  \\
+\hline 
+Acceleration $z-$axis & 9.8771 & 8.2147e-04  \\
+\hline 
+Gyroscope $x-$axis & 0.3587 & 0.0283 \\
+\hline
+Gyroscope $y-$axis & 0.0538 & 0.0188 \\
+\hline
+Gyroscope $z-$axis & -0.1028 & 0.0638 \\
+\hline
+\end{tabular}
+%\end{center}
+\label{tab:statimu}
+\end{table}%
 
-
+The modelling of the additive noise in Chapter~\ref{sec:imu} is based statistical quantities provided in Table~\ref{tab:statimu} 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \newpage
 \section{Analysis: Testing \& Results}
 \subsection{Introduction}
-Due to the time constraints imposed on this project, a detailed testing analysis of the entire system is not possible. Instead, tests that seek validate the functionality according each subsystem
+Due to the time constraints imposed on this project, a detailed testing analysis of the entire system is not possible. Instead, tests that seek to validate the functionality of each subsystem implemented. The validity of the raw gyroscope and accelerometer measurements are initially inspected. Thereafter, the validity of the kinematic state estimator is 
+
+\begin{figure}[h]
+\centering%\begin{center}
+\includegraphics[width=0.49\textwidth, height=0.45\textwidth]{Figures/IMG1.jpg}
+\includegraphics[width=0.49\textwidth, height=0.45\textwidth]{Figures/IMG2.jpg}
+\caption{Left: Top view of the hardware components of the system system. Right: Fully constructed platform to house the hardware components of the system.}
+\label{fig:gyrobias}
+\end{figure}
+
 \subsection{Subsystem testing}
 The performance of the hardware components of this project requires analysis through physical measurements and simulation before being integrated into the final system. In order to successfully implement a project of this magnitude that incorporates several subsystems, it is essential that the design as well as analysis thereof is accurate. The components are initially designed to meet the relevant specifications stated in Chapter~\ref{sec:impl}. Thereafter, simulation and measurement equipment can be used to verify that the subsystems do indeed behave as predicted. This process will greatly simplify the final integration process. 
 
 In order to verify the functionality of the gyroscope measurements, the physical measurements need to be measured and analysed. It is very difficult to intuitively analyse an angular velocity. The angular displacement however, is a much better test case upon verifying that the gyroscope measurements are correct. The gyroscope can be approximately rotated at known angles and the resulting angular velocities can be numerically integrated to obtain the angular displacement. This is a suitable method of analysing whether the information obtained form the gyroscope measurements resemble the actual movements .
 
-\subsubsection{Measurements of gyroscope}
+\subsubsection{Gyroscope raw measurements}
 The following set of test conditions will utilise actual gyroscope measurements. An approximately known angular displacements will be exerted upon the IMU e.g. rotate $90^{\circ}$ about the positive x-axis. The resulting gyroscope measurements will be plotted and analysed to verify its functionality.
-
-The set of test conditions as are listed below (the measurements are sampled at 30 Hz): 
-\begin{enumerate}
-\item \textbf{Positive $180^{\circ}$ rotation about the x-axis:}\\
-\item \textbf{Positive $90^{\circ}$ rotation about the y-axis:}\\
-\item \textbf{Positive $90^{\circ}$ followed by a negative $90^{\circ}$ rotation about the y-axis:}\\
-\item \textbf{Positive $360^{\circ}$ rotation about the z-axis:}\\
-\end{enumerate}
+%The set of test conditions as are listed below (the measurements are sampled at 30 Hz): 
+%\begin{enumerate}
+%\item \textbf{Positive $180^{\circ}$ rotation about the x-axis:}\\
+%\item \textbf{Positive $90^{\circ}$ rotation about the y-axis:}\\
+%\item \textbf{Positive $90^{\circ}$ followed by a negative $90^{\circ}$ rotation about the y-axis:}\\
+%\item \textbf{Positive $360^{\circ}$ rotation about the z-axis:}\\
+%\end{enumerate}
 
 Considering that the sample period is relatively small, the angular displacement $\Theta_t$ can be approximated in terms of the measured angular velocities $\psi_t$ as follows:
 \begin{equation}
@@ -1383,9 +1415,34 @@ Considering that the sample period is relatively small, the angular displacement
 \Theta_t &= \Delta T \psi_t
 \end{split}
 \end{equation}
-
 It can also be assumed that given the small sample period, the relationship between the angular displacement and the angular velocity (velocity) can be approximated as linear.
-\subsubsection{Test 1: Results}
+
+\begin{figure}[H]
+\centering
+\begin{subfigure}[H]{0.49\textwidth}
+\includegraphics[width=\textwidth, height=6cm]{Figures/gyrox180.png} 
+\caption{Angular displacement after positive $180^{\circ}$ rotation about the x-axis.}
+\label{fig:gx}
+\end{subfigure}
+\begin{subfigure}[H]{0.49\textwidth}
+\includegraphics[width=\textwidth, height=6cm]{Figures/gyroy90.png}
+\caption{Angular displacement after positive $90^{\circ}$ rotation about the y-axis.}
+\label{fig:gy}
+\end{subfigure}
+\begin{subfigure}[H]{0.49\textwidth}
+\includegraphics[width=\textwidth, height=6cm]{Figures/gyroy2.png}
+\caption{Angular displacement after positive $90^{\circ}$ negative then $90^{\circ}$ rotation about the y-axis.}
+\label{fig:gyy}
+\end{subfigure} 
+\begin{subfigure}[H]{0.49\textwidth}
+\includegraphics[width=\textwidth, height=6cm]{Figures/gyrox360.png}
+\caption{Angular displacement after positive $360^{\circ}$ rotation about the z-axis.}
+\label{fig:gz}
+\end{subfigure} 
+\caption{Results of the test conditions 1 depicting angular displacements from gyroscope measurements.}
+\label{fig:gy1}
+\end{figure}
+
 \begin{enumerate}
 \item \textbf{Positive $180^{\circ}$ rotation about the x-axis:}\\
 The measurements depicted in Figure~\ref{fig:gx} show an angular position x that begins at zero and ends at approximately $180^{\circ}$ due to the rotation described by the test case.
@@ -1398,34 +1455,7 @@ The measurements depicted in Figure~\ref{fig:gz} show an angular position z that
 \end{enumerate}
 
 Additionally, it can be observed in Figure~\ref{fig:gy1} that the rate at which the angular displacement is changing is approximately linear in all the cases. The gyroscope measurements are thus validated given that the mathematics and measurement simulation are in agreement.
-
-\begin{figure}[H]
-\centering
-\begin{subfigure}[H]{0.49\textwidth}
-\includegraphics[width=\textwidth, height=4.5cm]{Figures/gyrox180.png} 
-\caption{Angular displacement after positive $180^{\circ}$ rotation about the x-axis.}
-\label{fig:gx}
-\end{subfigure}
-\begin{subfigure}[H]{0.49\textwidth}
-\includegraphics[width=\textwidth, height=4.3cm]{Figures/gyroy90.png}
-\caption{Angular displacement after positive $90^{\circ}$ rotation about the y-axis.}
-\label{fig:gy}
-\end{subfigure}
-\begin{subfigure}[H]{0.49\textwidth}
-\includegraphics[width=\textwidth, height=4.5cm]{Figures/gyroy2.png}
-\caption{Angular displacement after positive $90^{\circ}$ negative then $90^{\circ}$ rotation about the y-axis.}
-\label{fig:gyy}
-\end{subfigure} 
-\begin{subfigure}[H]{0.49\textwidth}
-\includegraphics[width=\textwidth, height=4.3cm]{Figures/gyrox360.png}
-\caption{Angular displacement after positive $360^{\circ}$ rotation about the z-axis.}
-\label{fig:gz}
-\end{subfigure} 
-
-\caption{Results of the test conditions 1 depicting angular displacements from gyroscope measurements.}
-\label{fig:gy1}
-\end{figure}
-
+\subsubsection{Accelerometer raw measuremnets}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -1479,6 +1509,7 @@ Additionally, it can be observed in Figure~\ref{fig:gy1} that the rate at which 
 %\label{tab:write}
 %\end{table}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
 \newpage
 \subsection{Software Simulation}
 This study seeks to investigate the performance of the kinematic estimator as a state transition model. An EKF-based kinematic estimator simulation is designed to meet the following specifications:
@@ -1506,14 +1537,14 @@ The expected outcome then, is that the kinematic estimator will precisely track 
 The first set of test conditions as well as the theoretical predictions are listed below. The length of a simulation is 10 seconds at 30 Hz or 300 samples. The initial position is always $\textbf{r}^W$ = \{0 0 0\} with an orientation quaternion of $\textbf{q}^{WC} =$ \{1 0 0 0\}): %The trajectory of the can thus qualitatively analysed to predict the performance of the kinematic estimato.
 
 \begin{enumerate}
-\item \textbf{1 metre per second x-acceleration:}\\
-The trajectory is expected to only move along the positive x-axis. Newtons equations of motions suggest that the displacement of the robot due to a constant acceleration is:
-\begin{equation}
-x = x_0 + \cfrac{t^2}{2} = 0 + \cfrac{10^2}{2} = 50 \text{m}
-\end{equation}
-\item \textbf{1 metre per second x-acceleration with sudden positive 90 degree rotation about the y-axis:}\\
-The trajectory is expected to initially move along the positive x-axis after which the positive 90 degree rotation about the y-axis will rotate the robot frame so that the trajectory only moves along the negative z-axis. 
-\item \textbf{1 metre per second x-acceleration with three consecutive 90 degree rotations about the z-axis:}\\
+\item \textbf{1 metre per second squared x-acceleration:}\\
+%The trajectory is expected to only move along the positive x-axis. Newtons equations of motions suggest that the displacement of the robot due to a constant acceleration is:
+%\begin{equation}
+%x = x_0 + \cfrac{t^2}{2} = 0 + \cfrac{10^2}{2} = 50 \text{m}
+%\end{equation}
+%\item \textbf{1 metre per second squared x-acceleration with sudden positive 90 degree rotation about the y-axis:}\\
+%The trajectory is expected to initially move along the positive x-axis after which the positive 90 degree rotation about the y-axis will rotate the robot frame so that the trajectory only moves along the negative z-axis. 
+\item \textbf{1 metre per second squared x-acceleration with three consecutive 90 degree rotations about the z-axis:}\\
 The trajectory is expected to initially move along the positive x-axis until the first positive 90 degree rotation about the z-axis rotates the robot frame so that the trajectory only moves along the positive y-axis. A second positive 90 degree rotation about the z-axis rotates the robot frame so that the trajectory then moves along the negative x-axis. The final positive 90 degree rotation about the z-axis rotates the robot frame so that the trajectory only moves along the negative y-axis. If the timesteps between the rotations are equal, a block figure trajectory is expected in the plane of rotation.    
 \end{enumerate}
 \newpage
