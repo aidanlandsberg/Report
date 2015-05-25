@@ -602,7 +602,7 @@ Table~\ref{tab:EKF}  below, systematically and mathematically represents the ste
 \end{table}%  
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \newpage
-\section{System Overview}
+\section{System Overview}\label{sec:system}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Introduction}
 This chapter sets out to provide an overview of the MonoSLAM algorithm. Initially, a general overview of MonoSLAM is given, stating the problem, previous work done regarding this problem and the limitations imposed on this work. Thereafter, the adequate state representation will be shown along with the required modelling of the measurement sensors. Finally, a complete analysis of the \textit{control update} and an overview of the \textit{measurement update} will be given.
@@ -1108,7 +1108,7 @@ The detection operator of Shi and Tomasi~\cite{shitom} seeks to initialise new f
 \subsection{Introduction}
 This Chapter sets out to discuss the hardware and software decisions that are made with respect to this project. Initially, the system requirements are presented and possible solutions are discussed. Thereafter, the individual hardware components used in this project are presented and motivated. This chapter also provides the  necessary configuration for each component to realise the system requirements. %Lastly, the core of this project, the kinematic estimator, is simulated and analysed as a possible alternative to the current velocity and angular velocity model. 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\subsection{System Requirements}
+\subsection{System Requirements}\label{sec:specs}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 The project objectives in Chapter~\ref{sec:into3} allow processing regarding the MonoSLAM implementation to be conducted on a personal computer (PC). In the original implementation of MonoSLAM, a 1.6 GHz Pentium M processor is used. Standard PC's however, provide no simple interface with external components that don't possess the peripheral ports present on the PC e.g. USB, Ethernet, Firewire and VGA. If indeed components can be connected via one of the aforementioned ports, a complicated procedure is often required if certain external components are required to communicate with one another through the PC.
 
@@ -1196,17 +1196,16 @@ Resolution & 10 bits \\
 \hline
 Gyroscope range & $\pm2000^{\circ}$ per second\\
 \hline
-Output data rate & 50 Hz (100Hz Low pass filter)\\ 
+Output data rate & 50 Hz (100Hz low pass filter bandwidth)\\ 
 \hline
 \end{tabular}
 \label{tab:imuset}
 \end{table}%
-
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsubsection{CMOS Machine Vision Camera}
-The measurement sensor is required to be a single camera. The problem description only requires the camera to have a 30 Hz frame rate. The camera chosen for this project is a CMOS camera by The Imaging Source as depicted in Figure~\ref{fig:imu}. The DFM 22BUC03-ML model is a machine vision board that contains 4 general purpose input/output (GPIO) pins that allow the shutter to be triggered by a digital pulse. The camera was used for a previous project and incorporated in this project due to a limited budget. The camera however still remains  
+The measurement sensor is required to be a single camera. The problem description only requires the camera to have a 30 Hz frame rate. The camera chosen for this project is a CMOS camera by The Imaging Source as depicted in Figure~\ref{fig:imu}. The DFM 22BUC03-ML model is a machine vision board that contains 4 general purpose input/output (GPIO) pins that allow the shutter to be triggered by a digital pulse. The pulse is to be triggered externally and the data is sent to the PC via a USB port. The camera was used for a previous project but still provides the necessary functionality required for this project and is thus incorporated due to a limited budget.  
 %The camera is configured with the following properties:
 %\begin{itemize}
 %\item Trigger mode, receiving a pulse to sample a frame (typically 30 Hz).
@@ -1242,7 +1241,7 @@ Radial distortion coefficient $k_2$ &  0.493\\
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \newpage
-\subsubsection{Micro-controller}
+\subsubsection{Micro-controller}\label{sec:micset}
 %\begin{wrapfigure}{r}{0.3\textwidth}
 %%\centering
 %\includegraphics[width=\linewidth, height=15cm]{Figures/loop.png}
@@ -1288,11 +1287,11 @@ Although very cheap, the MSP430 Launchpad provides the necessary specifications 
 
 The Pinguino also provides the necessary specifications but with a much larger developer community than the Launchpad. The powerful MIPS processor however will not influence this project as the micro-controller is only used for data communication. 
 
-Although more expensive than the alternatives, the Arduino Uno SMD Rev3 depicted in Figure~\ref{fig:arduno} micro-controller still provide a suitable, low cost solution and it the controller chosen to be implemented in this project. Although it provides less functionality the original Uno, the SMD rev3 still provides the functionality necessary to this project. This is an important factor to consider as micro-controllers with additional redundant functionality are often bought without carefully considering the functionality of the system at hand. The user friendly integrated development environment, very helpful developer community along with source code for existing IMU implementations also contributed to the decision. 
+Although more expensive than the alternatives, the Arduino UNO SMD Rev3 depicted in Figure~\ref{fig:arduno} micro-controller still provide a suitable, low cost solution and it the controller chosen to be implemented in this project. The Arduino Uno provides the functionality necessary for this project. The user friendly integrated development environment, very helpful developer community along with source code for existing IMU implementations all contributed to the decision. 
 
-\begin{figure}[h]
+\begin{figure}[H]
 \centering
-\includegraphics[width=0.5\textwidth, height=0.275\textwidth]{Figures/arduino.jpg}
+\includegraphics[width=0.42\textwidth, height=0.24\textwidth]{Figures/arduino.jpg}
 \caption{Arduino UNO SMD by Arduino. Adapted from~\cite{create}.}
 \label{fig:arduno}
 \end{figure}
@@ -1305,7 +1304,16 @@ Although more expensive than the alternatives, the Arduino Uno SMD Rev3 depicted
 %
 %The trigger pulse is set by the micro-controller, this will be discussed next.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\newpage
 \subsection{Hardware Configuration}
+\begin{wrapfigure}{R}{0.3\textwidth}
+%\centering
+\includegraphics[width=\linewidth, height=13.5cm]{Figures/loop.png}
+\caption{A flow diagram for the micro-controller program required to synchronise the sampling of the IMU and camera measurements.}
+\label{fig:ISR}
+\end{wrapfigure}
+This Chapter seeks to discuss the necessary practical procedures undertaken to realise the system requirements defined in Chapter~\ref{sec:specs}. The system configuration as well as the data communication is done by the Arduino. The necessary code is uploaded onto the Arduino micro-controller over a USB port using the Arduino IDE. All of the code on the Arduino is written using C$++$ and compiled using g$++$.
+
 The hardware components need to be designed in order to meet the following specifications:
 \begin{itemize}
 \item 30 Hz data rate.
@@ -1314,10 +1322,14 @@ The hardware components need to be designed in order to meet the following speci
 \end{itemize}
 
 \subsubsection{Micro-controller}
-In order for the system to provide accurate results, the IMU and camera measurements need to be \textit{synchronised}. A suitable method to achieve such synchronisation is to run a timer interrupt every sample period of the camera. The interrupt subsequently calls an interrupt service routine (ISR) that triggers a pulse to the camera to capture a frame while simultaneously sampling the IMU measurements. The IMU data is then sent to a PC via the micro-controller's individual serial ports. 
-\subsubsection{Inertial Measurement Unit}
-Before any measurements can be obtained from the IMU, the IMU needs to be correctly configured. Communication between the micro-controller and the IMU is done via I2C where the micro-controller is the master. The appropriate registers of the accelerometer and the gyroscope need to be set to resemble the configuration shown in Table~\ref{tab:imuset}:
-\begin{table}[htdp]
+The IMU and camera measurements need to be \textit{synchronised}. A suitable method to achieve such synchronisation is to run a timer interrupt every sample period of the camera (i.e 30 Hz). The interrupt subsequently calls an interrupt service routine (ISR) that triggers a pulse to the camera to capture a frame while simultaneously sampling the IMU measurements. According to the data sheet of the camera~\cite{trigger}, a digital pulse must be set high for at least $10\mu$ seconds in order to set the moment of exposure. The exposure itself is set through external software.This procedure is shown in Figure~\ref{fig:ISR}.
+
+Communication between the IMU and the Arduino is done via I2C. The accelerometer and the gyroscope are slave devices on the bus while the Arduino is the master. The IMU is configured according to the configuration to be explained in Chapter~\ref{sec:IMUconfig} in the once-off setup function before entering the infinite loop() function that waits for a command from the PC in order to send the IMU data.  
+
+\subsubsection{Inertial Measurement Unit}\label{sec:IMUconfig}
+Before any IMU measurements can be obtained, the IMU needs to be correctly configured. Communication between the micro-controller and the IMU is occurs via the I2C interface. The appropriate registers of the accelerometer and the gyroscope need to be set to resemble the configuration shown in Table~\ref{tab:imuset}.
+
+\begin{table}[H]
 \caption{Accelerometer and gyroscope register values}
 \centering
 %\begin{center}
@@ -1327,34 +1339,27 @@ Register & Value & Name & Function \\
 \hline\hline
 \multicolumn{4}{|c|}{Accelerometer} \\
 \hline
-0x31 & 0x09 & DATA\textunderscore FORMAT &  \pbox{7.5cm}{Set the accelerometer to $\pm 4g$ and 10 bit resolution}\\
+0x31 & 0x09 & DATA\textunderscore FORMAT &  \pbox{7.5cm}{Set the accelerometer to $\pm 4g$ and 10 bit resolution.}\\
 \hline
-0x2D & 0x08 & POWER\textunderscore CTL & \pbox{7.5cm}{Set the accelerometer to measure mode with minimum power consumption}\\
+0x2D & 0x08 & POWER\textunderscore CTL & \pbox{7.5cm}{Set the accelerometer to measure mode with minimum power consumption.}\\
 \hline
 \multicolumn{4}{|c|}{Gyroscope} \\
 \hline
-0x16 & 0x1B & Full Scale &  \pbox{7.5cm}{Set the gyroscope to $\pm 2000^{\circ}$, 1 kHz sample rate and 50 Hz low pass filter}\\
+0x16 & 0x1B & Full Scale &  \pbox{7.5cm}{Set the gyroscope to $\pm 2000^{\circ}$, 1 kHz sample rate and 100 Hz low pass filter bandwidth.}\\
 \hline
 \end{tabular}
 %\end{center}
 \label{default}
 \end{table}%
 
-The IMU sensors can now be measured and subsequently converted from analog to digital values and transferred to the PC. Both devices (accelerometer and gyroscope) are set a 10 bit resolution. This means that the analog value will be represented as 10 bits and each measurement will be stored in two separate bytes (16 bits). There are a total of 6 IMU measurements - 3 from the gyroscope and 3 from the accelerometer. %A suitable baud rate must also be determined to ensure these measurement are sent to the PC within the sample period.
+The IMU sensors can now be measured and subsequently converted from analog to digital values and transferred to the PC. Both devices (accelerometer and gyroscope) are set a 10 bit resolution. This means that the analog value will be represented as 10 bits and each measurement will be stored in two separate bytes (16 bits). There are a total of 6 IMU measurements - 3 from the gyroscope and 3 from the accelerometer. A suitable baud rate must also be determined to ensure these measurement are sent to the PC within the sample period.
 %The I2C protocol for the IMU~\cite{gyro} suggests that 60 bits per measurement are required. 
 \subsubsection{Sensor Bias and Variance}
-Measurement sensors often have offsets that cause a measurement \textit{bias}. These biases can however be measured and subsequently subtracted from each measurement. If each measurement is modelled with additive Gaussian RV, the bias is the mean of this noise. The procedure for measuring such a bias is quite simple: if the gyroscope is stationary, the angular velocities are expected to be zero. The procedure for measuring the accelerometer bias is slightly more difficult, as an accelerometer measures gravitational acceleration. If the accelerometer is rotated about each axis, the accelerations of the x- and y-accelerations should resemble a sinusoid due with a peak equal to the gravitational acceleration. The offset of this sinusoid is typically the measurement bias. The expected value on each axis should be zero but the measurements will show a varying non-zero value as depicted in Figure~\ref{fig:gyrobias}. The average of this value is the bias. 
-\begin{figure}[h]
-%\centering%\begin{center}
-\includegraphics[width=0.49\textwidth, height=0.45\textwidth]{Figures/Gyro_bias1.png}
-\includegraphics[width=0.49\textwidth, height=0.45\textwidth]{Figures/acc_bias_flat.png}
-\caption{Left: Measurements of the stationary gyroscope. Right: Averaged measurements from the accelerometer after 3-axis individual rotations.}
-\label{fig:gyrobias}
-\end{figure}
-\begin{table}[htdp]
+Measurement sensors often have offsets that cause a measurement \textit{bias}. These biases can however be measured and subsequently subtracted from each measurement. If each measurement is modelled with additive Gaussian RV, the bias is the mean of this noise. The procedure for measuring such a bias is quite simple: if the gyroscope is stationary, the angular velocities are expected to be zero. The procedure for measuring the accelerometer bias is slightly more difficult, as an accelerometer measures gravitational acceleration. If the accelerometer is rotated about each axis, the accelerations of the x- and y-accelerations should resemble a sinusoid due with a peak equal to the gravitational acceleration. The offset of this sinusoid is typically the measurement bias. The expected value on each axis should be zero but the measurements will show a varying non-zero value as depicted in Figure~\ref{fig:gyrobias}. The average of this varying value is the bias. 
+
+\begin{table}[H]
 \caption{Statistical quantities of the measurement noise.}
 \centering
-%\begin{center}
 \begin{tabular}{|c|c|c|}
 \hline
 Parameter & Mean & Variance\\
@@ -1376,14 +1381,24 @@ Gyroscope $z-$axis & -0.1028 & 0.0638 \\
 \label{tab:statimu}
 \end{table}%
 
-The modelling of the additive noise in Chapter~\ref{sec:imu} is based statistical quantities provided in Table~\ref{tab:statimu} 
+\begin{figure}[H]
+%\centering%\begin{center}
+\includegraphics[width=0.49\textwidth, height=0.45\textwidth]{Figures/Gyro_bias1.png}
+\includegraphics[width=0.49\textwidth, height=0.45\textwidth]{Figures/acc_bias_flat.png}
+\caption{Left: Measurements of the stationary gyroscope. Right: Averaged measurements from the accelerometer after 3-axis individual rotations.}
+\label{fig:gyrobias}
+\end{figure}
+
+%\begin{center}
+
+The modelling of the additive noise in Chapter~\ref{sec:imu} is based statistical quantities provided in Table~\ref{tab:statimu}.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \newpage
 \section{Analysis: Testing \& Results}
 \subsection{Introduction}
-Due to the time constraints imposed on this project, a detailed testing analysis of the entire system is not possible. Instead, tests that seek to validate the functionality of each subsystem implemented. The validity of the raw gyroscope and accelerometer measurements are initially inspected. Thereafter, the validity of the kinematic state estimator is 
+Due to the time constraints imposed on this project, a detailed testing analysis of the entire system is not possible. Instead, tests that seek to validate the functionality of each subsystem implemented. The validity of the raw gyroscope and accelerometer measurements are initially inspected. Thereafter, the validity of the kinematic state estimator is .......................
 
 \begin{figure}[h]
 \centering%\begin{center}
@@ -1394,11 +1409,13 @@ Due to the time constraints imposed on this project, a detailed testing analysis
 \end{figure}
 
 \subsection{Subsystem testing}
-The performance of the hardware components of this project requires analysis through physical measurements and simulation before being integrated into the final system. In order to successfully implement a project of this magnitude that incorporates several subsystems, it is essential that the design as well as analysis thereof is accurate. The components are initially designed to meet the relevant specifications stated in Chapter~\ref{sec:impl}. Thereafter, simulation and measurement equipment can be used to verify that the subsystems do indeed behave as predicted. This process will greatly simplify the final integration process. 
+The performance of the hardware components of this project requires analysis through physical measurements and simulation before being integrated into the final system. In order to successfully implement a project of this magnitude that incorporates several subsystems, it is essential that the design as well as analysis thereof is accurate. The hardware components are initially designed to meet the relevant specifications and functionality stated in Chapter~\ref{sec:impl} and Chapter~\ref{sec:system}. Thereafter, simulation and measurement equipment can be used to verify that the subsystems do indeed behave as defined in Chapter~\ref{sec:system}. This process will greatly simplify the final integration process. 
 
+The validity of the accelerometer and gyroscope measurements are initially tested. Thereafter, the function of the micro-controller that generates a pulse and samples an IMU measurement within a system sample period is tested. Finally, the kinematic estimator is evaluated as a state estimator using simulated accelerometer and gyroscope measurements to reconstruct a trajectory.  
+
+\subsubsection{Accuracy of Gyroscope Raw Measurements}
 In order to verify the functionality of the gyroscope measurements, the physical measurements need to be measured and analysed. It is very difficult to intuitively analyse an angular velocity. The angular displacement however, is a much better test case upon verifying that the gyroscope measurements are correct. The gyroscope can be approximately rotated at known angles and the resulting angular velocities can be numerically integrated to obtain the angular displacement. This is a suitable method of analysing whether the information obtained form the gyroscope measurements resemble the actual movements .
 
-\subsubsection{Gyroscope raw measurements}
 The following set of test conditions will utilise actual gyroscope measurements. An approximately known angular displacements will be exerted upon the IMU e.g. rotate $90^{\circ}$ about the positive x-axis. The resulting gyroscope measurements will be plotted and analysed to verify its functionality.
 %The set of test conditions as are listed below (the measurements are sampled at 30 Hz): 
 %\begin{enumerate}
@@ -1455,7 +1472,9 @@ The measurements depicted in Figure~\ref{fig:gz} show an angular position z that
 \end{enumerate}
 
 Additionally, it can be observed in Figure~\ref{fig:gy1} that the rate at which the angular displacement is changing is approximately linear in all the cases. The gyroscope measurements are thus validated given that the mathematics and measurement simulation are in agreement.
-\subsubsection{Accelerometer raw measuremnets}
+
+It should be noted that the gyroscope gradually drifts over time. It is a known that the gyroscope produces a constant error that is subsequently integrated over time (upon seeking to obtain an angular position) producing a linear angular drift. It is expected though that the measurement update in the SLAM filter will account for these errors.
+\subsubsection{Accelerometer Raw Measurements}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -1511,7 +1530,7 @@ Additionally, it can be observed in Figure~\ref{fig:gy1} that the rate at which 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \newpage
-\subsection{Software Simulation}
+\subsection{Simulation}
 This study seeks to investigate the performance of the kinematic estimator as a state transition model. An EKF-based kinematic estimator simulation is designed to meet the following specifications:
 \begin{itemize}
 \item The measurement update only adds additive noise to the state estimates. 
@@ -1529,7 +1548,7 @@ In order to effectively analyse its performance, a simulation of an EKF that use
 \end{figure}
 
 \newpage
-\subsubsection{Test 1: Prediction}
+\subsubsection{Recovering a Trajectory from Simulated IMU Measurements}
 The first set of test conditions will provide simulated gyroscope and accelerometer measurements with zero process and measurement noise. The EKF simulation measurement model is defined as a mapping of the state vector with additive noise. With no uncertainty regarding the measurement or process noise then, the simulated state estimates should exactly resemble the actual state vector.
 
 The expected outcome then, is that the kinematic estimator will precisely track a given robot trajectory. These trajectories will be trivially defined so that the results can be accurately analysed. 
@@ -1537,125 +1556,48 @@ The expected outcome then, is that the kinematic estimator will precisely track 
 The first set of test conditions as well as the theoretical predictions are listed below. The length of a simulation is 10 seconds at 30 Hz or 300 samples. The initial position is always $\textbf{r}^W$ = \{0 0 0\} with an orientation quaternion of $\textbf{q}^{WC} =$ \{1 0 0 0\}): %The trajectory of the can thus qualitatively analysed to predict the performance of the kinematic estimato.
 
 \begin{enumerate}
-\item \textbf{1 metre per second squared x-acceleration:}\\
+%\item \textbf{1 metre per second squared x-acceleration:}\\
 %The trajectory is expected to only move along the positive x-axis. Newtons equations of motions suggest that the displacement of the robot due to a constant acceleration is:
 %\begin{equation}
 %x = x_0 + \cfrac{t^2}{2} = 0 + \cfrac{10^2}{2} = 50 \text{m}
 %\end{equation}
 %\item \textbf{1 metre per second squared x-acceleration with sudden positive 90 degree rotation about the y-axis:}\\
 %The trajectory is expected to initially move along the positive x-axis after which the positive 90 degree rotation about the y-axis will rotate the robot frame so that the trajectory only moves along the negative z-axis. 
-\item \textbf{1 metre per second squared x-acceleration with three consecutive 90 degree rotations about the z-axis:}\\
-The trajectory is expected to initially move along the positive x-axis until the first positive 90 degree rotation about the z-axis rotates the robot frame so that the trajectory only moves along the positive y-axis. A second positive 90 degree rotation about the z-axis rotates the robot frame so that the trajectory then moves along the negative x-axis. The final positive 90 degree rotation about the z-axis rotates the robot frame so that the trajectory only moves along the negative y-axis. If the timesteps between the rotations are equal, a block figure trajectory is expected in the plane of rotation.    
+\item \textbf{1 metre per second squared x-acceleration with three consecutive 90$^{\circ}$ rotations about the z-axis:}\\
+The trajectory is expected to initially move along the positive x-axis until the first positive 90$^{\circ}$ degree rotation about the z-axis rotates the robot frame so that the trajectory only moves along the positive y-axis. A second positive 90$^{\circ}$ rotation about the z-axis rotates the robot frame so that the trajectory then moves along the negative x-axis. The final positive 90 degree rotation about the z-axis rotates the robot frame so that the trajectory only moves along the negative y-axis. If the time steps between the rotations are equal, a block figure trajectory is expected in the plane of rotation.    
 \end{enumerate}
-\newpage
-\subsubsection{Test 1: Results and Analysis}
+%\newpage
+%\subsubsection{Test 1: Results and Analysis}
 \begin{enumerate}
-\item \textbf{1 metre per second x-acceleration:}\\
-The simulation depicted in Figure~\ref{fig:xacc} shows a trajectory only moving along the positive x-axis. The final x-position is given to be 50 metres, exactly the predicted value. Furthermore, the estimated trajectory directly tracks the true trajectory.  
-\item  \textbf{1 metre per second x-acceleration with sudden 90 degree rotation about the y-axis:}\\
-The simulation depicted in Figure~\ref{fig:yrot} shows a trajectory that initially moves along the positive x-axis before proceeding to move along the negative z-axis. Again, the estimated trajectory directly tracks the true trajectory.
-\item  \textbf{1 metre per second x-acceleration with three consecutive 90 degree rotations about the z-axis:}\\   
-The simulation depicted in Figure~\ref{fig:zplane} shows a square in the z-plane. This suggests that the trajectory incorporates three 90 degree rotations about the z-axis as the robot is moving at a constant acceleration with respect to its own reference frame. Again, the estimated trajectory directly tracks the true trajectory.
+%\item \textbf{1 metre per second x-acceleration:}\\
+%The simulation depicted in Figure~\ref{fig:xacc} shows a trajectory only moving along the positive x-axis. The final x-position is given to be 50 metres, exactly the predicted value. Furthermore, the estimated trajectory directly tracks the true trajectory.  
+%\item  \textbf{1 metre per second x-acceleration with sudden 90 degree rotation about the y-axis:}\\
+%The simulation depicted in Figure~\ref{fig:yrot} shows a trajectory that initially moves along the positive x-axis before proceeding to move along the negative z-axis. Again, the estimated trajectory directly tracks the true trajectory.
+\item  \textbf{1 metre per second squared x-acceleration with three consecutive 90$^{\circ}$ rotations about the z-axis:}\\   
+The simulation depicted in Figure~\ref{fig:zplane} shows a square in the z-plane. This suggests that the trajectory incorporates three 90$^{\circ}$ rotations about the z-axis as the robot is moving at a constant acceleration with respect to its own reference frame. Again, the estimated trajectory directly tracks the true trajectory.
 \end{enumerate}
 \begin{figure}[H]
 %\centering
-\begin{subfigure}[H]{0.49\textwidth}
-\includegraphics[width=\textwidth, height=5.8cm]{Figures/accx_1_traj.png} 
-\caption{Trajectory: 1 m/s x-acceleration.}
-\label{fig:xacc}
-\end{subfigure}
-\begin{subfigure}[H]{0.49\textwidth}
-\includegraphics[width=\textwidth, height=5.8cm]{Figures/90rotx_traj.png}
-\caption{Trajectory: 1 m/s x-acceleration with sudden $90^{\circ}$ rotation about the y-axis.}
-\label{fig:yrot}
-\end{subfigure}
+%\begin{subfigure}[H]{0.49\textwidth}
+%\includegraphics[width=\textwidth, height=5.8cm]{Figures/accx_1_traj.png} 
+%\caption{Trajectory: 1 $\text{m/s}^2$ x-acceleration.}
+%\label{fig:xacc}
+%\end{subfigure}
+%\begin{subfigure}[H]{0.49\textwidth}
+%\includegraphics[width=\textwidth, height=5.8cm]{Figures/90rotx_traj.png}
+%\caption{Trajectory: 1 $\text{m/s}^2$ x-acceleration with sudden $90^{\circ}$ rotation about the y-axis.}
+%\label{fig:yrot}
+%\end{subfigure}
 \centering
-\begin{subfigure}[H]{0.65\textwidth}
-\includegraphics[width=\textwidth, height=5.8cm]{Figures/xy_block_traj.png}
-\caption{Trajectory: 1 m/s x-acceleration with three consecutive $90^{\circ}$ rotations about the z-axis.}
+\begin{subfigure}[H]{0.5\textwidth}
+\includegraphics[width=\textwidth, height=8cm]{Figures/xy_block_traj.png}
+\caption{Trajectory: 1 $\text{m/s}^2$ x-acceleration with three consecutive $90^{\circ}$ rotations about the z-axis.}
 \label{fig:zplane}
 \end{subfigure} 
 \caption{Results of the test conditions 1 depicting zero-uncertainty.}
 \label{fig:sim1}
 \end{figure}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\subsubsection{Test 2: Prediction}
-The second set of test conditions will provide \textit{randomly} simulated gyroscope and accelerometer measurements \textbf{with} simulated process and measurement noise. The EKF simulation measurement model is still defined as a mapping of the state vector with additive noise. The EKF should now behave as described in Chapter~\ref{sec:EKF} while maintaining the performance of the kinematic state estimator. 
-
-The expected outcome then, is that the kinematic estimator will track the given robot trajectory according to the uncertainty of both the measurement and process noise. Intuitively, the EKF should provide a state estimate that is dependent upon the process and measurement noise e.g. it the system has a high measurement noise uncertainty but a low process noise uncertainty, the EKF should provide a state estimate that depends less on the measurements.       
-
-\begin{enumerate}
-\item  \textbf{No uncertainty: Process noise variance = 0 and Measurement noise variance = 0}\\
-This trajectory estimate is expected to precisely resemble the true trajectory as there is no uncertainty regarding the measurement nor the process noise.
-\item  \textbf{Equal yet small uncertainty regarding the measurement and process noise}\\
-The EKF is expected to provide a trajectory estimate that incorporates both the measurements and the equivalent control inputs (IMU measurements) but still reasonable approximate the true trajectory due to the small uncertainty.   
-\item  \textbf{Equal yet high uncertainty regarding the measurement and process noise}\\   
-The EKF is expected to provide a trajectory estimate that again incorporates both the measurements and the equivalent control inputs. The trajectory estimate however, will vastly differ from the true trajectory due to the high uncertainty. 
-\item  \textbf{Less certain process noise: Process noise variance = large and measurement noise variance = small}\\   
-The EKF is expected to provide a trajectory estimate that is more reliant upon the measurements as it incorporates less uncertainty than the equivalent control inputs. Provided that the measurement noise is small enough, the EKF should still provide a reasonable approximation of the true trajectory.
-\end{enumerate}
-\subsubsection{Test 2: Results and Analysis}
-\begin{enumerate}
-\item  \textbf{No uncertainty: Process noise variance = 0 and measurement noise variance = 0}\\
-This simulation depicted in Figure~\ref{fig:notraj} shows a trajectory estimate that directly resembles the true trajectory. This is due to the fact that there is no uncertainty regarding the process or the measurement noise and the EKF can accurately estimate the actual state of the system through modelling. Figure~\ref{fig:noz} confirms that both the measurements and estimates agree are in correspondence with the states. This particular case though is only possible in simulation and practically impossible as every practical system incorporates uncertainty.   
-\item  \textbf{Equal yet small uncertainty regarding the measurement and process noise}\\
-This simulation depicted in Figure~\ref{fig:equaltraj} shows a trajectory estimate that is noisy but generally tracks the actual trajectory. This behaviour corresponds to the aforementioned prediction that the EKF is not entirely certain regarding both the measurements and equivalent control inputs and subsequently provides an estimate that incorporates information from both factors. Figure~\ref{fig:equalz} shows that the state estimate incorporates uncertainty regarding both the measurements and the equivalent control inputs. Because these uncertainties are small though, a relatively accurate reconstruction of the actual trajectory can be estimated.     
-\item  \textbf{Less certain process noise: Process noise variance = large and measurement noise variance = small}\\   
- This simulation depicted in Figures~\ref{fig:high_traj} and~\ref{fig:xhigh} shows a trajectory estimate that doesn't resemble the true trajectory. This is due to the fact that the EKF ``trusts" the information it receives and if this information is very uncertain, the EKF still provides the best estimate given the information, but even that estimate is very wrong. The quality of the information provided to the EKF is thus critical.  
-\item  \textbf{Less certain process noise: Process noise variance = large and measurement noise variance = small}\\   
-This simulation depicted in Figure~\ref{fig:meastraj} shows a trajectory estimate that is noisy and heavily incorporates the measurements. This behaviour corresponds to the aforementioned prediction that the EKF very uncertain regarding the equivalent control inputs and subsequently provides an estimate that incorporates more information from measurements. Figure~\ref{fig:equalz} shows that the state estimate incorporates more information regarding the measurements. Because the measurement uncertainty isn't very small, the EKF cannot provide an accurate approximation of the true trajectory. This is due to the fact that the EKF ``trusts" the measurements far more than the equivalent control inputs, but because the measurements themselves contain a substantial amount of uncertainty, the best estimate that the EKF can provide is itself uncertain.  
-\end{enumerate}
-\begin{figure}[h]
-%\centering
-\begin{subfigure}[H]{0.49\textwidth}
-\includegraphics[width=\textwidth, height=6cm]{Figures/xhigh.png}
-\caption{X-position of random control inputs with equally high process and measurement uncertainty.}
-\label{fig:xhigh}
-\end{subfigure}
-\begin{subfigure}[H]{0.49\textwidth}
-\includegraphics[width=\textwidth, height=6cm]{Figures/high_traj.png} 
-\caption{Trajectory of random control inputs with equally high process and measurement uncertainty.}
-\label{fig:high_traj}
-\end{subfigure}
-\label{fig:extra}
-\caption{Results of the conditions depicting random equivalent control inputs with uncertainty.}
-\end{figure}
-
-\begin{figure}[H]
-\centering
-\begin{subfigure}[H]{0.49\textwidth}
-\includegraphics[width=\textwidth, height=6.4cm]{Figures/kf_none_x.png} 
-\caption{X-position of random control inputs with zero-uncertainty.}
-\label{fig:noz}
-\end{subfigure}
-\begin{subfigure}[H]{0.49\textwidth}
-\includegraphics[width=\textwidth, height=6.4cm]{Figures/kf_none_traj.png}
-\caption{Trajectory of random control inputs with zero-uncertainty.}
-\label{fig:notraj}
-\end{subfigure}
-\begin{subfigure}[H]{0.49\textwidth}
-\includegraphics[width=\textwidth, height=6.5cm]{Figures/kf_eq001_y.png}
-\caption{Y-position of random control inputs with a small, equal measurement and process uncertainty.}
-\label{fig:equalz}
-\end{subfigure} 
-\begin{subfigure}[H]{0.49\textwidth}
-\includegraphics[width=\textwidth, height=6.5cm]{Figures/kf_eq001_traj.png}
-\caption{Trajectory of random control inputs with a small, equal measurement and process uncertainty.}
-\label{fig:equaltraj}
-\end{subfigure} 
-\begin{subfigure}[H]{0.49\textwidth}
-\includegraphics[width=\textwidth, height=6.5cm]{Figures/kf_pro10to1_z.png}
-\caption{Z-position of random control inputs with greater process uncertainty.}
-\label{fig:measz}
-\end{subfigure} 
-\begin{subfigure}[H]{0.49\textwidth}
-\includegraphics[width=\textwidth, height=6.5cm]{Figures/kf_pro10to1_traj.png}
-\caption{Trajectory of random control inputs with greater process uncertainty.}
-\label{fig:meastraj}
-\end{subfigure}
-\caption{Results of the conditions depicting random equivalent control inputs with uncertainty.}
-\label{fig:sim1}
-\end{figure}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \newpage
 \subsection{MonoSLAM}
@@ -1728,17 +1670,20 @@ This simulation depicted in Figure~\ref{fig:meastraj} shows a trajectory estimat
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
+\newpage
+\bibliographystyle{ieeetr}
+\bibliography{Report_bib}
 \newpage
 %\pagenumbering{roman}
 \appendix
 \section{Summary of Work done}
 \newpage
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{Achieved ECSA Exit Level Outcomes}
+\section{Project Specification}
 \newpage
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
+\section{Achieved ECSA Exit Level Outcomes}
+\newpage
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Theoretical Concepts} \label{App:Concepts}
 \subsection{State Space Model} 
@@ -1902,8 +1847,86 @@ After a feature has been partially initialised, it can be assumed that the featu
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsubsection{Map Management}
 Map management forms an integral role in the realisation of the MonoSLAM algorithm. A real-time algorithm, as proposed in this paper, relies on efficient and accurate decisions regarding features within the SLAM map. As a result, a strict protocol is followed in~\cite{dav2007} in order to realise a successful real-time algorithm.
-
+\newpage
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Performance of the EKF-based Kinematic Estimator}
+The second set of test conditions will provide \textit{randomly} simulated gyroscope and accelerometer measurements \textbf{with} simulated process and measurement noise. The EKF simulation measurement model is still defined as a mapping of the state vector with additive noise. The EKF should now behave as described in Chapter~\ref{sec:EKF} while maintaining the performance of the kinematic state estimator. 
+
+The expected outcome then, is that the kinematic estimator will track the given robot trajectory according to the uncertainty of both the measurement and process noise. Intuitively, the EKF should provide a state estimate that is dependent upon the process and measurement noise e.g. it the system has a high measurement noise uncertainty but a low process noise uncertainty, the EKF should provide a state estimate that depends less on the measurements.       
+
+\begin{enumerate}
+\item  \textbf{No uncertainty: Process noise variance = 0 and Measurement noise variance = 0}\\
+This trajectory estimate is expected to precisely resemble the true trajectory as there is no uncertainty regarding the measurement nor the process noise.
+\item  \textbf{Equal yet small uncertainty regarding the measurement and process noise}\\
+The EKF is expected to provide a trajectory estimate that incorporates both the measurements and the equivalent control inputs (IMU measurements) but still reasonable approximate the true trajectory due to the small uncertainty.   
+\item  \textbf{Equal yet high uncertainty regarding the measurement and process noise}\\   
+The EKF is expected to provide a trajectory estimate that again incorporates both the measurements and the equivalent control inputs. The trajectory estimate however, will vastly differ from the true trajectory due to the high uncertainty. 
+\item  \textbf{Less certain process noise: Process noise variance = large and measurement noise variance = small}\\   
+The EKF is expected to provide a trajectory estimate that is more reliant upon the measurements as it incorporates less uncertainty than the equivalent control inputs. Provided that the measurement noise is small enough, the EKF should still provide a reasonable approximation of the true trajectory.
+\end{enumerate}
+\subsubsection{Test 2: Results and Analysis}
+\begin{enumerate}
+\item  \textbf{No uncertainty: Process noise variance = 0 and measurement noise variance = 0}\\
+This simulation depicted in Figure~\ref{fig:notraj} shows a trajectory estimate that directly resembles the true trajectory. This is due to the fact that there is no uncertainty regarding the process or the measurement noise and the EKF can accurately estimate the actual state of the system through modelling. Figure~\ref{fig:noz} confirms that both the measurements and estimates agree are in correspondence with the states. This particular case though is only possible in simulation and practically impossible as every practical system incorporates uncertainty.   
+\item  \textbf{Equal yet small uncertainty regarding the measurement and process noise}\\
+This simulation depicted in Figure~\ref{fig:equaltraj} shows a trajectory estimate that is noisy but generally tracks the actual trajectory. This behaviour corresponds to the aforementioned prediction that the EKF is not entirely certain regarding both the measurements and equivalent control inputs and subsequently provides an estimate that incorporates information from both factors. Figure~\ref{fig:equalz} shows that the state estimate incorporates uncertainty regarding both the measurements and the equivalent control inputs. Because these uncertainties are small though, a relatively accurate reconstruction of the actual trajectory can be estimated.     
+\item  \textbf{Less certain process noise: Process noise variance = large and measurement noise variance = small}\\   
+ This simulation depicted in Figures~\ref{fig:high_traj} and~\ref{fig:xhigh} shows a trajectory estimate that doesn't resemble the true trajectory. This is due to the fact that the EKF ``trusts" the information it receives and if this information is very uncertain, the EKF still provides the best estimate given the information, but even that estimate is very wrong. The quality of the information provided to the EKF is thus critical.  
+\item  \textbf{Less certain process noise: Process noise variance = large and measurement noise variance = small}\\   
+This simulation depicted in Figure~\ref{fig:meastraj} shows a trajectory estimate that is noisy and heavily incorporates the measurements. This behaviour corresponds to the aforementioned prediction that the EKF very uncertain regarding the equivalent control inputs and subsequently provides an estimate that incorporates more information from measurements. Figure~\ref{fig:equalz} shows that the state estimate incorporates more information regarding the measurements. Because the measurement uncertainty isn't very small, the EKF cannot provide an accurate approximation of the true trajectory. This is due to the fact that the EKF ``trusts" the measurements far more than the equivalent control inputs, but because the measurements themselves contain a substantial amount of uncertainty, the best estimate that the EKF can provide is itself uncertain.  
+\end{enumerate}
+\begin{figure}[h]
+%\centering
+\begin{subfigure}[H]{0.49\textwidth}
+\includegraphics[width=\textwidth, height=6cm]{Figures/xhigh.png}
+\caption{X-position of random control inputs with equally high process and measurement uncertainty.}
+\label{fig:xhigh}
+\end{subfigure}
+\begin{subfigure}[H]{0.49\textwidth}
+\includegraphics[width=\textwidth, height=6cm]{Figures/high_traj.png} 
+\caption{Trajectory of random control inputs with equally high process and measurement uncertainty.}
+\label{fig:high_traj}
+\end{subfigure}
+\label{fig:extra}
+\caption{Results of the conditions depicting random equivalent control inputs with uncertainty.}
+\end{figure}
+
+\begin{figure}[H]
+\centering
+\begin{subfigure}[H]{0.49\textwidth}
+\includegraphics[width=\textwidth, height=6.4cm]{Figures/kf_none_x.png} 
+\caption{X-position of random control inputs with zero-uncertainty.}
+\label{fig:noz}
+\end{subfigure}
+\begin{subfigure}[H]{0.49\textwidth}
+\includegraphics[width=\textwidth, height=6.4cm]{Figures/kf_none_traj.png}
+\caption{Trajectory of random control inputs with zero-uncertainty.}
+\label{fig:notraj}
+\end{subfigure}
+\begin{subfigure}[H]{0.49\textwidth}
+\includegraphics[width=\textwidth, height=6.5cm]{Figures/kf_eq001_y.png}
+\caption{Y-position of random control inputs with a small, equal measurement and process uncertainty.}
+\label{fig:equalz}
+\end{subfigure} 
+\begin{subfigure}[H]{0.49\textwidth}
+\includegraphics[width=\textwidth, height=6.5cm]{Figures/kf_eq001_traj.png}
+\caption{Trajectory of random control inputs with a small, equal measurement and process uncertainty.}
+\label{fig:equaltraj}
+\end{subfigure} 
+\begin{subfigure}[H]{0.49\textwidth}
+\includegraphics[width=\textwidth, height=6.5cm]{Figures/kf_pro10to1_z.png}
+\caption{Z-position of random control inputs with greater process uncertainty.}
+\label{fig:measz}
+\end{subfigure} 
+\begin{subfigure}[H]{0.49\textwidth}
+\includegraphics[width=\textwidth, height=6.5cm]{Figures/kf_pro10to1_traj.png}
+\caption{Trajectory of random control inputs with greater process uncertainty.}
+\label{fig:meastraj}
+\end{subfigure}
+\caption{Results of the conditions depicting random equivalent control inputs with uncertainty.}
+\label{fig:sim1}
+\end{figure}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \newpage
 \section{Figures \& Diagrams}
 \subsection{Schematics \& Circuit Diagrams}
@@ -1951,8 +1974,6 @@ These images were created by Fritzing (http://fritzing.org)~\cite{create}.
 
 %This description then allows for the implementation of a recursive algorithm, namely, a discrete KF. In order for a KF to be successfully implemented, a \textbf{state transition (motion) model} as well as an \textbf{observation model} is required to individually describe the effects of the control input as well as the observations respectively.\\
 %It is important to note that the KF estimates the state of a continuous- or discrete-time process that is described by a set of differential (continuous) or difference (discrete) equations. The KF then continuously updates the state estimates according to the measurements it obtains. This procedure, takes the form of a two-step recursive process: an a priori prediction (time-update) and an observation based correction (measurement-update). 
-\newpage
-\bibliographystyle{ieeetr}
-\bibliography{Report_bib}
+
 
 \end{document}   
