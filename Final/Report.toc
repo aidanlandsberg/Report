@@ -27,32 +27,32 @@
 \contentsline {subsubsection}{\numberline {3.5.2}Probabilistic Map Management}{27}
 \contentsline {section}{\numberline {4}Implementation}{28}
 \contentsline {subsection}{\numberline {4.1}Introduction}{28}
-\contentsline {subsection}{\numberline {4.2}System Setup}{28}
-\contentsline {subsubsection}{\numberline {4.2.1}Micro-controller}{28}
-\contentsline {subsubsection}{\numberline {4.2.2}Inertial Measurement Unit}{29}
-\contentsline {subsubsection}{\numberline {4.2.3}CMOS Machine Vision Camera}{30}
-\contentsline {subsection}{\numberline {4.3}Hardware Configuration}{30}
-\contentsline {subsubsection}{\numberline {4.3.1}Inertial Measurement Unit}{30}
-\contentsline {subsubsection}{\numberline {4.3.2}Gyroscope Biases}{31}
+\contentsline {subsection}{\numberline {4.2}System Requirements}{28}
+\contentsline {subsubsection}{\numberline {4.2.1}Inertial Measurement Unit}{29}
+\contentsline {subsubsection}{\numberline {4.2.2}Micro-controller}{30}
+\contentsline {subsubsection}{\numberline {4.2.3}CMOS Machine Vision Camera}{31}
+\contentsline {subsection}{\numberline {4.3}Hardware Configuration}{31}
+\contentsline {subsubsection}{\numberline {4.3.1}Inertial Measurement Unit}{32}
+\contentsline {subsubsection}{\numberline {4.3.2}Gyroscope Biases}{32}
 \contentsline {subsection}{\numberline {4.4}Hardware Simulation}{32}
-\contentsline {subsubsection}{\numberline {4.4.1}Test 1: Approximately Known Angular Displacements}{32}
-\contentsline {subsubsection}{\numberline {4.4.2}Test 1: Results}{33}
-\contentsline {subsection}{\numberline {4.5}Software Simulation}{34}
-\contentsline {subsubsection}{\numberline {4.5.1}Test 1: Prediction}{35}
-\contentsline {subsubsection}{\numberline {4.5.2}Test 1: Results and Analysis}{36}
-\contentsline {subsubsection}{\numberline {4.5.3}Test 2: Prediction}{37}
-\contentsline {subsubsection}{\numberline {4.5.4}Test 2: Results and Analysis}{37}
-\contentsline {subsection}{\numberline {4.6}MonoSLAM}{40}
-\contentsline {section}{\numberline {5}Analysis: Testing \& Results}{41}
-\contentsline {section}{\numberline {A}Summary of Work done}{42}
-\contentsline {section}{\numberline {B}Achieved ECSA Exit Level Outcomes}{43}
-\contentsline {section}{\numberline {C}Theoretical Concepts}{44}
-\contentsline {subsection}{\numberline {C.1}State Space Model}{44}
-\contentsline {subsection}{\numberline {C.2}State Transition: Linear Model}{45}
-\contentsline {subsection}{\numberline {C.3}Measurement Update}{46}
-\contentsline {subsubsection}{\numberline {C.3.1}Measurement Model}{46}
-\contentsline {subsubsection}{\numberline {C.3.2}Feature Matching}{47}
-\contentsline {subsubsection}{\numberline {C.3.3}Feature Initialisation}{48}
-\contentsline {subsubsection}{\numberline {C.3.4}Map Management}{48}
-\contentsline {section}{\numberline {D}Figures \& Diagrams}{49}
-\contentsline {subsection}{\numberline {D.1}Schematics \& Circuit Diagrams}{49}
+\contentsline {subsubsection}{\numberline {4.4.1}Test 1: Approximately Known Angular Displacements}{33}
+\contentsline {subsubsection}{\numberline {4.4.2}Test 1: Results}{34}
+\contentsline {subsection}{\numberline {4.5}Software Simulation}{35}
+\contentsline {subsubsection}{\numberline {4.5.1}Test 1: Prediction}{36}
+\contentsline {subsubsection}{\numberline {4.5.2}Test 1: Results and Analysis}{37}
+\contentsline {subsubsection}{\numberline {4.5.3}Test 2: Prediction}{38}
+\contentsline {subsubsection}{\numberline {4.5.4}Test 2: Results and Analysis}{38}
+\contentsline {subsection}{\numberline {4.6}MonoSLAM}{41}
+\contentsline {section}{\numberline {5}Analysis: Testing \& Results}{42}
+\contentsline {section}{\numberline {A}Summary of Work done}{43}
+\contentsline {section}{\numberline {B}Achieved ECSA Exit Level Outcomes}{44}
+\contentsline {section}{\numberline {C}Theoretical Concepts}{45}
+\contentsline {subsection}{\numberline {C.1}State Space Model}{45}
+\contentsline {subsection}{\numberline {C.2}State Transition: Linear Model}{46}
+\contentsline {subsection}{\numberline {C.3}Measurement Update}{47}
+\contentsline {subsubsection}{\numberline {C.3.1}Measurement Model}{47}
+\contentsline {subsubsection}{\numberline {C.3.2}Feature Matching}{48}
+\contentsline {subsubsection}{\numberline {C.3.3}Feature Initialisation}{49}
+\contentsline {subsubsection}{\numberline {C.3.4}Map Management}{49}
+\contentsline {section}{\numberline {D}Figures \& Diagrams}{50}
+\contentsline {subsection}{\numberline {D.1}Schematics \& Circuit Diagrams}{50}

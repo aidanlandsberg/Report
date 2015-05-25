@@ -4,5 +4,6 @@
 \contentsline {table}{\numberline {2.3}{\ignorespaces The EKF Algorithm\relax }}{12}
 \contentsline {table}{\numberline {4.1}{\ignorespaces IMU necessary characteristics\relax }}{29}
 \contentsline {table}{\numberline {4.2}{\ignorespaces IMU configuration properties\relax }}{29}
-\contentsline {table}{\numberline {4.3}{\ignorespaces Intrinsic and distortion camera parameters\relax }}{30}
-\contentsline {table}{\numberline {4.4}{\ignorespaces Accelerometer and gyroscope register values\relax }}{31}
+\contentsline {table}{\numberline {4.3}{\ignorespaces IMU necessary characteristics\relax }}{30}
+\contentsline {table}{\numberline {4.4}{\ignorespaces Intrinsic and distortion camera parameters\relax }}{31}
+\contentsline {table}{\numberline {4.5}{\ignorespaces Accelerometer and gyroscope register values\relax }}{32}

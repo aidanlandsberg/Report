@@ -356,7 +356,7 @@ To extend the range of practical applications of MonoSLAM, a motion model capabl
 
 A \textit{kinematic estimator} directly measures the derivatives (first and second order) of the position and orientation of the robot as opposed to calculating them from the control inputs and the system's physical model. Inertial measurement units (IMU) can directly measure these derivates and typically comprise of an accelerometer and a gyroscope (and sometimes a magnetometer) that record the accelerations and angular velocities respectively. Incorporating such a subsystem could allow a wider variety of practical scenarios as the target system isn't constrained to a specific motion.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\subsection{Project Objectives}
+\subsection{Project Objectives}\label{sec:into3}
 This project seeks to utilise the aforementioned MonoSLAM system of Davison et al. and improve the localisation thereof by using \textit{additional} sensor information. The improvement(s) of the system should allow the existing system to obtain better localisation and extend the range of applications upon which the system can be applied while maintaining the original performance standard: repeatable localisation at 30 Hz for approximately 100 features. The system should utilise a \textit{single} camera as the measurement sensor and preferably support real-time operation. All processing regarding the SLAM algorithm can be done on a standard PC that communicates with the sensors via a serial port. The project budget is R $1500.00$. The primary objectives of this project include:
 \begin{itemize}
 \item \textbf{Performing an overview on the current techniques used to realise SLAM} \\
@@ -1100,63 +1100,54 @@ In MonoSLAM, the criteria of this map management is determined via a trade off b
 The detection operator of Shi and Tomasi~\cite{shitom} seeks to initialise new features if the number of features visible in the cameras field of view drops below the predetermined value. These features are initialised if a prediction based on the camera's movement suggests that the feature will remain in the camera's field of view in the subsequent frames. Additionally, a feature is deleted from the map if it fails 50\% of successive detection and matching attempts.  
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%\subsubsection{System Update}
+%\subsubsection{System Update
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \newpage
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Implementation}
 \subsection{Introduction}
-This chapter sets out to test all the relevant subsystems incorporated within this project. Initially, the necessary configuration and procedures are given in order to set up the system. Thereafter, the hardware components are individually tested and analysed to ensure that the expected performance is provided and whether redesign is necessary. Lastly, the core of this project, the kinematic estimator, is simulated and analysed as a possible alternative to the current velocity and angular velocity model. 
+This Chapter sets out to discuss the hardware and software decisions that are made with respect to this project. Initially, the system requirements are presented and possible solutions are discussed. Thereafter, the individual hardware components used in this project are presented and motivated. This chapter also provides the  necessary configuration for each component to realise the system requirements. %Lastly, the core of this project, the kinematic estimator, is simulated and analysed as a possible alternative to the current velocity and angular velocity model. 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\subsection{System Setup}
+\subsection{System Requirements}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-An overview of the system is depicted in Figure~\ref{fig:sys}. It is evident that the system contains three hardware subsystems:
+The project objectives in Chapter~\ref{sec:into3} allow processing regarding the MonoSLAM implementation to be conducted on a personal computer (PC). In the original implementation of MonoSLAM, a 1.6 GHz Pentium M processor is used. Standard PC's however, provide no simple interface with external components that don't possess the peripheral ports present on the PC e.g. USB, Ethernet, Firewire and VGA. If indeed components can be connected via one of the aforementioned ports, a complicated procedure is often required if certain external components are required to communicate with one another through the PC.
+
+The MonoSLAM implementation described in this project requires sensor measurements from a camera and motion measurements from an IMU. These components are also required to be synchronised. While cameras typically possess USB/Firewire/Ethernet ports allowing an interface with a PC, IMU's are typically IC's mounted on a PCB and contain no ports whatsoever. 
+
+Wireless connectivity such as Bluetooth and Wifi provide an alternative for data communication. This wireless connectivity requires as both the PC and each sensor to possess an expensive integrated chip to enable this functionality and can also be difficult to implement. Micro-controllers however are cheap devices that allow a virtual interface to the PC for external hardware components. Micro-controllers are programmable devices and typically contain a range of digital and analogue input and output (I/O) ports. The programmable nature of these devices allow a certain degree of control regarding the design and functionality of the system. 
+
+As a result, this project utilises a micro controller to provide the synchronisation between the camera and IMU as well as obtaining the data from the IMU and relaying it to the PC.  
+
+%The primary sensor of the MonoSLAM implementation is a CMOS camera such as an IMU
+An overview of the components required to realise the overall system as well as their interaction between one another is depicted in Figure~\ref{fig:sys}. It is evident that the system contains three hardware subsystems:
 \begin{itemize}
-\item Arduino micro-controller.
-\item IMU.
-\item CMOS Camera.
+\item Micro-controller.
+\item Inertial measurement unit.
+\item CMOS camera.
 \end{itemize}
+
 Each of of the subsystems require a unique setup configuration in order to represent a \textit{functional} unit of the whole system.   
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\subsubsection{Micro-controller}
-This project requires a micro-controller for the following two reasons: 
-\begin{itemize}
-\item A2D conversion for the IMU measurements.
-\item Synchronisation between the IMU and camera measurements. 
-\end{itemize}
-
-In order for the system to function accordingly, the IMU and camera measurements need to be \textit{synchronised}. A suitable method to achieve such synchronisation is to run a timer interrupt every sample period of the camera. The interrupt subsequently calls an interrupt service routine that triggers a pulse to the camera to capture a frame while simultaneously sampling the IMU measurements.The data is then sent to a PC via 2 individual serial ports. 
-
-Arduino micro-controllers provide a suitable, low cost solution. The Arduino Uno SMD Rev3 depicted in Figure~\ref{fig:arduno} in particular is a scaled down version of the original Uno, providing the necessary functionality along with a helpful developer community. 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\begin{figure}[H]
-\centering
-\includegraphics[width=0.5\textwidth, height=0.275\textwidth]{Figures/arduino.jpg}
-\caption{Arduino UNO SMD by Arduino. Adapted from~\cite{create}.}
-\label{fig:arduno}
-\end{figure}
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\newpage
 \subsubsection{Inertial Measurement Unit}
-Section~\ref{sec:kinest} shows that inertial measurements are required in order to realise the kinematic estimator. The inertial measurements contain 3 accelerometer and 3 gyroscope measurements. These individual quantities present a 6DOF IMU. Accelerometers and gyroscopes are typically analog devices that represent their respective measurements as a voltage. This project seeks to convert these voltages to a digital value so that it can be used to realise the kinematic estimator. 
+Chapter~\ref{sec:kinest} shows that inertial measurements are required in order to realise the implementation proposed in this project. The inertial measurements consists of 3 accelerometer and 3 gyroscope measurements. The combination of these sensors form a 6 \textit{degrees of freedom} (DOF) IMU. Accelerometers and gyroscopes can be analogue or digital devices that represent their measurements as either a voltage or a digital value respectively. 
 
-The hardware required to realise an IMU consists of a 3-axis accelerometer, a 3-axis gyroscope and a micro-controller capable of analog to digital (A2D) conversion. An IMU with an accelerometer and gyroscope mounted on the same integrated circuit (IC) should ideally be purchased as there is time limit imposed on this project. Table~\ref{tab:imuspec} compares the necessary characteristics with a suitable IMU option, the SparkFun 6DOF IMU:
+This project seeks digital values that can be used by the PC to incorporate the measurements into the MonoSLAM algorithm. A digital IMU with an accelerometer and gyroscope mounted on the same IC should ideally be purchased as there is time limit imposed on this project. Table~\ref{tab:imuspec} compares the necessary characteristics with a suitable IMU option, the SparkFun 6DOF IMU:
 \begin{table}[H]
 \caption{IMU necessary characteristics}
 \centering
 \begin{tabular}{|c|c|c|c|}
 \hline
-Characteristic & SparkFun 6DOF IMU & Required\\
+Characteristic & SparkFun 6DOF IMU & SparkFun 9DOF IMU & Required\\
 \hline
 \hline
-Serial communication & I2C/SPI (3- or 4-wire) & I2C \\
+Serial communication & I2C/SPI & I2C/SPI & I2C \\
 \hline
-Degrees of freedom & 6DOF & 6DOF \\
+Components & Accelerometer, Groscope & Accelerometer, Groscope Magnetometer & Accelerometer, Groscope\\
 \hline
-Operating voltage & 3.3 V & 3.3 V or 5 V\\
+Low pass filter (anti-aliasing) & YES  & YES & YES  \\
 \hline
-Low pass filter (Anti-Aliasing) & YES  & YES  \\
-\hline
-Maximum measurement Data Rate & $3200$ Hz & 30 Hz \\
+Maximum measurement data rate & $3200$ Hz & $3200$ Hz  & 30 Hz \\
 \hline
 \hline
 \textbf{Price} & R 489.99 &  $\leq$ R 500 \\
@@ -1185,31 +1176,72 @@ The IMU is configured in measurement mode with the following properties:
 \hline
 Parameter & Value \\
 \hline\hline
-Operating voltage & 3.3 V\\
-\hline
 Serial communication & I2C \\
 \hline
 Accelerometer range & $\pm4$g per second\\
 \hline
-Accelerometer resolution & 10 bits \\
+Resolution & 10 bits \\
 \hline
 Gyroscope range & $\pm2000^{\circ}$ per second\\
-\hline
-Gyroscope resolution & 10 bits\\
 \hline
 Low pass filter & 50 Hz (for 100Hz sampling)\\ 
 \hline
 \end{tabular}
 \label{tab:imuset}
 \end{table}%
+
 \begin{figure}[h]
-%\begin{center}
-\includegraphics[width=0.49\textwidth, height=0.25\textwidth]{Figures/imu1.jpg}
-\includegraphics[width=0.4\textwidth, height=0.25\textwidth]{Figures/cam.png}
+\centering%\begin{center}
+\includegraphics[keepaspectratio=true, scale = 1.25]{Figures/imu1.jpg}
+\includegraphics[keepaspectratio=true, scale = 0.25]{Figures/cam.png}
 \caption{\\Left: SparkFun 6DOF IMU. Photo by SparkFun. Adapted from~\cite{create}. Right: The Imaging Source 22BUC03-ML CMOS board camera. Adapted from~\cite{imsrc}}
 \label{fig:imu}
 %\end{center}
 \end{figure}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\newpage
+\subsubsection{Micro-controller}
+
+\begin{wrapfigure}{r}{0.3\textwidth}
+%\centering
+\includegraphics[width=\linewidth, height=15cm]{Figures/loop.png}
+\caption{The micro-controller program required to synchronise the sampling of the IMU and camera measurements}
+\label{fig:ISR}
+\end{wrapfigure}
+This project requires a micro-controller for the following two reasons: 
+\begin{itemize}
+\item Digital interface with the IMU.
+\item Synchronisation between the IMU and camera measurements. 
+\end{itemize}
+
+In order for the system to provide accurate results, the IMU and camera measurements need to be \textit{synchronised}. A suitable method to achieve such synchronisation is to run a timer interrupt every sample period of the camera. The interrupt subsequently calls an interrupt service routine (ISR) that triggers a pulse to the camera to capture a frame while simultaneously sampling the IMU measurements. The IMU data is then sent to a PC via the micro-controller's individual serial ports. 
+
+The following three micro-controllers are considered to realise the 
+
+\begin{table}[b]
+\caption{IMU necessary characteristics}
+\centering
+\begin{tabular}{|c|c|c|c|}
+\hline
+Characteristic & SparkFun 6DOF IMU & Required\\
+\hline
+\hline
+\hline
+\end{tabular}
+\label{tab:imuspec}
+\end{table}%
+
+Although more expensive than the alternatives, the Arduino Uno SMD Rev3 depicted in Figure~\ref{fig:arduno} micro-controller still provide a suitable, low cost solution and it the controller chosen to be implemented in this project. Although it provides less functionality the original Uno, the SMD rev3 still provides the functionality necessary to this project. This is an important factor to consider as micro-controllers with additional redundant functionality are often bought without carefully considering the functionality of the system at hand. The user friendly integrated development environment, helpful developer community along with source code for existing IMU implementations also contributed to the decision. 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{figure}[h]
+\centering
+\includegraphics[width=0.5\textwidth, height=0.275\textwidth]{Figures/arduino.jpg}
+\caption{Arduino UNO SMD by Arduino. Adapted from~\cite{create}.}
+\label{fig:arduno}
+\end{figure}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsubsection{CMOS Machine Vision Camera}
 The measurement sensor is required to be a single camera. The problem description only requires the camera to have a 30 Hz frame rate. The camera chosen for this project is a CMOS camera by The Imaging Source as depicted in Figure~\ref{fig:imu}. The DFM 22BUC03-ML model is a machine vision board contains 4 GPIO pins that allow the shutter to be triggered by a digital pulse. The camera was used for a previous project and incorporated in this project due to cost constrains.\\\\ 
