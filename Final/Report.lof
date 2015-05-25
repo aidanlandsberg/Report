@@ -12,8 +12,8 @@
 \contentsline {figure}{\numberline {12}{\ignorespaces A detailed functional diagram of the measurement update step of the EKF. The greyed blocks depict functional subsystems\relax }}{27}
 \contentsline {figure}{\numberline {13}{\ignorespaces Left: SparkFun 6DOF IMU. Photo by SparkFun. Adapted from\nobreakspace {}\cite {create}. Right: The Imaging Source 22BUC03-ML CMOS board camera. Adapted from\nobreakspace {}\cite {imsrc}\relax }}{30}
 \contentsline {figure}{\numberline {14}{\ignorespaces Arduino UNO SMD by Arduino. Adapted from\nobreakspace {}\cite {create}.\relax }}{32}
-\contentsline {figure}{\numberline {15}{\ignorespaces A flow diagram for the micro-controller program required to synchronise the sampling of the IMU and camera measurements.\relax }}{33}
-\contentsline {figure}{\numberline {16}{\ignorespaces Left: Measurements of the stationary gyroscope. Right: Averaged measurements from the accelerometer after 3-axis individual rotations.\relax }}{35}
+\contentsline {figure}{\numberline {15}{\ignorespaces Left: Measurements of the stationary gyroscope. Right: Averaged measurements from the accelerometer after 3-axis individual rotations.\relax }}{34}
+\contentsline {figure}{\numberline {16}{\ignorespaces A flow diagram for the micro-controller program required to synchronise the sampling of the IMU and camera measurements.\relax }}{35}
 \contentsline {figure}{\numberline {17}{\ignorespaces Left: Top view of the hardware components of the system system. Right: Fully constructed platform to house the hardware components of the system.\relax }}{36}
 \contentsline {figure}{\numberline {18}{\ignorespaces Results of the test conditions 1 depicting angular displacements from gyroscope measurements.\relax }}{38}
 \contentsline {figure}{\numberline {19}{\ignorespaces EKF using a kinematic estimator to provide the control update.\relax }}{40}

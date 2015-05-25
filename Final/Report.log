@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.1415926-2.4-1.40.13 (TeX Live 2012) (format=pdflatex 2013.6.23)  25 MAY 2015 22:16
+This is pdfTeX, Version 3.1415926-2.4-1.40.13 (TeX Live 2012) (format=pdflatex 2013.6.23)  25 MAY 2015 22:21
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -878,51 +878,50 @@ File: Figures/arduino.jpg Graphic file (type jpg)
 <use Figures/arduino.jpg>
 Package pdftex.def Info: Figures/arduino.jpg used on input line 1294.
 (pdftex.def)             Requested size: 191.20499pt x 109.26277pt.
- [32 <./Figures/arduino.jpg>]
-<Figures/loop.png, id=201, 286.06876pt x 671.50874pt>
+ [32 <./Figures/arduino.jpg>] [33]
+<Figures/Gyro_bias1.png, id=204, 562.1pt x 421.575pt>
+File: Figures/Gyro_bias1.png Graphic file (type png)
+
+<use Figures/Gyro_bias1.png>
+Package pdftex.def Info: Figures/Gyro_bias1.png used on input line 1375.
+(pdftex.def)             Requested size: 223.06917pt x 204.86244pt.
+
+<Figures/acc_bias_flat.png, id=205, 562.1pt x 421.575pt>
+File: Figures/acc_bias_flat.png Graphic file (type png)
+
+<use Figures/acc_bias_flat.png>
+Package pdftex.def Info: Figures/acc_bias_flat.png used on input line 1376.
+(pdftex.def)             Requested size: 223.06917pt x 204.86244pt.
+ [34 <./Figures/Gyro_bias1.png (PNG copy)> <./Figures/acc_bias_flat.png (PNG co
+py)>]
+<Figures/loop.png, id=209, 286.06876pt x 671.50874pt>
 File: Figures/loop.png Graphic file (type png)
  <use Figures/loop.png>
-Package pdftex.def Info: Figures/loop.png used on input line 1311.
+Package pdftex.def Info: Figures/loop.png used on input line 1389.
 (pdftex.def)             Requested size: 136.57375pt x 384.10625pt.
 
-Underfull \hbox (badness 10000) in paragraph at lines 1312--1312
+Underfull \hbox (badness 10000) in paragraph at lines 1390--1390
 \OT1/cmr/m/n/12 for the micro-controller
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 1312--1312
+Underfull \hbox (badness 10000) in paragraph at lines 1390--1390
 \OT1/cmr/m/n/12 chro-nise the sam-pling
  []
 
-[33 <./Figures/loop.png>]
-<Figures/Gyro_bias1.png, id=205, 562.1pt x 421.575pt>
-File: Figures/Gyro_bias1.png Graphic file (type png)
-
-<use Figures/Gyro_bias1.png>
-Package pdftex.def Info: Figures/Gyro_bias1.png used on input line 1386.
-(pdftex.def)             Requested size: 223.06917pt x 204.86244pt.
-
-<Figures/acc_bias_flat.png, id=206, 562.1pt x 421.575pt>
-File: Figures/acc_bias_flat.png Graphic file (type png)
-
-<use Figures/acc_bias_flat.png>
-Package pdftex.def Info: Figures/acc_bias_flat.png used on input line 1387.
-(pdftex.def)             Requested size: 223.06917pt x 204.86244pt.
- [34] [35 <./Figures/Gyro_bias1.png (PNG copy)> <./Figures/acc_bias_flat.png (P
-NG copy)>]
-<Figures/IMG1.jpg, id=213, 3276.24pt x 2457.18pt>
+[35 <./Figures/loop.png>] <Figures/IMG1.jpg, id=213, 3276.24pt x 2457.18pt>
 File: Figures/IMG1.jpg Graphic file (type jpg)
- <use Figures/IMG1.jpg>
+
+<use Figures/IMG1.jpg>
 Package pdftex.def Info: Figures/IMG1.jpg used on input line 1405.
 (pdftex.def)             Requested size: 223.06133pt x 204.82698pt.
-
-<Figures/IMG2.jpg, id=214, 3276.24pt x 2457.18pt>
+ <Figures/IMG2.jpg, id=214, 3276.24pt x 2457.18pt>
 File: Figures/IMG2.jpg Graphic file (type jpg)
- <use Figures/IMG2.jpg>
+
+<use Figures/IMG2.jpg>
 Package pdftex.def Info: Figures/IMG2.jpg used on input line 1406.
 (pdftex.def)             Requested size: 223.06133pt x 204.82698pt.
-
-[36 <./Figures/IMG1.jpg> <./Figures/IMG2.jpg>]
+ [36 <./Figures/IMG1.jpg> <./Figures/IMG2.jpg>]
 <Figures/gyrox180.png, id=218, 495.8525pt x 411.5375pt>
 File: Figures/gyrox180.png Graphic file (type png)
 
@@ -1118,7 +1117,7 @@ cal/texlive/2012/texmf-dist/fonts/type1/public/amsfonts/cm/cmr8.pfb></usr/local
 texlive/2012/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy6.pfb></usr/local/te
 xlive/2012/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy8.pfb></usr/local/texl
 ive/2012/texmf-dist/fonts/type1/public/amsfonts/cm/cmti12.pfb>
-Output written on Report.pdf (70 pages, 7172028 bytes).
+Output written on Report.pdf (70 pages, 7172239 bytes).
 PDF statistics:
  368 PDF objects out of 1000 (max. 8388607)
  211 compressed objects within 3 object streams

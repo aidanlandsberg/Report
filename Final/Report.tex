@@ -1306,12 +1306,6 @@ Although more expensive than the alternatives, the Arduino UNO SMD Rev3 depicted
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \newpage
 \subsection{Hardware Configuration}
-\begin{wrapfigure}{R}{0.3\textwidth}
-%\centering
-\includegraphics[width=\linewidth, height=13.5cm]{Figures/loop.png}
-\caption{A flow diagram for the micro-controller program required to synchronise the sampling of the IMU and camera measurements.}
-\label{fig:ISR}
-\end{wrapfigure}
 This Chapter seeks to discuss the necessary practical procedures undertaken to realise the system requirements defined in Chapter~\ref{sec:specs}. The system configuration as well as the data communication is done by the Arduino. The necessary code is uploaded onto the Arduino micro-controller over a USB port using the Arduino IDE. All of the code on the Arduino is written using C$++$ and compiled using g$++$.
 
 The hardware components need to be designed in order to meet the following specifications:
@@ -1320,11 +1314,6 @@ The hardware components need to be designed in order to meet the following speci
 \item Camera and IMU synchronisation.
 \item Reliable data transfer from hardware to PC.
 \end{itemize}
-
-\subsubsection{Micro-controller}
-The IMU and camera measurements need to be \textit{synchronised}. A suitable method to achieve such synchronisation is to run a timer interrupt every sample period of the camera (i.e 30 Hz). The interrupt subsequently calls an interrupt service routine (ISR) that triggers a pulse to the camera to capture a frame while simultaneously sampling the IMU measurements. According to the data sheet of the camera~\cite{trigger}, a digital pulse must be set high for at least $10\mu$ seconds in order to set the moment of exposure. The exposure itself is set through external software.This procedure is shown in Figure~\ref{fig:ISR}.
-
-Communication between the IMU and the Arduino is done via I2C. The accelerometer and the gyroscope are slave devices on the bus while the Arduino is the master. The IMU is configured according to the configuration to be explained in Chapter~\ref{sec:IMUconfig} in the once-off setup function before entering the infinite loop() function that waits for a command from the PC in order to send the IMU data.  
 
 \subsubsection{Inertial Measurement Unit}\label{sec:IMUconfig}
 Before any IMU measurements can be obtained, the IMU needs to be correctly configured. Communication between the micro-controller and the IMU is occurs via the I2C interface. The appropriate registers of the accelerometer and the gyroscope need to be set to resemble the configuration shown in Table~\ref{tab:imuset}.
@@ -1368,7 +1357,7 @@ Acceleration $x-$axis & 0.3405 & 6.7923e-04  \\
 \hline 
 Acceleration $y-$axis & 0.6026 & 7.2212e-04  \\
 \hline 
-Acceleration $z-$axis & 9.8771 & 8.2147e-04  \\
+Acceleration $z-$axis & 0.0671 & 8.2147e-04  \\
 \hline 
 Gyroscope $x-$axis & 0.3587 & 0.0283 \\
 \hline
@@ -1393,6 +1382,17 @@ Gyroscope $z-$axis & -0.1028 & 0.0638 \\
 
 The modelling of the additive noise in Chapter~\ref{sec:imu} is based statistical quantities provided in Table~\ref{tab:statimu}.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\newpage
+\subsubsection{Micro-controller}
+\begin{wrapfigure}{R}{0.3\textwidth}
+%\centering
+\includegraphics[width=\linewidth, height=13.5cm]{Figures/loop.png}
+\caption{A flow diagram for the micro-controller program required to synchronise the sampling of the IMU and camera measurements.}
+\label{fig:ISR}
+\end{wrapfigure}
+The IMU and camera measurements need to be \textit{synchronised}. A suitable method to achieve such synchronisation is to run a timer interrupt every sample period of the camera (i.e 30 Hz). The interrupt subsequently calls an interrupt service routine (ISR) that triggers a pulse to the camera to capture a frame while simultaneously sampling the IMU measurements. According to the data sheet of the camera~\cite{trigger}, a digital pulse must be set high for at least $10\mu$ seconds in order to set the moment of exposure. The exposure itself is set through external software.This procedure is shown in Figure~\ref{fig:ISR}.
+
+Communication between the IMU and the Arduino is done via I2C. The accelerometer and the gyroscope are slave devices on the bus while the Arduino is the master. The IMU is configured according to the configuration explained in Chapter~\ref{sec:IMUconfig} in the once-off setup function before entering the infinite loop() function that waits for a command from the PC in order to send the IMU data.  
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \newpage
