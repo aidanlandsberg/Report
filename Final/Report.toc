@@ -50,17 +50,18 @@
 \contentsline {section}{\numberline {6}Conclusions and Recommendations}{45}
 \contentsline {subsection}{\numberline {6.1}Introduction}{45}
 \contentsline {subsection}{\numberline {6.2}Conclusion}{45}
-\contentsline {section}{\numberline {A}Summary of Work done}{49}
-\contentsline {section}{\numberline {B}Project Specification}{50}
-\contentsline {section}{\numberline {C}Achieved ECSA Exit Level Outcomes}{51}
-\contentsline {section}{\numberline {D}Theoretical Concepts}{52}
-\contentsline {subsection}{\numberline {D.1}State Space Model}{52}
-\contentsline {subsection}{\numberline {D.2}State Transition: Linear Model}{53}
-\contentsline {subsection}{\numberline {D.3}Measurement Update}{54}
-\contentsline {subsubsection}{\numberline {D.3.1}Measurement Model}{54}
-\contentsline {subsubsection}{\numberline {D.3.2}Feature Matching}{55}
-\contentsline {subsubsection}{\numberline {D.3.3}Feature Initialisation}{56}
-\contentsline {subsection}{\numberline {D.4}Performance of the EKF-based Kinematic Estimator}{57}
-\contentsline {subsection}{\numberline {D.5}Additional Analysis}{57}
-\contentsline {section}{\numberline {E}Figures \& Diagrams}{59}
-\contentsline {subsection}{\numberline {E.1}Schematics \& Circuit Diagrams}{59}
+\contentsline {subsection}{\numberline {6.3}Recommendations}{46}
+\contentsline {section}{\numberline {A}Summary of Work done}{50}
+\contentsline {section}{\numberline {B}Project Specification}{51}
+\contentsline {section}{\numberline {C}Achieved ECSA Exit Level Outcomes}{52}
+\contentsline {section}{\numberline {D}Theoretical Concepts}{53}
+\contentsline {subsection}{\numberline {D.1}State Space Model}{53}
+\contentsline {subsection}{\numberline {D.2}State Transition: Linear Model}{54}
+\contentsline {subsection}{\numberline {D.3}Measurement Update}{55}
+\contentsline {subsubsection}{\numberline {D.3.1}Measurement Model}{55}
+\contentsline {subsubsection}{\numberline {D.3.2}Feature Matching}{56}
+\contentsline {subsubsection}{\numberline {D.3.3}Feature Initialisation}{57}
+\contentsline {subsection}{\numberline {D.4}Performance of the EKF-based Kinematic Estimator}{58}
+\contentsline {subsection}{\numberline {D.5}Additional Analysis}{58}
+\contentsline {section}{\numberline {E}Figures \& Diagrams}{60}
+\contentsline {subsection}{\numberline {E.1}Schematics \& Circuit Diagrams}{60}

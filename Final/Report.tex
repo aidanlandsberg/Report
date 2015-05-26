@@ -1722,7 +1722,27 @@ The core of the project, namely the kinematic state estimator along with the ind
 
 The accelerometer used in this project aims to measure the linear accelerations of a body. This process proved to be a lot more difficult than expected as there is now possible way to determine the linear acceleration unless the orientation is precisely known. The method used in this project proposed to use the measurements from the gyroscope to obtain the changes in orientation. If the initial orientation is known (this is a requirement of the SLAM algorithm proposed in this project) the measurements form the gyroscope can be used to obtain the change in orientation. The gravity vector can subsequently be subtracted at each time step as its orientation with respect to the reference frame is always the negative z-direction. The gyroscope measurements however provide a constant error that is integrated with time resulting in drift and subsequently, inaccurate orientation estimates upon which the system depends in order to remove the gravity vector. This problem was initially accounted for by vastly increasing the uncertainty of the measurements but could possibly be overcome by additionally incorporating a magnetic sensor (magnetometer). A magnetometer can obtain additional information regarding the orientation of gravity by measuring the magnetic fields surrounding the earth. This process is common in inertial navigation and can be realised with an inexpensive sensor and minor additions to the equivalent control input calculations. 
 
-Furthermore the failure of the MonoSLAM Scenelib system to conduct a thorough SLAM solution could be attributed to the fact that the radial distortion approximation assumed from Davison et al.~\cite{dav2007}
+Furthermore the failure of the MonoSLAM Scenelib system to conduct a thorough SLAM solution could be attributed to the fact that the radial distortion approximation assumed from Davison et al.~\cite{dav2007} causes an incorrect re-projection that is used to subsequently match the feature in the frames that follow. A distortion model suited to the specific camera used in this implementation was not researched accordingly. This problem can be corrected by obtaining a suitable distortion model to allow successful reproduction of the features for the best chance of correlation.
+
+Finally it should be noted that even though a full implementation of the system was not achieved, the functional components of the system (besides the accelerometer) as well as the core kinematic estimator were implemented successfully as far as possible given the time constraints. These components include an IMU (besides the accelerometer) that can approximately measure an angular displacement, a Matlab simulation of the kinematic estimator that is also correctly implemented on Scenelib and the micro-controller that successfully achieves the system sampling period.
+
+\subsection{Recommendations}
+ Although the kinematic estimator MonoSLAM was not fully realised, many of the systems were successfully designed and accordingly implemented. The factors influencing the failure to fully implement the system are given as follows:
+\begin{itemize}
+\item Inaccurate accelerometer measurements based on gravity vector. The gyroscope error over time prevents accurate orientation estimates to correctly subtract the gravity vector.
+\item The incorrectly assumed radial distortion. 
+\end{itemize}
+ 
+The successfully designed and implemented subsystems however provide a good basis for the project to be completed with additional time with possible further development. The project objectives that were achieved are as follows:
+\begin{itemize}
+\item \textbf{Performing an overview on the current techniques used to realise SLAM} \\
+In order to understand how SLAM is implemented, an understanding of probability theory and state estimation is required. These concepts - specifically recursive state estimation and the Bayes filter - need to be researched and analysed before choosing a suitable technique to implement.
+\item \textbf{Analysis of the kinematic estimator as an alternative motion model}\\
+A kinematic estimator is suggested as a alternative motion model. The kinematic estimator needs to be researched, mathematically derived and simulated. The results from the simulation should correspond to the mathematical derivation. The advantages and disadvantages of the kinematic estimator also need to be investigated.
+\item \textbf{Hardware Design of the System} \\
+The kinematic estimator requires additional measurements obtained from an IMU. The IMU is required to interface with the PC via a micro-controller. The micro-controller allows precise synchronisation between the images sampled by the camera and the IMU measurements. A functional diagram of the system's hardware components are depicted in Figure~\ref{fig:sys}.  
+\end{itemize}
+
        
 
 
@@ -1815,9 +1835,15 @@ Mar. 11 $-$ Mar. 28 & Hardware and hardware communication design. \\
 \hline
 Apr. 1 $-$ Apr. 2 & Simulation Suite for kinematic estimator. \\
 \hline
-Apr. 3  $-$ Apr. 17 & Kinematic state estimator implemented in Scenelib (C++).\\
+Apr. 3  $-$ Apr. 24 & Kinematic state estimator implemented in Scenelib (C++).\\
 \hline
 Apr. 3 $-$ Apr. 14 & Inertial measurement unit and camera implementation.\\
+\hline
+Apr. 25 $-$ May. 14 & Integration of subsystems and main system. \\ 
+\hline
+May. 1 - May.15  & Subsystem testing \\
+\hline
+May. 16 - May. 26  & Reporting \\
 \hline
 \end{tabular}
 %\end{center}
@@ -1847,6 +1873,9 @@ If time allows, a set of tests are required to be derived and implemented to est
 \newpage
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Achieved ECSA Exit Level Outcomes}
+\begin{table}[H]
+\caption{The project planning schedule.}
+\centering
 \begin{tabular}{|c|c|}
 \hline
 Time & Task \\
@@ -1866,8 +1895,8 @@ Apr. 3 $-$ Apr. 14 & Inertial measurement unit and camera implementation.\\
 \hline
 \end{tabular}
 %\end{center}
-\label{default}
-\end{table}%
+\end{table}
+
 \newpage
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Theoretical Concepts} \label{App:Concepts}
