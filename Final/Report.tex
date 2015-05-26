@@ -1695,7 +1695,19 @@ This implementation of section in practice proved to be a very challenging part 
 \item It was initially very difficult to understand the Scenelib library due to its complexity, lack of a comprehensive documentation and my lack of experience using C++.    
 \end{itemize}
  
-The kinematic state estimator was however implemented successfully within the system. A st 
+The kinematic state estimator was however implemented successfully within the control update of Scenelib with the results from the simulation depicting the results in Scenelib given the same simulated variables. Figure~\ref{fig:davsim} depicts the simulations of the simulation in Matlab against the simulation of Davision given precisely the simulated variables:
+
+\begin{figure}[h]
+\centering%\begin{center}
+\includegraphics[width=0.49\textwidth, height=0.45\textwidth]{Figures/dav1.png}
+\includegraphics[width=0.49\textwidth, height=0.45\textwidth]{Figures/dav2.png}
+\caption{Left: Trajectory of the simulation against the results of the Scenelib control update. Right: Trajectory of the simulation against the results of the Scenelib control update.}
+\label{fig:davsim}
+\end{figure}
+
+The minor differences in the value are possibly due to rounded values. The direness are minimal though and the two simulations can be approximated as identical.
+
+The measurement update of the 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -1712,6 +1724,7 @@ The accelerometer used in this project aims to measure the linear accelerations 
 
 Furthermore the 
        
+
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
