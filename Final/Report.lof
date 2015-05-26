@@ -14,10 +14,13 @@
 \contentsline {figure}{\numberline {14}{\ignorespaces Arduino UNO SMD by Arduino. Adapted from\nobreakspace {}\cite {create}.\relax }}{31}
 \contentsline {figure}{\numberline {15}{\ignorespaces Left: Measurements of the stationary gyroscope. Right: Averaged measurements from the accelerometer after 3-axis individual rotations.\relax }}{33}
 \contentsline {figure}{\numberline {16}{\ignorespaces A flow diagram for the micro-controller program required to synchronise the sampling of the IMU and camera measurements.\relax }}{34}
-\contentsline {figure}{\numberline {17}{\ignorespaces Left: Top view of the hardware components of the system system. Right: Fully constructed platform to house the hardware components of the system.\relax }}{36}
-\contentsline {figure}{\numberline {18}{\ignorespaces Results of the test conditions 1 depicting angular displacements from gyroscope measurements.\relax }}{37}
-\contentsline {figure}{\numberline {19}{\ignorespaces EKF using a kinematic estimator to provide the control update.\relax }}{40}
-\contentsline {figure}{\numberline {20}{\ignorespaces Results of the test conditions 1 depicting zero-uncertainty.\relax }}{41}
-\contentsline {figure}{\numberline {21}{\ignorespaces Results of the conditions depicting random equivalent control inputs with uncertainty.\relax }}{55}
-\contentsline {figure}{\numberline {22}{\ignorespaces Circuit Diagram of the IMU.\relax }}{56}
-\contentsline {figure}{\numberline {23}{\ignorespaces Schematic of the IMU.\relax }}{56}
+\contentsline {figure}{\numberline {17}{\ignorespaces The GUI of the MonoSLAM application. Adapted from\nobreakspace {}\cite {dav2007}.\relax }}{35}
+\contentsline {figure}{\numberline {18}{\ignorespaces Left: Top view of the hardware components of the system system. Right: Fully constructed platform to house the hardware components of the system.\relax }}{36}
+\contentsline {figure}{\numberline {19}{\ignorespaces Results of the test conditions 1 depicting angular displacements from gyroscope measurements.\relax }}{38}
+\contentsline {figure}{\numberline {20}{\ignorespaces Left: Measurement depicting the frequency between the pulses - 30.3 Hz Right: Measurement depicting the width of the pulses - $10\mu $s.\relax }}{39}
+\contentsline {figure}{\numberline {21}{\ignorespaces Measurement depicting the time taken for a single, full IMU data measurement to be sampled and sent to the PC.\relax }}{40}
+\contentsline {figure}{\numberline {22}{\ignorespaces EKF using a kinematic estimator to provide the control update.\relax }}{41}
+\contentsline {figure}{\numberline {23}{\ignorespaces Results of the test conditions 1 depicting zero-uncertainty.\relax }}{42}
+\contentsline {figure}{\numberline {24}{\ignorespaces Results of the conditions depicting random equivalent control inputs with uncertainty.\relax }}{56}
+\contentsline {figure}{\numberline {25}{\ignorespaces Circuit Diagram of the IMU.\relax }}{57}
+\contentsline {figure}{\numberline {26}{\ignorespaces Schematic of the IMU.\relax }}{57}

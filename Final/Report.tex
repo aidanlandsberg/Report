@@ -1418,7 +1418,7 @@ Gyroscope $z-$axis & -0.1028 & 0.0638 \\
 The modelling of the additive noise in Chapter~\ref{sec:imu} is based statistical quantities provided in Table~\ref{tab:statimu}.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \newpage
-\subsubsection{Micro-controller}
+\subsubsection{Micro-controller}\label{sec:microflow}
 \begin{wrapfigure}[18]{R}{0.3\textwidth}
 %\centering
 \includegraphics[width=\linewidth, height=14cm]{Figures/loop.png}
@@ -1431,13 +1431,29 @@ Communication between the IMU and the Arduino is done via I2C. The accelerometer
 \clearpage
 
 \newpage
+\subsection{System Configuration}
 \subsubsection{MonoSLAM}
+The implementation discussed in this paper seeks to provide an improvement to the original implementation of MonoSLAM by Davison et al.~\cite{dav2007}. A determining factor in choosing the MonoSLAM implementation proposed by Davison et al. is the availability of the C++ based application called \textit{Scenelib} that is GNU Lesser General Public License (version 2). This allows the code to be used and updated provided that the updated version of the code is released under the same version. The original Scenelib implementation is adapted to incorporate the aspects proposed in this project as follows:
+\begin{itemize}
+\item The constant linear and angular velocity motion model is removed and replaced by the kinematic estimator.
+\item The system is required to incorporate additional data from the IMU.
+\end{itemize}
 
+All processing of the data is done on a PC using Ubuntu 14.04 and C++ (cmake for compiling). MonoSLAM provides an interactive graphical use interface (GUI) that shows the image tracking as well as the constucted probabilistic map in real time.   
+\begin{figure}[H]
+\centering%\begin{center}
+\includegraphics[width=0.8\textwidth, height=0.45\textwidth]{Figures/monoslamglow1.jpg}
+\caption{The GUI of the MonoSLAM application. Adapted from~\cite{dav2007}.}
+\label{fig:gyrobias}
+\end{figure}
+MonoSLAM requires a simple setup procedure, where a known initial pose and a known feature is required to be initialised in an initialisation file prior to system execution to provide a scale. The typical known feature is a black A5 rectangular block placed on a black background - the four corners are typically initialised as the known patch features. This image is place in a precisely known location in the environment and the location of the initialed patches are place into a initialisation file that the system reads upon execution.
+
+In the implementation proposed in this project, the feature is placed on a (approximately) perfect vertical surface so that the IMU can be orientated with respect to the gravitational acceleration initially (level on a surface) - allowing a known initial pose.   
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \newpage
 \section{Analysis: Testing \& Results}
 \subsection{Introduction}
-Due to the time constraints imposed on this project, a detailed testing analysis of the entire system is not possible. Instead, tests that seek to validate the functionality of each subsystem implemented. The validity of the raw gyroscope and accelerometer measurements are initially inspected. Thereafter, the validity of the kinematic state estimator is .......................
+Due to the time constraints imposed on this project, a detailed testing analysis of the entire system is not possible. Instead, tests that seek to validate the functionality of each subsystem were implemented accordingly. The validity of the raw gyroscope and accelerometer measurements are initially inspected. Thereafter, the system sampling period as well as the data rate transfer are inspected. Additionally the validity of the kinematic state estimator is tested by providing it with simulated measurements. Finally, the issues regarding the implementation of the adapted MonoSLAM system are discussed.  
 
 \begin{figure}[h]
 \centering%\begin{center}
@@ -1473,6 +1489,19 @@ Considering that the sample period is relatively small, the angular displacement
 \end{equation}
 It can also be assumed that given the small sample period, the relationship between the angular displacement and the angular velocity (velocity) can be approximated as linear.
 
+\begin{enumerate}
+\item \textbf{Positive $180^{\circ}$ rotation about the x-axis:}\\
+The measurements depicted in Figure~\ref{fig:gx} show an angular position x that begins at zero and ends at approximately $180^{\circ}$ due to the rotation described by the test case.
+\item \textbf{Positive $90^{\circ}$ rotation about the y-axis:}\\
+The measurements depicted in Figure~\ref{fig:gy} show an angular position y that begins at zero and ends at approximately $90^{\circ}$ due to the rotation described by the test case.
+\item \textbf{Positive $90^{\circ}$ followed by a negative $90^{\circ}$ rotation about the y-axis:}\\
+The measurements depicted in Figure~\ref{fig:gyy} show an angular position y that begins at zero and goes to approximately $90^{\circ}$ before falling back to approximately zero due to the rotation described by the test case..
+\item \textbf{Positive $360^{\circ}$ rotation about the z-axis:}\\
+The measurements depicted in Figure~\ref{fig:gz} show an angular position z that begins at zero and ends at approximately $360^{\circ}$ due to the rotation described by the test case.
+\end{enumerate}
+
+Additionally, it can be observed in Figure~\ref{fig:gy1} that the rate at which the angular displacement is changing is approximately linear in all the cases. The gyroscope measurements are thus validated given that the mathematics and measurement simulation are in agreement.
+
 \begin{figure}[H]
 \centering
 \begin{subfigure}[H]{0.49\textwidth}
@@ -1499,34 +1528,37 @@ It can also be assumed that given the small sample period, the relationship betw
 \label{fig:gy1}
 \end{figure}
 
-\begin{enumerate}
-\item \textbf{Positive $180^{\circ}$ rotation about the x-axis:}\\
-The measurements depicted in Figure~\ref{fig:gx} show an angular position x that begins at zero and ends at approximately $180^{\circ}$ due to the rotation described by the test case.
-\item \textbf{Positive $90^{\circ}$ rotation about the y-axis:}\\
-The measurements depicted in Figure~\ref{fig:gy} show an angular position y that begins at zero and ends at approximately $90^{\circ}$ due to the rotation described by the test case.
-\item \textbf{Positive $90^{\circ}$ followed by a negative $90^{\circ}$ rotation about the y-axis:}\\
-The measurements depicted in Figure~\ref{fig:gyy} show an angular position y that begins at zero and goes to approximately $90^{\circ}$ before falling back to approximately zero due to the rotation described by the test case..
-\item \textbf{Positive $360^{\circ}$ rotation about the z-axis:}\\
-The measurements depicted in Figure~\ref{fig:gz} show an angular position z that begins at zero and ends at approximately $360^{\circ}$ due to the rotation described by the test case.
-\end{enumerate}
-
-Additionally, it can be observed in Figure~\ref{fig:gy1} that the rate at which the angular displacement is changing is approximately linear in all the cases. The gyroscope measurements are thus validated given that the mathematics and measurement simulation are in agreement.
-
 It should be noted that the gyroscope gradually drifts over time. It is a known that the gyroscope produces a constant error that is subsequently integrated over time (upon seeking to obtain an angular position) producing a linear angular drift. It is expected though that the measurement update in the SLAM filter will account for these errors.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsubsection{Accelerometer Raw Measurements}
 In order to verify the validity of the accelerometer, the physical measurements need to be measured and analysed. Although is is a lot easier to intuitively analyse an acceleration than an angular rate, the process of obtaining the linear acceleration is very complex. 
 
-The accelerometer measurements may not drift over time as in the case of the gyroscope, but all accelerometer measurements incorporate gravitational acceleration. Additionally, an accelerometer cannot itself distinguish between the gravitational and linear acceleration portions that it measures. This typically results in the components of the gravity vector being assumed upon other axes of the accelerometer and incorrect measurements being assumed. An additional sensor is typically required - in this instance the gyroscope. The idea is to measure the degree by which the orientation changes  (using the gyroscope measurements), and at each instance subtract the gravity vector. 
+The accelerometer measurements may not drift over time as in the case of the gyroscope, but all accelerometer measurements incorporate gravitational acceleration. Additionally, an accelerometer cannot itself distinguish between the gravitational and linear accelerations that it measures. This typically results in the components of the gravity vector being assumed upon other axes of the accelerometer resulting in incorrect measurements. An additional sensor is typically required - in this instance the gyroscope. The idea is to measure the degree by which the orientation changes (using the gyroscope measurements), and at each instance subtract the gravity vector. 
 
-As previously mentioned however, the gyroscope is only accurate for a short period of time, with the constant error of the angular rates are integrated over time causing drift. The orientation at each time instance needs to be precisely known in order to successfully subtract the gravitational acceleration. 
+As previously mentioned however, the gyroscope drifts over time. The orientation at each time instance needs to be precisely known in order to successfully subtract the gravitational acceleration. The error in orientation then, causes linear acceleration measurements that cannot accurately reconstruct the position of a robot. 
 
-Two alternative suggestions to account for this problem in the context of this project, are given as follows:
-\begin{itemize}
-\item An additional sensor that aides the orientation measures 
-\end{itemize}
+This issue was realised late in this project and couldn't be rectified due to the hard deadline of the project. An alternative suggestion was to account for this problem in the context of this project, by substantially increasing the variance of the accelerometer noise. This procedure tells the EKF that you are very uncertain regarding this measurement and the EKF will take this into consideration upon obtaining the optimal weighting of the state estimate.
 
-This issue was realised late in this project  and couldn't be rectified.
+\subsubsection{System Sampling Period}
+In order to verify that the system sampling period is according to the desired requirements (30 Hz), a set of measurements need to be obtained measuring the timer-interrupt realised by the micro-controller in Chapter~\ref{sec:microflow}. An oscilloscope can be used to measure the port that triggers the camera's GPIO pin. This pin expects a pulse with a width of at least $10\mu$s repeated at least every 30 Hz.
+\begin{figure}[h]
+\centering%\begin{center}
+\includegraphics[width=0.49\textwidth, height=0.33\textwidth]{Figures/TEK2.jpg}
+\includegraphics[width=0.49\textwidth, height=0.33\textwidth]{Figures/TEK3.jpg}
+\caption{Left: Measurement depicting the frequency between the pulses - 30.3 Hz Right: Measurement depicting the width of the pulses - $10\mu$s.}
+\label{fig:pinmeas}
+\end{figure}
+\subsubsection{Sufficient Data Transfer Speed}
+In order to verify that the data transfer of the IMU measurements onto the PC system are within sampling period, a set of measurements need to be obtained measuring the data transfer by the micro-controller in Chapter~\ref{sec:microflow}. An oscilloscope can be used to measure the transmit port of the UART. A full set of IMU measurements (3 gyroscope and 3 accelerometer) are sampled and subsequently transmitted on this pin. The data should be transferred to the PC within the system sampling period.
+
+\begin{figure}[H]
+\centering%\begin{center}
+\includegraphics[width=0.49\textwidth, height=0.33\textwidth]{Figures/TEK5.jpg}
+\caption{Measurement depicting the time taken for a single, full IMU data measurement to be sampled and sent to the PC.}
+\label{fig:samp}
+\end{figure}
+
+Figure~\ref{fig:samp} shows that the full data transfer is well within the system sampling period and the speed of transmission is thus sufficient.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %\newpage
 %\subsubsection{Serial Communication}
@@ -1579,15 +1611,11 @@ This issue was realised late in this project  and couldn't be rectified.
 %\end{table}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \newpage
-\subsubsection{System Sampling Period}
-
-\newpage
 \subsection{Simulation}
-This study seeks to investigate the performance of the kinematic estimator as a state transition model. An EKF-based kinematic estimator simulation is designed to meet the following specifications:
+This study seeks to investigate the performance of the kinematic estimator as a state transition model. An EKF-based kinematic estimator \textit{simulation} is designed to meet the following specifications:
 \begin{itemize}
-\item The measurement update only adds additive noise to the state estimates. 
-\item The kinematic estimator should precisely track a trajectory of a robot from simulated IMU measurements, given that there is no uncertainty regarding the system.
-\item In the event of process and measurement noise, the kinematic estimator should still allow the EKF provide an optimal estimate depending on the amount of uncertainty each noise perturbation presents.  
+\item Simulated measurements are calculated by adding noise to the states. 
+\item The kinematic estimator should precisely track a trajectory of a robot from simulated IMU measurements, given that there is no uncertainty regarding the system. 
 \end{itemize}
 
 In order to effectively analyse its performance, a simulation of an EKF that uses a kinematic estimator as the state transition model is run under a set of test conditions. These conditions will accurately analyse the performance of the kinematic estimator with regard to the aforementioned design specifications. A functional diagram of the EKF-based kinematic estimator (based on Equation~\ref{eq:trmod}) is shown in Figure~\ref{fig:kindiag}. The kinematic estimator is incorporated within the control update of the EKF. %A set of \textit{simulated} inertial measurements will initially be inserted into the kinematic estimator simulation and the resulting trajectory will be plotted to provide better insight. Thereafter a set of random measurements will be inserted into the kinematic estimator with  
@@ -1601,9 +1629,9 @@ In order to effectively analyse its performance, a simulation of an EKF that use
 
 \newpage
 \subsubsection{Recovering a Trajectory from Simulated IMU Measurements}
-The first set of test conditions will provide simulated gyroscope and accelerometer measurements with zero process and measurement noise. The EKF simulation measurement model is defined as a mapping of the state vector with additive noise. With no uncertainty regarding the measurement or process noise then, the simulated state estimates should exactly resemble the actual state vector.
+ will provide simulated gyroscope and accelerometer measurements in a noiseless environment. The EKF simulation measurement model is defined as a mapping of the state vector with additive noise. With no uncertainty regarding the measurement or process noise then, the simulated state estimates should exactly resemble the actual state vector. 
 
-The expected outcome then, is that the kinematic estimator will precisely track a given robot trajectory. These trajectories will be trivially defined so that the results can be accurately analysed. 
+The expected outcome then, is that the kinematic estimator will precisely track a given robot trajectory. This trajectory will be simply defined so that the results can be accurately analysed. 
 \\\\
 The length of a simulation is 10 seconds at 30 Hz or 300 samples. The initial position is always $\textbf{r}^W$ = \{0 0 0\} with an orientation quaternion of $\textbf{q}^{WC} =$ \{1 0 0 0\}): %The trajectory of the can thus qualitatively analysed to predict the performance of the kinematic estimato.
 
@@ -1663,8 +1691,9 @@ The simulation depicted in Figure~\ref{fig:zplane} shows a square in the z-plane
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Conclusions and Recommendations}
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -1736,22 +1765,25 @@ The simulation depicted in Figure~\ref{fig:zplane} shows a square in the z-plane
 \appendix
 \section{Summary of Work done}
 \begin{table}[H]
-\caption{Accelerometer and gyroscope register values}
+\caption{The project planning schedule.}
 \centering
 %\begin{center}
-\begin{tabular}{|c|c|c|c|}
+\begin{tabular}{|c|c|}
 \hline
-Register & Value & Name & Function \\ 
-\hline\hline
-\multicolumn{4}{|c|}{Accelerometer} \\
+Time & Task \\
 \hline
-0x31 & 0x09 & DATA\textunderscore FORMAT &  \pbox{7.5cm}{Set the accelerometer to $\pm 4g$ and 10 bit resolution.}\\
 \hline
-0x2D & 0x08 & POWER\textunderscore CTL & \pbox{7.5cm}{Set the accelerometer to measure mode with minimum power consumption.}\\
+Feb. 2 $-$ Mar. 2 & Literature Study. \\
 \hline
-\multicolumn{4}{|c|}{Gyroscope} \\
+Mar. 3 $-$ Mar. 30 & Kinematic state estimator design. \\
 \hline
-0x16 & 0x1B & Full Scale &  \pbox{7.5cm}{Set the gyroscope to $\pm 2000^{\circ}$, 1 kHz sample rate and 100 Hz low pass filter bandwidth.}\\
+Mar. 11 $-$ Mar. 28 & Hardware and hardware communication design. \\
+\hline
+Apr. 1 $-$ Apr. 2 & Simulation Suite for kinematic estimator. \\
+\hline
+Apr. 3  $-$ Apr. 17 & Kinematic state estimator implemented in Scenelib (C++).\\
+\hline
+Apr. 3 $-$ Apr. 14 & Inertial measurement unit and camera implementation.\\
 \hline
 \end{tabular}
 %\end{center}
