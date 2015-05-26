@@ -1427,6 +1427,8 @@ The modelling of the additive noise in Chapter~\ref{sec:imu} is based statistica
 \end{wrapfigure}
 The IMU and camera measurements need to be \textit{synchronised}. A suitable method to achieve such synchronisation is to run a timer interrupt every sample period of the camera (i.e 30 Hz). The interrupt subsequently calls an interrupt service routine (ISR) that triggers a pulse to the camera to capture a frame while simultaneously sampling the IMU measurements. According to the data sheet of the camera~\cite{trigger}, a digital pulse must be set high for at least $10\mu$ seconds in order to set the moment of exposure. The exposure itself is set through external software. This procedure is shown in Figure~\ref{fig:ISR}.
 
+The timer interrupt is required to be initiated by enabling the interrupt during the setup after the timer pre-scaler has been set to realise an interrupt ever sampling period of 33.33 ms.
+
 Communication between the IMU and the Arduino is done via I2C. The accelerometer and the gyroscope are slave devices on the bus while the Arduino is the master. The IMU is configured according to the configuration explained in Chapter~\ref{sec:IMUconfig} in the once-off setup function before entering the infinite loop() function that waits for a command from the PC in order to send the IMU data.  
 \clearpage
 
@@ -1686,12 +1688,31 @@ The simulation depicted in Figure~\ref{fig:zplane} shows a square in the z-plane
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \newpage
 \subsection{MonoSLAM}
-
+This implementation of section in practice proved to be a very challenging part of this project. As a result of the time constraints imposed on this project, a functional system upon which fundamental tests could be undertaken was not possible. Initially, the system imposed a number of challenges that were not related to the theoretical concepts of this project. These challenges are listed as follows:
+\begin{itemize}
+\item Ubuntu 14.04 no longer supports ffmpeg as default and has replace this with libav which doesn't support the USB camera feeds used by Scenlib. A previous version of Scenelib was required to be used that only uses saved image sequences.
+\item The numerical libraries that are used by Davison et al. (Oxford universities vision workshop (VW)) is outdated and has no meaningful documentation. The existing code had to be studied in order to understand the library well enough to incorporate it within the proposed alterations to the project.
+\item It was initially very difficult to understand the Scenelib library due to its complexity, lack of a comprehensive documentation and my lack of experience using C++.    
+\end{itemize}
+ 
+The kinematic state estimator was however implemented successfully within the system. A st 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\newpage
 \section{Conclusions and Recommendations}
+\subsection{Introduction}
+This chapter concludes all the work conducted throughout this project and provides recommendations on further improvements to the project.
+
+\subsection{Conclusion}
+The core of the project, namely the kinematic state estimator along with the individual hardware subsystems was proven successful as far as possible. The final implementation of the MonoSLAM system however was not successful. The failure to successfully implement the proposed system is possibly be due to various individual factors, both practical, theoretical and time, as well as a combination of these factors. The discussion that follows provides the possible causes of the inability to realise a successful SLAM implementation.
+
+The accelerometer used in this project aims to measure the linear accelerations of a body. This process proved to be a lot more difficult than expected as there is now possible way to determine the linear acceleration unless the orientation is precisely known. The method used in this project proposed to use the measurements from the gyroscope to obtain the changes in orientation. If the initial orientation is known (this is a requirement of the SLAM algorithm proposed in this project) the measurements form the gyroscope can be used to obtain the change in orientation. The gravity vector can subsequently be subtracted at each time step as its orientation with respect to the reference frame is always the negative z-direction. The gyroscope measurements however provide a constant error that is integrated with time resulting in drift and subsequently, inaccurate orientation estimates upon which the system depends in order to remove the gravity vector. This problem was initially accounted for by vastly increasing the uncertainty of the measurements but could possibly be overcome by additionally incorporating a magnetic sensor (magnetometer). A magnetometer can obtain additional information regarding the orientation of gravity by measuring the magnetic fields surrounding the earth. This process is common in inertial navigation and can be realised with an inexpensive sensor and minor additions to the equivalent control input calculations. 
+
+Furthermore the 
+       
+
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
