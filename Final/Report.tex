@@ -81,9 +81,11 @@ Private Bag X1, Matieland 7602, South Africa.}\\\vspace{20mm}\large{Supervisor: 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section*{Summary}
 \newpage
+This study seeks to improve localisation using a single camera as the measurement sensor. Simultaneous localisation and mapping  (SLAM) is implemented using a kinematic state estimator. In this implementation, an inertial measurement unit measures the movement of the system and the kinematic state estimator aims to accurately predict this trajectory while the camera images are used to potentially correct errors made in the prediction.The theory necessary to derive the system from first principles is discussed before this theory is used to implement the design of the system. The results of this system show that the kinematic state estimator works correctly although a full implementation is not possible yet. 
 \thispagestyle{empty}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section*{Opsomming}
+Hierdie artikel poog om die lokalisering van 'n robot te verbeter met meetings van 'n enkele kamara. Gelyktydige plek en kaarting (SLAM) word gebruik deur die hulp van 'n kinematiese afstaker. In hierdie implementering, 'n traagheid meeteenheid word gebruik om die dynamika van die stelsel te meet.  Die theorie agtergrond nodig om so 'n implementering van SLAM te inkorporeer word bespreek. Die afleiding nodig om die ontwerp te realieseer word ook bespreek. Die resultaten van die stelsel wis dat die kinematiese afstaken wel koek werk alhoewel die stelsel volledig nie geimplementeer word nie.    
 \newpage
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -1862,13 +1864,11 @@ The following project aims to provide a real-time algorithm that is able to trac
 This project seeks to utilise the aforementioned MonoSLAM system of Davison et al. and improve the localisation thereof by using \textit{additional} sensor information. The improvement(s) of the system should allow the existing system to obtain better localisation and extend the range of applications upon which the system can be applied while maintaining the original performance standard: repeatable localisation at 30 Hz for approximately 100 features. The system should utilise a \textit{single} camera as the measurement sensor and preferably support real-time operation. All processing regarding the SLAM algorithm can be done on a standard PC that communicates with the sensors via a serial port. The project budget is R $1500.00$. The primary objectives of this project include:
 \begin{itemize}
 \item \textbf{Performing an overview on the current techniques used to realise SLAM} \\
-In order to understand how SLAM is implemented, an understanding of probability theory and state estimation is required. These concepts - specifically recursive state estimation and the Bayes filter - need to be researched and analysed before choosing a suitable technique to implement.
+All of the research required in order to implement SLAM was undertaken. The process of deriving a solution form the principles of probability, belief distributions and recursive state estimation was realised.
 \item \textbf{Analysis of the kinematic estimator as an alternative motion model}\\
-A kinematic estimator is suggested as a alternative motion model. The kinematic estimator needs to be researched, mathematically derived and simulated. The results from the simulation should correspond to the mathematical derivation. The advantages and disadvantages of the kinematic estimator also need to be investigated.
+The kinematic estimator was researched, mathematically derived and simulated. The results from the simulation correspond with the mathematical derivation.
 \item \textbf{Hardware Design of the System} \\
-The kinematic estimator requires additional measurements obtained from an IMU. The IMU is required to interface with the PC via a micro-controller. The micro-controller allows precise synchronisation between the images sampled by the camera and the IMU measurements. A functional diagram of the system's hardware components are depicted in Figure~\ref{fig:sys}. 
-\item \textbf{Comparison between proposed and original MonoSLAM implementations}\\
-If time allows, a set of tests are required to be derived and implemented to establish whether the proposed improvement(s) indeed satisfy the desired requirements.  
+The integration of the hardware components using the micro-controller was successfully achieved. Although the IMU unit was successfully achieved, the accelerometer measurements were not reliable.
 \end{itemize}
 \newpage
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
