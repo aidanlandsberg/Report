@@ -48,7 +48,7 @@
 %\setstretch{1.1}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\title{\textbf{{Robust Monocular Vision Based SLAM} Using Kinematic State Estimation}\\\vspace{7.5 mm}\Large{by}\\\vspace{7.5 mm}\Large{Aidan Russel Landsberg}\\\vspace{45 mm}\large{Report submitted in partial fulfilment of the requirements of the module Project(E) 448 for the degree Baccalaureus in Engineering in the Department of Electrical and Electronic Engineering at the University of Stellenbosch}\\\vspace{45mm}\large{Department of Electrical and Electronic Engineering,\\ University of Stellenbosch,\\
+\title{\textbf{{Monocular Vision Based SLAM} Using Kinematic State Estimation}\\\vspace{7.5 mm}\Large{by}\\\vspace{7.5 mm}\Large{Aidan Russel Landsberg}\\\vspace{45 mm}\large{Report submitted in partial fulfilment of the requirements of the module Project(E) 448 for the degree Baccalaureus in Engineering in the Department of Electrical and Electronic Engineering at the University of Stellenbosch}\\\vspace{45mm}\large{Department of Electrical and Electronic Engineering,\\ University of Stellenbosch,\\
 Private Bag X1, Matieland 7602, South Africa.}\\\vspace{20mm}\large{Supervisor: Dr. C.E. (Corn\'{e}) Van Daalen}}
 \date{May 2015}	% Activate to display a given date or no date
 						
@@ -99,12 +99,12 @@ Private Bag X1, Matieland 7602, South Africa.}\\\vspace{20mm}\large{Supervisor: 
 \newpage
 \section*{Acknowledgements}
 %\addcontentsline{toc}{section}{Acknowledgements}
-I would like to express my sincere gratitude toward the following individuals for their role in making this project a success:\\
+I would like to express my sincere gratitude toward the following individuals for their role in this project:\\
 
 \begin{itemize}
-\item My heavenly Father, for providing me with the intellectual capacity, guidance and support necessary to make a success of this project while remaining faithful and true in the toughest of times.\\
+\item My heavenly Father, for providing me with the intellectual capacity, guidance and support necessary during this project while remaining faithful and true in the toughest of times.\\
 \item My study leader, Dr. Corn\'{e} Van Daalen, for his endless enthusiasm, guidance, patience, support, time and invaluable insight. As well as for personally setting aside the time to propose and supervise this project. \\
-\item My parents, for their endless support and motivation. As well as for making all the necessary sacrifices to provide me with the opportunity to complete this project successfully. \\
+\item My parents, for their endless support and motivation. As well as for making all the necessary sacrifices to provide me with the opportunity to complete this project. \\
 \item Mr. Arno Barnard, for his advice regarding the embedded design.\\
 \item My girlfriend Bianca La Gorc\'{e}, for supporting me endlessly.\\
 \item Benjamin Pannell, for being a great personal mentor and friend. As well as for providing me with insight regarding various software concepts. \\
@@ -1419,7 +1419,7 @@ The modelling of the additive noise in Chapter~\ref{sec:imu} is based statistica
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \newpage
 \subsubsection{Micro-controller}\label{sec:microflow}
-\begin{wrapfigure}[18]{R}{0.3\textwidth}
+\begin{wrapfigure}[24]{R}{0.3\textwidth}
 %\centering
 \includegraphics[width=\linewidth, height=14cm]{Figures/loop.png}
 \caption{A flow diagram for the micro-controller program required to synchronise the sampling of the IMU and camera measurements.}
@@ -1707,7 +1707,7 @@ The kinematic state estimator was however implemented successfully within the co
 
 The minor differences in the value are possibly due to rounded values. The direness are minimal though and the two simulations can be approximated as identical.
 
-The measurement update of the 
+The measurement update of the MonoSLAM system in Scenelib contained errors in the re-projection of the image patches for matching. As a result, accurate matching never occurs and the system terminates. It is concluded that the distortion model approximated dorm Davision et al. in Equation~\ref{eq:raddist} incorporates too much radial distortion and as a result projection of images are incorrect. This problem was however identified too late in the project to correct given the hard deadline. 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -1722,7 +1722,7 @@ The core of the project, namely the kinematic state estimator along with the ind
 
 The accelerometer used in this project aims to measure the linear accelerations of a body. This process proved to be a lot more difficult than expected as there is now possible way to determine the linear acceleration unless the orientation is precisely known. The method used in this project proposed to use the measurements from the gyroscope to obtain the changes in orientation. If the initial orientation is known (this is a requirement of the SLAM algorithm proposed in this project) the measurements form the gyroscope can be used to obtain the change in orientation. The gravity vector can subsequently be subtracted at each time step as its orientation with respect to the reference frame is always the negative z-direction. The gyroscope measurements however provide a constant error that is integrated with time resulting in drift and subsequently, inaccurate orientation estimates upon which the system depends in order to remove the gravity vector. This problem was initially accounted for by vastly increasing the uncertainty of the measurements but could possibly be overcome by additionally incorporating a magnetic sensor (magnetometer). A magnetometer can obtain additional information regarding the orientation of gravity by measuring the magnetic fields surrounding the earth. This process is common in inertial navigation and can be realised with an inexpensive sensor and minor additions to the equivalent control input calculations. 
 
-Furthermore the 
+Furthermore the failure of the MonoSLAM Scenelib system to conduct a thorough SLAM solution could be attributed to the fact that the radial distortion approximation assumed from Davison et al.~\cite{dav2007}
        
 
 
@@ -1826,10 +1826,48 @@ Apr. 3 $-$ Apr. 14 & Inertial measurement unit and camera implementation.\\
 \newpage
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Project Specification}
+\textbf{Project Title}\\
+Monocular vision based SLAM using kinematic state estimation.
+\\\\
+\textbf{Project Description} \\
+The following project aims to provide a real-time algorithm that is able to track and recover the trajectory and motion of a single (monocular) camera system  - that is also aided by an inertial measurement unit - moving freely in 3D space while simultaneously constructing a sparse map of its (previously unknown) surrounding environment. This is one particular example of the simultaneous localisation and mapping (SLAM) problems. This particular version is known as the monocular SLAM (MonoSLAM) problem. Possible extensions of this project include utilising and/or comparing other existing implementations of SLAM algorithms and drawing a comparison between them.  
+\\\\
+\textbf{Project Objectives}\\
+This project seeks to utilise the aforementioned MonoSLAM system of Davison et al. and improve the localisation thereof by using \textit{additional} sensor information. The improvement(s) of the system should allow the existing system to obtain better localisation and extend the range of applications upon which the system can be applied while maintaining the original performance standard: repeatable localisation at 30 Hz for approximately 100 features. The system should utilise a \textit{single} camera as the measurement sensor and preferably support real-time operation. All processing regarding the SLAM algorithm can be done on a standard PC that communicates with the sensors via a serial port. The project budget is R $1500.00$. The primary objectives of this project include:
+\begin{itemize}
+\item \textbf{Performing an overview on the current techniques used to realise SLAM} \\
+In order to understand how SLAM is implemented, an understanding of probability theory and state estimation is required. These concepts - specifically recursive state estimation and the Bayes filter - need to be researched and analysed before choosing a suitable technique to implement.
+\item \textbf{Analysis of the kinematic estimator as an alternative motion model}\\
+A kinematic estimator is suggested as a alternative motion model. The kinematic estimator needs to be researched, mathematically derived and simulated. The results from the simulation should correspond to the mathematical derivation. The advantages and disadvantages of the kinematic estimator also need to be investigated.
+\item \textbf{Hardware Design of the System} \\
+The kinematic estimator requires additional measurements obtained from an IMU. The IMU is required to interface with the PC via a micro-controller. The micro-controller allows precise synchronisation between the images sampled by the camera and the IMU measurements. A functional diagram of the system's hardware components are depicted in Figure~\ref{fig:sys}. 
+\item \textbf{Comparison between proposed and original MonoSLAM implementations}\\
+If time allows, a set of tests are required to be derived and implemented to establish whether the proposed improvement(s) indeed satisfy the desired requirements.  
+\end{itemize}
 \newpage
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Achieved ECSA Exit Level Outcomes}
-
+\begin{tabular}{|c|c|}
+\hline
+Time & Task \\
+\hline
+\hline
+Feb. 2 $-$ Mar. 2 & Literature Study. \\
+\hline
+Mar. 3 $-$ Mar. 30 & Kinematic state estimator design. \\
+\hline
+Mar. 11 $-$ Mar. 28 & Hardware and hardware communication design. \\
+\hline
+Apr. 1 $-$ Apr. 2 & Simulation Suite for kinematic estimator. \\
+\hline
+Apr. 3  $-$ Apr. 17 & Kinematic state estimator implemented in Scenelib (C++).\\
+\hline
+Apr. 3 $-$ Apr. 14 & Inertial measurement unit and camera implementation.\\
+\hline
+\end{tabular}
+%\end{center}
+\label{default}
+\end{table}%
 \newpage
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Theoretical Concepts} \label{App:Concepts}
