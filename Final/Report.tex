@@ -610,7 +610,7 @@ This chapter sets out to provide an overview of the MonoSLAM algorithm. Initiall
 %Initially, the adequate state representation of the system at hand will be denoted, whereby the components of the state vector - namely the camera position and cartesian feature states - will be defined and discussed. Additionally, the affect of the proposed extension - namely the IMU measurements as the control inputs to the system - will be properly defined and described. Furthermore, this section will seek to use the aforementioned definitions to completely define the two sequential steps required to successfully implement the EKF, namely the \textit{prediction} and \textit{update} steps. 
 \begin{figure}[H]
 %\begin{center}
-\includegraphics[width=\textwidth, height=0.7\textwidth]{Figures/Entier_System.png}
+\includegraphics[width=\textwidth, height=0.67\textwidth]{Figures/Entier_System.png}
 \caption{Functional diagram of the complete SLAM system. The sections in red depict the subsystems that have been accordingly altered or replaced in the implementation proposed in this project. The dashed lines show the internal processes of the measurement update - initially this is not trivial.}
 \label{fig:system}
 %\end{center}
@@ -700,9 +700,9 @@ where the subscript $n$ denotes a specific landmark.
 \newpage
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsubsection{Sensor Model: Camera} \label{sec:cam}
-The sensor of the the robot is a single CMOS digital camera. The camera is modelled using the \textit{pinhole camera model} depicted in Figure~\ref{fig:pinhole}. The pinhole model provides a reasonable approximation of a 3D point in the world and approximates this position according to a 2D. This model incorporates certain assumptions - namely that most digital cameras use lenses rather than a pinhole that can result in distortion. The model can however be adapted to account for the assumption and better approximate the distortion.
+The sensor of the the robot is a single CMOS digital camera. The \textit{pinhole camera model} depicted in Figure~\ref{fig:pinhole} is used to provide a reasonable approximation for a projection of a 3D point in space. The pinhole model however, ignores the effects of distortions caused by lenses and finite apertures. The model can however be adapted to account for these assumptions and better approximate the distortion.
 
-The pinhole camera model can be described as a two-dimensional plane, containing the projections of the 3D point $P_i = (x_i\hspace{0.2cm} y_i\hspace{0.2cm}z_i)^T$. The process of representing a 3D coordinate in terms of a 2D coordinate $Q_i = (u_i\hspace{0.2cm}v_i)^T$ is known as \textit{perspective projection}. The 2D plane is commonly referred to as the \textit{pinhole plane} which contains a infinitesimal hole at its centre - the \textit{pinhole}. The camera possess its own 3D coordinate system with coordinate axes $X_C$, $Y_C$ and $Z_C$ (also referred to as the camera's \textit{optical axis}). The pinhole is situated at the origin of this 3D coordinate system - this is also referred to as the \textit{optical centre}, \textit{O}. The \textit{image plane} is located at a positive distance \textit{f} from the optical centre \textit{O}, parallel to the pinhole plane. This distance $f$ is referred to as the camera's \textit{focal length}.     
+The pinhole camera model contains a two-dimensional plane, with the projections of the 3D point $(x_i\hspace{0.2cm} y_i\hspace{0.2cm}z_i)^T$. The process of representing a 3D coordinate in terms of a 2D coordinate $(u_i\hspace{0.2cm}v_i)^T$ is known as \textit{perspective projection}. The 2D plane is commonly referred to as the \textit{pinhole plane} which contains a infinitesimal hole at its centre - the \textit{pinhole}. The camera possess its own 3D coordinate system with coordinate axes $X_C$, $Y_C$ and $Z_C$ (also referred to as the camera's \textit{optical axis}). The pinhole is situated at the origin of this 3D coordinate system - this is also referred to as the \textit{optical centre}. The \textit{image plane} is located at a positive distance \textit{f} from the optical centre \textit{O}, parallel to the pinhole plane. This distance $f$ is referred to as the camera's \textit{focal length}.     
 \begin{figure}[h]
 \begin{center}
 \includegraphics[width=0.9\textwidth, height=0.45\textwidth]{Figures/pinhole1.png}
@@ -711,9 +711,31 @@ The pinhole camera model can be described as a two-dimensional plane, containing
 \end{center}
 \end{figure}
 
-The undistorted projection of a point $P_i$ in the image plane ($u_i$,$v_i$) can be shown as presented in a thesis by Albrecht~\cite{master}:
+The image of the camera represents a projection of a 3D point in space. Euclidean geometry requires complicated calculations to describe these projections. \textit{Projective geometry} offers an alternative representations of the geometry that is both simpler to implement. Projective geometry uses a system of coordinates called \textit{homogenous coordinates} and is able to represent transformations in a single matrix. The projection of an object $r$ is defined as homogenous if the same object is represented by $r = \lambda r$. The relationship between homogenous and Euclidean coordinates is shown according to a lecture presented by Stachnis~\cite{cyril}:
 \begin{equation} 
 \label{eq:fmmd1}
+  \begin{pmatrix}
+	u \\
+	v \\
+	w \\
+  \end{pmatrix} =
+    \begin{pmatrix}
+	wx \\
+	wy \\
+	w \\
+  \end{pmatrix} = 
+    \begin{pmatrix}
+	x \\
+	y \\
+	1 \\
+  \end{pmatrix},
+\end{equation}
+where $x$ and $y$ are the Euclidean coordinates. 
+
+The undistorted projection of a point in the image plane ($u_i$,$v_i$) is be derived using similar triangles and homogenous coordinates as presented in a thesis by Albrecht~\cite{master}:
+\begin{equation} 
+\label{eq:fmmd1}
+\begin{split}
   \begin{pmatrix}
   u_i\\
   v_i\\
@@ -734,11 +756,19 @@ The undistorted projection of a point $P_i$ in the image plane ($u_i$,$v_i$) can
   \frac{u_i}{f} \\
   \frac{v_i}{f} \\
   1
-  \end{pmatrix},
+  \end{pmatrix}
+ \textbf{C} &= 
+ \begin{pmatrix}
+  f & 0 & u_0\\
+  0& f  & v_0\\
+  0& 0 & 1 
+ \end{pmatrix}
+\end{split},
 \end{equation}
 where $\textbf{C}$ represents the camera's \textit{intrinsic matrix}, $u_0$ and $v_0$ represents the \textit{principal point} located at the image centre.
 
-As previously mentioned, the pinhole camera model is an approximation of the CMOS machine vision camera that is actually being used. To account for the errors that such an approximation may yield, it is proposed that the \textit{projected} coordinates ($u_i,v_i$) be warped with a \textit{radial distortion} as is done in~\cite{dav2007}, in order to obtain a new \textit{distortion} coordinate ($u_d, v_d$) that will better resemble the one which the camera will provide. This radial distortion is mathematically shown as in a study presented by Swaminathan and Kayer~\cite{distort}:
+The camera's intrinsic matrix describes the parameters that are unique to a camera containing the principal point as well as the focal lengths. Once obtained, this matrix can be used to obtain the projections of any 3D point in an image plane, as well as an 3D approximation of a projected point.
+As previously mentioned, the pinhole camera model ignores the effects of distortion that generally present in practical systems. To account for the errors that such an approximation may yield, it is proposed that the \textit{projected} coordinates ($u_i,v_i$) be warped with a \textit{radial distortion} as is done in~\cite{dav2007}, in order to obtain a coordinate ($u_d, v_d$), where the distortion has been accounted for. This radial distortion is mathematically shown as in a study presented by Swaminathan and Kayer~\cite{distort}:
 \begin{equation} \label{eq:raddist}
 \begin{split}
 u_d - u_0 &= \frac{u-u_0}{\sqrt{1+2K_1r^2}} \\
@@ -1346,10 +1376,10 @@ The IMU sensors can now be measured and subsequently converted from analog to di
 
 The baud rate represents the number of bits per second that are transferred on a bus. The system sample period contains $\frac{1}{30} = 0.0\overline{333}$ seconds, meaning that the data sampled from the IMU needs to be transferred over the USB in-between the instances that a trigger to sample the camera is set and that 33 ms elapses. 
 
-The I2C burst-read protocol~\cite{gyro,acc} for reading from a slave device at 100 kHz results in a 20 bits $\times$ 6 measurements $\approx$ 120 bits. At 100 kHz this data transfer consumes only 1.2 ms, well within the system sampling period of 30 Hz. The baud rate for the data transfer between the Arduino and the PC is thus essential. The 120 bits $\times$ 30 times per second (since a baud rate's units are bits per second) $\approx$ 3600 bits. It is essential that a baud rate that exceeds twice 3600 bits per second is used (delimiters between the data bytes are also sent). This project uses a baud rate of 19200.   
+The I2C burst-read protocol~\cite{gyro,acc} for reading from a slave device at 100 kHz results in a 38 bits $\times$ 6 measurements $\approx$ 228 bits. At 100 kHz this data transfer consumes only 2.28 ms, well within the system sampling period of 30 Hz. The baud rate for the data transfer between the Arduino and the PC is thus essential. This project uses a baud rate of 19200 to allow all of the data to be sent though to the PC before the following system sampling instance.   
 %The I2C protocol for the IMU~\cite{gyro} suggests that 60 bits per measurement are required. 
 \subsubsection{Sensor Bias and Variance}
-Measurement sensors often have offsets that cause a measurement \textit{bias}. These biases can however be measured and subsequently subtracted from each measurement. If each measurement is modelled with additive Gaussian RV, the bias is the mean of this noise. The procedure for measuring such a bias is quite simple: if the gyroscope is stationary, the angular velocities are expected to be zero. The procedure for measuring the accelerometer bias is slightly more difficult, as an accelerometer measures gravitational acceleration. If the accelerometer is rotated about each axis, the accelerations of the x- and y-accelerations should resemble a sinusoid due with a peak equal to the gravitational acceleration. The offset of this sinusoid is typically the measurement bias. The expected value on each axis should be zero but the measurements will show a varying non-zero value as depicted in Figure~\ref{fig:gyrobias}. The average of this varying value is the bias. 
+Measurement sensors often have offsets that cause a measurement \textit{bias}. These biases can however be measured and subsequently subtracted from each measurement. If each measurement is modelled with additive Gaussian RV, the bias is the mean of this noise. The procedure for measuring such a bias is quite simple: if the gyroscope is stationary, the angular velocities are expected to be zero. The procedure for measuring the accelerometer bias is slightly more difficult, as an accelerometer measures gravitational acceleration. If the accelerometer is rotated about each axis, the accelerations of the x- and y-accelerations should resemble a sinusoid due with a peak equal to the gravitational acceleration. The offset of this sinusoid is typically the measurement bias. If the accelerometer can be placed completely level, the noise on each axis can be measured. The expected value on each axis should be zero (except the z-acceleration that expected the gravitational acceleration) but the measurements will show a varying non-zero value as depicted in Figure~\ref{fig:gyrobias}. The average of this varying value is the bias. 
 
 \begin{table}[H]
 \caption{Statistical quantities of the measurement noise.}
@@ -1399,6 +1429,10 @@ The IMU and camera measurements need to be \textit{synchronised}. A suitable met
 
 Communication between the IMU and the Arduino is done via I2C. The accelerometer and the gyroscope are slave devices on the bus while the Arduino is the master. The IMU is configured according to the configuration explained in Chapter~\ref{sec:IMUconfig} in the once-off setup function before entering the infinite loop() function that waits for a command from the PC in order to send the IMU data.  
 \clearpage
+
+\newpage
+\subsubsection{MonoSLAM}
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \newpage
 \section{Analysis: Testing \& Results}
@@ -1419,7 +1453,7 @@ The performance of the hardware components of this project requires analysis thr
 The validity of the accelerometer and gyroscope measurements are initially tested. Thereafter, the function of the micro-controller that generates a pulse and samples an IMU measurement within a system sample period is tested. Finally, the kinematic estimator is evaluated as a state estimator using simulated accelerometer and gyroscope measurements to reconstruct a trajectory.  
 
 \subsubsection{Accuracy of Gyroscope Raw Measurements}
-In order to verify the functionality of the gyroscope measurements, the physical measurements need to be measured and analysed. It is very difficult to intuitively analyse an angular velocity. The angular displacement however, is a much better test case upon verifying that the gyroscope measurements are correct. The gyroscope can be approximately rotated at known angles and the resulting angular velocities can be numerically integrated to obtain the angular displacement. This is a suitable method of analysing whether the information obtained form the gyroscope measurements resemble the actual movements .
+In order to verify the functionality of the gyroscope, the physical measurements need to be measured and analysed. It is very difficult to intuitively analyse an angular velocity. The angular displacement however, is a much better test case upon verifying that the gyroscope measurements are correct. The gyroscope can be approximately rotated at known angles and the resulting angular velocities can be numerically integrated to obtain the angular displacement. This is a suitable method of analysing whether the information obtained form the gyroscope measurements resemble the actual movements .
 
 The following set of test conditions will utilise actual gyroscope measurements. An approximately known angular displacements will be exerted upon the IMU e.g. rotate $90^{\circ}$ about the positive x-axis. The resulting gyroscope measurements will be plotted and analysed to verify its functionality.
 %The set of test conditions as are listed below (the measurements are sampled at 30 Hz): 
@@ -1479,9 +1513,20 @@ The measurements depicted in Figure~\ref{fig:gz} show an angular position z that
 Additionally, it can be observed in Figure~\ref{fig:gy1} that the rate at which the angular displacement is changing is approximately linear in all the cases. The gyroscope measurements are thus validated given that the mathematics and measurement simulation are in agreement.
 
 It should be noted that the gyroscope gradually drifts over time. It is a known that the gyroscope produces a constant error that is subsequently integrated over time (upon seeking to obtain an angular position) producing a linear angular drift. It is expected though that the measurement update in the SLAM filter will account for these errors.
-\subsubsection{Accelerometer Raw Measurements}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsubsection{Accelerometer Raw Measurements}
+In order to verify the validity of the accelerometer, the physical measurements need to be measured and analysed. Although is is a lot easier to intuitively analyse an acceleration than an angular rate, the process of obtaining the linear acceleration is very complex. 
 
+The accelerometer measurements may not drift over time as in the case of the gyroscope, but all accelerometer measurements incorporate gravitational acceleration. Additionally, an accelerometer cannot itself distinguish between the gravitational and linear acceleration portions that it measures. This typically results in the components of the gravity vector being assumed upon other axes of the accelerometer and incorrect measurements being assumed. An additional sensor is typically required - in this instance the gyroscope. The idea is to measure the degree by which the orientation changes  (using the gyroscope measurements), and at each instance subtract the gravity vector. 
+
+As previously mentioned however, the gyroscope is only accurate for a short period of time, with the constant error of the angular rates are integrated over time causing drift. The orientation at each time instance needs to be precisely known in order to successfully subtract the gravitational acceleration. 
+
+Two alternative suggestions to account for this problem in the context of this project, are given as follows:
+\begin{itemize}
+\item An additional sensor that aides the orientation measures 
+\end{itemize}
+
+This issue was realised late in this project  and couldn't be rectified.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %\newpage
 %\subsubsection{Serial Communication}
@@ -1533,6 +1578,8 @@ It should be noted that the gyroscope gradually drifts over time. It is a known 
 %\label{tab:write}
 %\end{table}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\newpage
+\subsubsection{System Sampling Period}
 
 \newpage
 \subsection{Simulation}
@@ -1558,9 +1605,9 @@ The first set of test conditions will provide simulated gyroscope and accelerome
 
 The expected outcome then, is that the kinematic estimator will precisely track a given robot trajectory. These trajectories will be trivially defined so that the results can be accurately analysed. 
 \\\\
-The first set of test conditions as well as the theoretical predictions are listed below. The length of a simulation is 10 seconds at 30 Hz or 300 samples. The initial position is always $\textbf{r}^W$ = \{0 0 0\} with an orientation quaternion of $\textbf{q}^{WC} =$ \{1 0 0 0\}): %The trajectory of the can thus qualitatively analysed to predict the performance of the kinematic estimato.
+The length of a simulation is 10 seconds at 30 Hz or 300 samples. The initial position is always $\textbf{r}^W$ = \{0 0 0\} with an orientation quaternion of $\textbf{q}^{WC} =$ \{1 0 0 0\}): %The trajectory of the can thus qualitatively analysed to predict the performance of the kinematic estimato.
 
-\begin{enumerate}
+%begin{enumerate}
 %\item \textbf{1 metre per second squared x-acceleration:}\\
 %The trajectory is expected to only move along the positive x-axis. Newtons equations of motions suggest that the displacement of the robot due to a constant acceleration is:
 %\begin{equation}
@@ -1568,9 +1615,9 @@ The first set of test conditions as well as the theoretical predictions are list
 %\end{equation}
 %\item \textbf{1 metre per second squared x-acceleration with sudden positive 90 degree rotation about the y-axis:}\\
 %The trajectory is expected to initially move along the positive x-axis after which the positive 90 degree rotation about the y-axis will rotate the robot frame so that the trajectory only moves along the negative z-axis. 
-\item \textbf{1 metre per second squared x-acceleration with three consecutive 90$^{\circ}$ rotations about the z-axis:}\\
-The trajectory is expected to initially move along the positive x-axis until the first positive 90$^{\circ}$ degree rotation about the z-axis rotates the robot frame so that the trajectory only moves along the positive y-axis. A second positive 90$^{\circ}$ rotation about the z-axis rotates the robot frame so that the trajectory then moves along the negative x-axis. The final positive 90 degree rotation about the z-axis rotates the robot frame so that the trajectory only moves along the negative y-axis. If the time steps between the rotations are equal, a block figure trajectory is expected in the plane of rotation.    
-\end{enumerate}
+%\item \textbf{1 metre per second squared x-acceleration with three consecutive 90$^{\circ}$ rotations about the z-axis:}\\
+%The trajectory is expected to initially move along the positive x-axis until the first positive 90$^{\circ}$ degree rotation about the z-axis rotates the robot frame so that the trajectory only moves along the positive y-axis. A second positive 90$^{\circ}$ rotation about the z-axis rotates the robot frame so that the trajectory then moves along the negative x-axis. The final positive 90 degree rotation about the z-axis rotates the robot frame so that the trajectory only moves along the negative y-axis. If the time steps between the rotations are equal, a block figure trajectory is expected in the plane of rotation.    
+%\end{enumerate}
 %\newpage
 %\subsubsection{Test 1: Results and Analysis}
 \begin{enumerate}
@@ -1579,7 +1626,7 @@ The trajectory is expected to initially move along the positive x-axis until the
 %\item  \textbf{1 metre per second x-acceleration with sudden 90 degree rotation about the y-axis:}\\
 %The simulation depicted in Figure~\ref{fig:yrot} shows a trajectory that initially moves along the positive x-axis before proceeding to move along the negative z-axis. Again, the estimated trajectory directly tracks the true trajectory.
 \item  \textbf{1 metre per second squared x-acceleration with three consecutive 90$^{\circ}$ rotations about the z-axis:}\\   
-The simulation depicted in Figure~\ref{fig:zplane} shows a square in the z-plane. This suggests that the trajectory incorporates three 90$^{\circ}$ rotations about the z-axis as the robot is moving at a constant acceleration with respect to its own reference frame. Again, the estimated trajectory directly tracks the true trajectory.
+The simulation depicted in Figure~\ref{fig:zplane} shows a square in the z-plane. This suggests that the trajectory incorporates three 90$^{\circ}$ rotations about the z-axis as the robot is moving at a constant acceleration with respect to its own reference frame. The simulation depicted in Figure~\ref{fig:zplanex} confirms that there is an initial acceleration in the x direction, before a change in direction. The estimated trajectory directly tracks the true trajectory.
 \end{enumerate}
 \begin{figure}[H]
 %\centering
@@ -1594,10 +1641,15 @@ The simulation depicted in Figure~\ref{fig:zplane} shows a square in the z-plane
 %\label{fig:yrot}
 %\end{subfigure}
 \centering
-\begin{subfigure}[H]{0.5\textwidth}
+\begin{subfigure}[H]{0.49\textwidth}
 \includegraphics[width=\textwidth, height=8cm]{Figures/xy_block_traj.png}
 \caption{Trajectory: 1 $\text{m/s}^2$ x-acceleration with three consecutive $90^{\circ}$ rotations about the z-axis.}
 \label{fig:zplane}
+\end{subfigure} 
+\begin{subfigure}[H]{0.49\textwidth}
+\includegraphics[width=\textwidth, height=8cm]{Figures/xy_block_x.png}
+\caption{x-position: 1 $\text{m/s}^2$ x-acceleration with three consecutive $90^{\circ}$ rotations about the z-axis.}
+\label{fig:zplanex}
 \end{subfigure} 
 \caption{Results of the test conditions 1 depicting zero-uncertainty.}
 \label{fig:sim1}
@@ -1606,6 +1658,7 @@ The simulation depicted in Figure~\ref{fig:zplane} shows a square in the z-plane
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \newpage
 \subsection{MonoSLAM}
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -1682,12 +1735,35 @@ The simulation depicted in Figure~\ref{fig:zplane} shows a square in the z-plane
 %\pagenumbering{roman}
 \appendix
 \section{Summary of Work done}
+\begin{table}[H]
+\caption{Accelerometer and gyroscope register values}
+\centering
+%\begin{center}
+\begin{tabular}{|c|c|c|c|}
+\hline
+Register & Value & Name & Function \\ 
+\hline\hline
+\multicolumn{4}{|c|}{Accelerometer} \\
+\hline
+0x31 & 0x09 & DATA\textunderscore FORMAT &  \pbox{7.5cm}{Set the accelerometer to $\pm 4g$ and 10 bit resolution.}\\
+\hline
+0x2D & 0x08 & POWER\textunderscore CTL & \pbox{7.5cm}{Set the accelerometer to measure mode with minimum power consumption.}\\
+\hline
+\multicolumn{4}{|c|}{Gyroscope} \\
+\hline
+0x16 & 0x1B & Full Scale &  \pbox{7.5cm}{Set the gyroscope to $\pm 2000^{\circ}$, 1 kHz sample rate and 100 Hz low pass filter bandwidth.}\\
+\hline
+\end{tabular}
+%\end{center}
+\label{default}
+\end{table}%
 \newpage
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Project Specification}
 \newpage
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Achieved ECSA Exit Level Outcomes}
+
 \newpage
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Theoretical Concepts} \label{App:Concepts}
@@ -1850,51 +1926,40 @@ The inherent disadvantage of a monocular camera, as previously mentioned, is the
 where $\textbf{r}_{i}^W$ represents the origin of the line and $\textbf{\^{h}}_{i}^W$ is a unit vector representing its direction. The uncertainty describing the aforementioned entities are Gaussian in nature.\\\\
 After a feature has been partially initialised, it can be assumed that the feature is re-observed and that each additional observation improves the depth estimate. The particle filter based depth estimation process itself is to a large extent complex, and is explained in more detain in ~\cite{dav2007}. Intuitively, the depth estimation process can be explained as follows: each particle in the particle set is projected into the image and subsequently matched across each observation. The resulting observations transform the initially uniformly distributed depth probability into one that better resembles a Gaussian density. Once the depth covariance is below a certain threshold, the depth is approximated with a Guassian probability density. Thereafter a feature becomes \textit{fully} initialised, assigned with a standard 3D Gaussian representation.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\subsubsection{Map Management}
-Map management forms an integral role in the realisation of the MonoSLAM algorithm. A real-time algorithm, as proposed in this paper, relies on efficient and accurate decisions regarding features within the SLAM map. As a result, a strict protocol is followed in~\cite{dav2007} in order to realise a successful real-time algorithm.
 \newpage
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Performance of the EKF-based Kinematic Estimator}
-The second set of test conditions will provide \textit{randomly} simulated gyroscope and accelerometer measurements \textbf{with} simulated process and measurement noise. The EKF simulation measurement model is still defined as a mapping of the state vector with additive noise. The EKF should now behave as described in Chapter~\ref{sec:EKF} while maintaining the performance of the kinematic state estimator. 
+This set of test conditions will provide \textit{randomly} simulated gyroscope and accelerometer measurements \textbf{with} simulated process and measurement noise. The EKF simulation measurement model is still defined as a mapping of the state vector with additive noise. The EKF should now behave as described in Chapter~\ref{sec:EKF} while maintaining the performance of the kinematic state estimator. 
 
 The expected outcome then, is that the kinematic estimator will track the given robot trajectory according to the uncertainty of both the measurement and process noise. Intuitively, the EKF should provide a state estimate that is dependent upon the process and measurement noise e.g. it the system has a high measurement noise uncertainty but a low process noise uncertainty, the EKF should provide a state estimate that depends less on the measurements.       
 
-\begin{enumerate}
-\item  \textbf{No uncertainty: Process noise variance = 0 and Measurement noise variance = 0}\\
-This trajectory estimate is expected to precisely resemble the true trajectory as there is no uncertainty regarding the measurement nor the process noise.
-\item  \textbf{Equal yet small uncertainty regarding the measurement and process noise}\\
-The EKF is expected to provide a trajectory estimate that incorporates both the measurements and the equivalent control inputs (IMU measurements) but still reasonable approximate the true trajectory due to the small uncertainty.   
-\item  \textbf{Equal yet high uncertainty regarding the measurement and process noise}\\   
-The EKF is expected to provide a trajectory estimate that again incorporates both the measurements and the equivalent control inputs. The trajectory estimate however, will vastly differ from the true trajectory due to the high uncertainty. 
-\item  \textbf{Less certain process noise: Process noise variance = large and measurement noise variance = small}\\   
-The EKF is expected to provide a trajectory estimate that is more reliant upon the measurements as it incorporates less uncertainty than the equivalent control inputs. Provided that the measurement noise is small enough, the EKF should still provide a reasonable approximation of the true trajectory.
-\end{enumerate}
-\subsubsection{Test 2: Results and Analysis}
+\subsection{Additional Analysis}
 \begin{enumerate}
 \item  \textbf{No uncertainty: Process noise variance = 0 and measurement noise variance = 0}\\
 This simulation depicted in Figure~\ref{fig:notraj} shows a trajectory estimate that directly resembles the true trajectory. This is due to the fact that there is no uncertainty regarding the process or the measurement noise and the EKF can accurately estimate the actual state of the system through modelling. Figure~\ref{fig:noz} confirms that both the measurements and estimates agree are in correspondence with the states. This particular case though is only possible in simulation and practically impossible as every practical system incorporates uncertainty.   
 \item  \textbf{Equal yet small uncertainty regarding the measurement and process noise}\\
-This simulation depicted in Figure~\ref{fig:equaltraj} shows a trajectory estimate that is noisy but generally tracks the actual trajectory. This behaviour corresponds to the aforementioned prediction that the EKF is not entirely certain regarding both the measurements and equivalent control inputs and subsequently provides an estimate that incorporates information from both factors. Figure~\ref{fig:equalz} shows that the state estimate incorporates uncertainty regarding both the measurements and the equivalent control inputs. Because these uncertainties are small though, a relatively accurate reconstruction of the actual trajectory can be estimated.     
-\item  \textbf{Less certain process noise: Process noise variance = large and measurement noise variance = small}\\   
- This simulation depicted in Figures~\ref{fig:high_traj} and~\ref{fig:xhigh} shows a trajectory estimate that doesn't resemble the true trajectory. This is due to the fact that the EKF ``trusts" the information it receives and if this information is very uncertain, the EKF still provides the best estimate given the information, but even that estimate is very wrong. The quality of the information provided to the EKF is thus critical.  
+This simulation depicted in Figure~\ref{fig:equaltraj} shows a trajectory estimate that is noisy but generally tracks the actual trajectory. This behaviour corresponds to the aforementioned prediction that the EKF is not entirely certain regarding both the measurements and equivalent control inputs and subsequently provides an estimate that incorporates information from both factors. Figure~\ref{fig:equalz} shows that the state estimate incorporates uncertainty regarding both the measurements and the equivalent control inputs. Because these uncertainties are small though, a relatively accurate reconstruction of the actual trajectory can be estimated.   
+%\item  \textbf{Less certain process noise: Process noise variance = large and measurement noise variance = small}\\   
+% This simulation depicted in Figures~\ref{fig:high_traj} and~\ref{fig:xhigh} shows a trajectory estimate that doesn't resemble the true trajectory. This is due to the fact that the EKF ``trusts" the information it receives and if this information is very uncertain, the EKF still provides the best estimate given the information, but even that estimate is very wrong. The quality of the information provided to the EKF is thus critical.  
 \item  \textbf{Less certain process noise: Process noise variance = large and measurement noise variance = small}\\   
 This simulation depicted in Figure~\ref{fig:meastraj} shows a trajectory estimate that is noisy and heavily incorporates the measurements. This behaviour corresponds to the aforementioned prediction that the EKF very uncertain regarding the equivalent control inputs and subsequently provides an estimate that incorporates more information from measurements. Figure~\ref{fig:equalz} shows that the state estimate incorporates more information regarding the measurements. Because the measurement uncertainty isn't very small, the EKF cannot provide an accurate approximation of the true trajectory. This is due to the fact that the EKF ``trusts" the measurements far more than the equivalent control inputs, but because the measurements themselves contain a substantial amount of uncertainty, the best estimate that the EKF can provide is itself uncertain.  
 \end{enumerate}
-\begin{figure}[h]
-%\centering
-\begin{subfigure}[H]{0.49\textwidth}
-\includegraphics[width=\textwidth, height=6cm]{Figures/xhigh.png}
-\caption{X-position of random control inputs with equally high process and measurement uncertainty.}
-\label{fig:xhigh}
-\end{subfigure}
-\begin{subfigure}[H]{0.49\textwidth}
-\includegraphics[width=\textwidth, height=6cm]{Figures/high_traj.png} 
-\caption{Trajectory of random control inputs with equally high process and measurement uncertainty.}
-\label{fig:high_traj}
-\end{subfigure}
-\label{fig:extra}
-\caption{Results of the conditions depicting random equivalent control inputs with uncertainty.}
-\end{figure}
+
+%\begin{figure}[h]
+%%\centering
+%\begin{subfigure}[H]{0.49\textwidth}
+%\includegraphics[width=\textwidth, height=6cm]{Figures/xhigh.png}
+%\caption{X-position of random control inputs with equally high process and measurement uncertainty.}
+%\label{fig:xhigh}
+%\end{subfigure}
+%\begin{subfigure}[H]{0.49\textwidth}
+%\includegraphics[width=\textwidth, height=6cm]{Figures/high_traj.png} 
+%\caption{Trajectory of random control inputs with equally high process and measurement uncertainty.}
+%\label{fig:high_traj}
+%\end{subfigure}
+%\label{fig:extra}
+%\caption{Results of the conditions depicting random equivalent control inputs with uncertainty.}
+%\end{figure}
 
 \begin{figure}[H]
 \centering

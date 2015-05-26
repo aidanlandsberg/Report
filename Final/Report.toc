@@ -13,35 +13,37 @@
 \contentsline {section}{\numberline {3}System Overview}{13}
 \contentsline {subsection}{\numberline {3.1}Introduction}{13}
 \contentsline {subsection}{\numberline {3.2}MonoSLAM}{13}
-\contentsline {subsection}{\numberline {3.3}State Representation}{16}
-\contentsline {subsubsection}{\numberline {3.3.1}Position State Representation}{16}
-\contentsline {subsubsection}{\numberline {3.3.2}Feature Representation}{17}
-\contentsline {subsubsection}{\numberline {3.3.3}Sensor Model: Camera}{18}
-\contentsline {subsubsection}{\numberline {3.3.4}Control Input Equivalent}{20}
-\contentsline {subsection}{\numberline {3.4}Control Update Step}{22}
-\contentsline {subsubsection}{\numberline {3.4.1}State Transition Probability Model}{23}
-\contentsline {subsubsection}{\numberline {3.4.2}Mean Estimate}{25}
-\contentsline {subsubsection}{\numberline {3.4.3}Covariance Update}{25}
-\contentsline {subsection}{\numberline {3.5}Measurement Update}{27}
-\contentsline {subsubsection}{\numberline {3.5.1}General Overview}{28}
-\contentsline {subsubsection}{\numberline {3.5.2}Probabilistic Map Management}{28}
-\contentsline {section}{\numberline {4}Implementation}{29}
-\contentsline {subsection}{\numberline {4.1}Introduction}{29}
-\contentsline {subsection}{\numberline {4.2}System Requirements}{29}
-\contentsline {subsubsection}{\numberline {4.2.1}Inertial Measurement Unit}{30}
-\contentsline {subsubsection}{\numberline {4.2.2}CMOS Machine Vision Camera}{31}
-\contentsline {subsubsection}{\numberline {4.2.3}Micro-controller}{32}
-\contentsline {subsection}{\numberline {4.3}Hardware Configuration}{33}
-\contentsline {subsubsection}{\numberline {4.3.1}Inertial Measurement Unit}{33}
-\contentsline {subsubsection}{\numberline {4.3.2}Sensor Bias and Variance}{34}
-\contentsline {subsubsection}{\numberline {4.3.3}Micro-controller}{35}
+\contentsline {subsection}{\numberline {3.3}State Representation}{15}
+\contentsline {subsubsection}{\numberline {3.3.1}Position State Representation}{15}
+\contentsline {subsubsection}{\numberline {3.3.2}Feature Representation}{16}
+\contentsline {subsubsection}{\numberline {3.3.3}Sensor Model: Camera}{17}
+\contentsline {subsubsection}{\numberline {3.3.4}Control Input Equivalent}{19}
+\contentsline {subsection}{\numberline {3.4}Control Update Step}{21}
+\contentsline {subsubsection}{\numberline {3.4.1}State Transition Probability Model}{22}
+\contentsline {subsubsection}{\numberline {3.4.2}Mean Estimate}{24}
+\contentsline {subsubsection}{\numberline {3.4.3}Covariance Update}{24}
+\contentsline {subsection}{\numberline {3.5}Measurement Update}{26}
+\contentsline {subsubsection}{\numberline {3.5.1}General Overview}{27}
+\contentsline {subsubsection}{\numberline {3.5.2}Probabilistic Map Management}{27}
+\contentsline {section}{\numberline {4}Implementation}{28}
+\contentsline {subsection}{\numberline {4.1}Introduction}{28}
+\contentsline {subsection}{\numberline {4.2}System Requirements}{28}
+\contentsline {subsubsection}{\numberline {4.2.1}Inertial Measurement Unit}{29}
+\contentsline {subsubsection}{\numberline {4.2.2}CMOS Machine Vision Camera}{30}
+\contentsline {subsubsection}{\numberline {4.2.3}Micro-controller}{31}
+\contentsline {subsection}{\numberline {4.3}Hardware Configuration}{32}
+\contentsline {subsubsection}{\numberline {4.3.1}Inertial Measurement Unit}{32}
+\contentsline {subsubsection}{\numberline {4.3.2}Sensor Bias and Variance}{33}
+\contentsline {subsubsection}{\numberline {4.3.3}Micro-controller}{34}
+\contentsline {subsubsection}{\numberline {4.3.4}MonoSLAM}{35}
 \contentsline {section}{\numberline {5}Analysis: Testing \& Results}{36}
 \contentsline {subsection}{\numberline {5.1}Introduction}{36}
 \contentsline {subsection}{\numberline {5.2}Subsystem testing}{36}
 \contentsline {subsubsection}{\numberline {5.2.1}Accuracy of Gyroscope Raw Measurements}{36}
 \contentsline {subsubsection}{\numberline {5.2.2}Accelerometer Raw Measurements}{38}
-\contentsline {subsection}{\numberline {5.3}Simulation}{39}
-\contentsline {subsubsection}{\numberline {5.3.1}Recovering a Trajectory from Simulated IMU Measurements}{40}
+\contentsline {subsubsection}{\numberline {5.2.3}System Sampling Period}{39}
+\contentsline {subsection}{\numberline {5.3}Simulation}{40}
+\contentsline {subsubsection}{\numberline {5.3.1}Recovering a Trajectory from Simulated IMU Measurements}{41}
 \contentsline {subsection}{\numberline {5.4}MonoSLAM}{42}
 \contentsline {section}{\numberline {A}Summary of Work done}{46}
 \contentsline {section}{\numberline {B}Project Specification}{47}
@@ -53,8 +55,7 @@
 \contentsline {subsubsection}{\numberline {D.3.1}Measurement Model}{51}
 \contentsline {subsubsection}{\numberline {D.3.2}Feature Matching}{52}
 \contentsline {subsubsection}{\numberline {D.3.3}Feature Initialisation}{53}
-\contentsline {subsubsection}{\numberline {D.3.4}Map Management}{53}
 \contentsline {subsection}{\numberline {D.4}Performance of the EKF-based Kinematic Estimator}{54}
-\contentsline {subsubsection}{\numberline {D.4.1}Test 2: Results and Analysis}{54}
-\contentsline {section}{\numberline {E}Figures \& Diagrams}{57}
-\contentsline {subsection}{\numberline {E.1}Schematics \& Circuit Diagrams}{57}
+\contentsline {subsection}{\numberline {D.5}Additional Analysis}{54}
+\contentsline {section}{\numberline {E}Figures \& Diagrams}{56}
+\contentsline {subsection}{\numberline {E.1}Schematics \& Circuit Diagrams}{56}

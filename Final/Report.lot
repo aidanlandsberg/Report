@@ -2,9 +2,10 @@
 \contentsline {table}{\numberline {2.1}{\ignorespaces The Bayes filter Algorithm\relax }}{8}
 \contentsline {table}{\numberline {2.2}{\ignorespaces The KF Algorithm\relax }}{10}
 \contentsline {table}{\numberline {2.3}{\ignorespaces The EKF Algorithm\relax }}{12}
-\contentsline {table}{\numberline {4.1}{\ignorespaces IMU necessary characteristics\relax }}{30}
-\contentsline {table}{\numberline {4.2}{\ignorespaces IMU configuration properties\relax }}{31}
-\contentsline {table}{\numberline {4.3}{\ignorespaces Intrinsic and distortion camera parameters\relax }}{31}
-\contentsline {table}{\numberline {4.4}{\ignorespaces General overview of the considered micro-controllers\relax }}{32}
-\contentsline {table}{\numberline {4.5}{\ignorespaces Accelerometer and gyroscope register values\relax }}{33}
-\contentsline {table}{\numberline {4.6}{\ignorespaces Statistical quantities of the measurement noise.\relax }}{34}
+\contentsline {table}{\numberline {4.1}{\ignorespaces IMU necessary characteristics\relax }}{29}
+\contentsline {table}{\numberline {4.2}{\ignorespaces IMU configuration properties\relax }}{30}
+\contentsline {table}{\numberline {4.3}{\ignorespaces Intrinsic and distortion camera parameters\relax }}{30}
+\contentsline {table}{\numberline {4.4}{\ignorespaces General overview of the considered micro-controllers\relax }}{31}
+\contentsline {table}{\numberline {4.5}{\ignorespaces Accelerometer and gyroscope register values\relax }}{32}
+\contentsline {table}{\numberline {4.6}{\ignorespaces Statistical quantities of the measurement noise.\relax }}{33}
+\contentsline {table}{\numberline {A.1}{\ignorespaces Accelerometer and gyroscope register values\relax }}{46}
