@@ -43,7 +43,7 @@
 \contentsline {subsubsection}{\numberline {5.2.1}Accuracy of Gyroscope Raw Measurements}{37}
 \contentsline {subsubsection}{\numberline {5.2.2}Accelerometer Raw Measurements}{38}
 \contentsline {subsubsection}{\numberline {5.2.3}System Sampling Period}{39}
-\contentsline {subsubsection}{\numberline {5.2.4}Sufficient Data Transfer Speed}{39}
+\contentsline {subsubsection}{\numberline {5.2.4}Sufficient Data Transfer Speed}{40}
 \contentsline {subsection}{\numberline {5.3}Simulation}{41}
 \contentsline {subsubsection}{\numberline {5.3.1}Recovering a Trajectory from Simulated IMU Measurements}{42}
 \contentsline {subsection}{\numberline {5.4}MonoSLAM}{43}

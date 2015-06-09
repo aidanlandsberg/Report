@@ -16,7 +16,7 @@
 \contentsline {figure}{\numberline {16}{\ignorespaces A flow diagram for the micro-controller program required to synchronise the sampling of the IMU and camera measurements.\relax }}{34}
 \contentsline {figure}{\numberline {17}{\ignorespaces The GUI of the MonoSLAM application. Adapted from\nobreakspace {}\cite {dav2007}.\relax }}{35}
 \contentsline {figure}{\numberline {18}{\ignorespaces Left: Top view of the hardware components of the system system. Right: Fully constructed platform to house the hardware components of the system.\relax }}{36}
-\contentsline {figure}{\numberline {19}{\ignorespaces Results of the test conditions 1 depicting angular displacements from gyroscope measurements.\relax }}{38}
+\contentsline {figure}{\numberline {19}{\ignorespaces Results depicting the accuracy of the angular displacements from gyroscope measurements.\relax }}{38}
 \contentsline {figure}{\numberline {20}{\ignorespaces Left: Measurement depicting the frequency between the pulses - 30.3 Hz Right: Measurement depicting the width of the pulses - $10\mu $s.\relax }}{39}
 \contentsline {figure}{\numberline {21}{\ignorespaces Measurement depicting the time taken for a single, full IMU data measurement to be sampled and sent to the PC.\relax }}{40}
 \contentsline {figure}{\numberline {22}{\ignorespaces EKF using a kinematic estimator to provide the control update.\relax }}{41}

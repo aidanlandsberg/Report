@@ -86,7 +86,7 @@ This study seeks to improve localisation using a single camera as the measuremen
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \newpage
 \section*{Opsomming}
-Hierdie artikel poog om die lokalisering van 'n robot te verbeter met meetings van 'n enkele kamara. Gelyktydige plek en kaarting (SLAM) word gebruik deur die hulp van 'n kinematiese afstaker. In hierdie implementering, 'n traagheid meeteenheid word gebruik om die dynamika van die stelsel te meet.  Die theorie agtergrond nodig om so 'n implementering van SLAM te inkorporeer word bespreek. Die afleiding nodig om die ontwerp te realieseer word ook bespreek. Die resultaten van die stelsel wis dat die kinematiese afstaken wel koek werk alhoewel die stelsel volledig nie geimplementeer word nie.    
+Hierdie artikel poog om die lokalisering van 'n robot te verbeter met meetings van 'n enkele kamara. Gelyktydige plek en kaarting (SLAM) word gebruik deur die hulp van 'n kinematiese afstaker. In hierdie implementering word 'n traagheid meeteenheid gebruik om die dynamika van die stelsel te meet.  Die teorie agtergrond nodig om so 'n implementering van SLAM te inkorporeer word bespreek. Die afleidings nodig om die ontwerp te realieseer word ook bespreek. Die resultate wys dat die kinematiese afstaker wel werk alhoewel die stelsel voledig nie ge\"{i}mplementeer word nie.    
 \newpage
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -266,7 +266,7 @@ $\cfrac{\partial x}{\partial t}$ & Liebniz's notation to denote a partial deriva
 \label{fig:occgrid}
 %\end{center}
 \end{figure} 
-Solutions to the \textit{Simultaneous localisation and mapping} (SLAM) problem however, presents methods that concurrently realises map building and localisation~\cite{slam}. SLAM can be described as utilising both the sensor measurements and the control inputs of the robot to construct a continuously expanding map of features in the surrounding environment, while concurrently estimating its location with respect to these features. The sensor measurements provide information about the robot's surroundings and the control inputs provide the information about how the robot is moving. A SLAM map typically represents the locations of its features as a \textit{sparse} set (as opposed to a dense occupancy grid map). An example of a SLAM map is depicted in Figure~\ref{fig:map}. 
+Solutions to the \textit{Simultaneous localisation and mapping} (SLAM) problem however, present methods that concurrently realises map building and localisation~\cite{slam}. SLAM can be described as utilising both the sensor measurements and the control inputs of the robot to construct a continuously expanding map of features in the surrounding environment, while concurrently estimating its location with respect to these features. The sensor measurements provide information about the robot's surroundings and the control inputs provide the information about how the robot is moving. A SLAM map typically represents the locations of its features as a \textit{sparse} set (as opposed to a dense occupancy grid map). An example of a SLAM map is depicted in Figure~\ref{fig:map}. 
 
 The relationship between map building and localisation remains essential to the SLAM problem. If the localisation technique is incorrect, subsequently obtained sensor information will be incorrect, resulting in map estimates that differ from the actual state of the environment. An incorrectly modelled environment will render the sensor information useless, as this information will not correspond with those expected by the constructed map. Ultimately, the resulting localisation approximation will drift over time and eventually become extremely inaccurate. Most modern realisations of SLAM rely on certain probabilistic methods, namely \textit{recursive state estimation} to provide suitable estimates that minimise the uncertainty regarding the mapping and localisation relationship. 
 
@@ -356,7 +356,7 @@ There are however, inherent disadvantages of a MonoSLAM system. Firstly, the uti
 \end{figure}
 Information obtained from additional sensors could potentially improve the disadvantages presented by MonoSLAM. Single camera SLAM implementations using information from an additional measurement sensor (e.g. a laser range finder), such as that presented in a study by Fu et al.~\cite{lasermono}, are not only too expensive but would be difficult to integrate with a single camera system from a modelling perspective. A more elegant solution that uses measurements to improve the motion estimates is required.   
 
-To extend the range of practical applications of MonoSLAM, a motion model capable of estimating the pose of a robot due to a variety of movements is essential. The current constant linear and angular velocity model limits the robot to smooth movements and therefore needs to be adjusted or replaced. Using additional information can provide the current velocity motion model with more accurate state estimates, but cannot allow movements that aren't ``smooth". Davison et. al~\cite{dav2007}, confirms that additional information such as angular velocities obtained from a \textit{gyroscope} improve the state estimates, but cannot compensate for a change in motion dynamics. 
+To extend the range of practical applications of MonoSLAM, a motion model capable of estimating the pose of a robot due to a variety of movements is essential. The current constant linear and angular velocity model limits the robot to smooth movements and therefore needs to be adjusted or replaced. Using additional information can provide the current velocity motion model with more accurate state estimates, but cannot allow movements that aren't ``smooth". Davison et al.~\cite{dav2007}, confirms that additional information such as angular velocities obtained from a \textit{gyroscope} improve the state estimates, but cannot compensate for a change in motion dynamics. 
 
 A \textit{kinematic estimator} directly measures the derivatives (first and second order) of the position and orientation of the robot as opposed to calculating them from the control inputs and the system's physical model. Inertial measurement units (IMU) can directly measure these derivates and typically comprise of an accelerometer and a gyroscope (and sometimes a magnetometer) that record the accelerations and angular velocities respectively. Incorporating such a subsystem could allow a wider variety of practical scenarios as the target system isn't constrained to a specific motion.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -563,10 +563,10 @@ The linearisation process approximates an arbitrary non-linear function $k$ by a
 k'(\textbf{x}_{t-1}, \textbf{u}_t) := \frac{\partial k(\textbf{x}_{t-1}, \textbf{u}_t)}{\partial \textbf{x}_{t-1}}.
 \end{equation}
 
-The argument of the function $f$ is chosen as the most likely point at the linearisation instance. For Gaussians, the most likely point is the mean $\boldsymbol{\mu}_{t-1}$. The linear approximation of the function $k$ can then be achieved through the linear extrapolation evaluated at its most likely point $\boldsymbol{\mu}_{t-1}$:
+The argument of the function $k$ is chosen as the most likely point at the linearisation instance. For Gaussians, the most likely point is the mean $\boldsymbol{\mu}_{t-1}$. The linear approximation of the function $k$ can then be achieved through the linear extrapolation evaluated at its most likely point $\boldsymbol{\mu}_{t-1}$:
 \begin{equation}\label{eq:app}
 \begin{split}
-k(\textbf{x}_{t-1}, \textbf{u}_t) &\approx f(\textbf{x}_{t-1}, \textbf{u}_t) + k'(\textbf{u}_{t},\boldsymbol{\mu}_{t-1})(\textbf{x}_{t-1}-\boldsymbol{\mu}_{t-1}) \\
+k(\textbf{x}_{t-1}, \textbf{u}_t) &\approx k(\textbf{x}_{t-1}, \textbf{u}_t) + k'(\textbf{u}_{t},\boldsymbol{\mu}_{t-1})(\textbf{x}_{t-1}-\boldsymbol{\mu}_{t-1}) \\
 &= k(\textbf{x}_{t-1}, \textbf{u}_t) + \textbf{K}_t^{\textbf{x}_{t-1}}(\textbf{x}_{t-1}-\boldsymbol{\mu}_{t-1})
 \end{split},
 \end{equation}
@@ -624,7 +624,7 @@ Originally presented in a study by Davison et al.~\cite{dav2007}, MonoSLAM provi
 
 MonoSLAM differs from other SLAM implementations in that it has no observable control inputs or other odometry. The system itself (a handheld camera) has no prior information of the users movements. Instead, the users movements are statically modelled through a constant linear and angular velocity model that expects linear and angular accelerations of a Gaussian profile. Incorporating additional measurements of the motion of the robot doesn't violate the methodology of MonoSLAM. The system still contains no prior information regarding its movement, but rather incorporates a control input equivalent that measures the movement.
 
-Figure~\ref{fig:system} depicts a functional diagram of the proposed MonoSLAM system. The sections in red have been added/or altered from the original MonoSLAM implementation. This project seeks to utilise a kinematic estimator as an alternative to the current velocity and angular velocity motion model incorporated within the control update. The kinematic estimator will measure the angular velocities and linear accelerations of the robot from an inertial measurement unit as opposed to calculating them from physical models.  
+Figure~\ref{fig:system} depicts a functional diagram of the proposed MonoSLAM system. The sections in red have been added or altered from the original MonoSLAM implementation. This project seeks to utilise a kinematic estimator as an alternative to the current velocity and angular velocity motion model incorporated within the control update. The kinematic estimator will measure the angular velocities and linear accelerations of the robot from an inertial measurement unit as opposed to calculating them from physical models.  
 
 The remaining components of the proposed approach presented in this study are identical to that of the MonoSLAM implementation: that is, using an EKF where the measurement update of the EKF depends on the measurements from a single camera. 
 
@@ -716,7 +716,7 @@ The pinhole camera model contains a two-dimensional plane, with the projections 
 
 The image of the camera represents a projection of a 3D point in space. Euclidean geometry requires complicated calculations to describe these projections. \textit{Projective geometry} offers an alternative representations of the geometry that is both simpler to implement. Projective geometry uses a system of coordinates called \textit{homogenous coordinates} and is able to represent transformations in a single matrix. The projection of an object $r$ is defined as homogenous if the same object is represented by $r = \lambda r$. The relationship between homogenous and Euclidean coordinates is shown according to a lecture presented by Stachnis~\cite{cyril}:
 \begin{equation} 
-\label{eq:fmmd1}
+\label{eq:homcoord}
   \begin{pmatrix}
 	u \\
 	v \\
@@ -817,7 +817,7 @@ Because the IMU measures the actual movements through sensors, namely an acceler
  \textbf{n}_{\textbf{a},t} \\
  \textbf{n}_{{\omega},t}
 \end{pmatrix}
-= \begin{pmatrix}\hspace{0.1cm}n_{\ddot{x}_{t}}\hspace{0.25cm}n_{\ddot{y}_{t}}\hspace{0.25cm}n_{\ddot{z}_{t}}\hspace{0.25cm}n_{{\omega}_{x,t}}\hspace{0.25cm}n_{{\omega}_{y,t}}\hspace{0.25cm}n_{{\omega}_{z,t}}\hspace{0.1cm}
+= \begin{pmatrix}\hspace{0.1cm}n_{a_{x,t}}\hspace{0.25cm}n_{a_{y,t}}\hspace{0.25cm}n_{a_{z,t}}\hspace{0.25cm}n_{{\omega}_{x,t}}\hspace{0.25cm}n_{{\omega}_{y,t}}\hspace{0.25cm}n_{{\omega}_{z,t}}\hspace{0.1cm}
 \end{pmatrix}^T,
 \end{equation}
 with the aforementioned noise model is assumed to be a Gaussian random variable for each of the above elements.  
@@ -827,16 +827,16 @@ Furthermore the covariance matrix corresponding to the process noise is defined 
 \begin{equation}\label{eq:proR}
 \textbf{R}_w =  
 \begin{pmatrix}
-n_{a_x,t}& 0 & 0 & 0 & 0 & 0 \\
-0& n_{a_y,t} & 0 & 0 & 0 & 0 \\
-0& 0 & n_{a_z,t} & 0 & 0 & 0 \\
-0& 0 & 0 & n_{\psi_{x},t} & 0 & 0 \\
-0& 0 & 0 & 0 & n_{\psi_{y},t} & 0 \\
-0& 0 & 0 & 0 & 0 & n_{\psi_{z},t} \\
+n_{a_{x,t}}& 0 & 0 & 0 & 0 & 0 \\
+0& n_{a_{y,t}} & 0 & 0 & 0 & 0 \\
+0& 0 & n_{a_{z,t}} & 0 & 0 & 0 \\
+0& 0 & 0 & n_{\psi_{{x},t}} & 0 & 0 \\
+0& 0 & 0 & 0 & n_{\psi_{{y},t}} & 0 \\
+0& 0 & 0 & 0 & 0 & n_{\psi_{{z},t}} \\
 \end{pmatrix} ^2.
 \end{equation}
 
-The Kinematic estimator however, requires that the linear portion of the total acceleration $\textbf{f}_t$ be obtained from the IMU measurement. It is known that the total acceleration measured by the IMU's accelerometer is adapted from a study presented by Servent et. al~\cite{IMU}:
+The Kinematic estimator however, requires that the linear portion of the total acceleration $\textbf{f}_t$ be obtained from the IMU measurement. It is known that the total acceleration measured by the IMU's accelerometer is adapted from a study presented by Servent et al.~\cite{IMU}:
 
 \begin{equation}\label{eq:acc}
 \textbf{f}_t = \textbf{\text{R}}^{CW}(\textbf{a}^C_t + \textbf{g}),
@@ -990,8 +990,8 @@ A quaternion multiplication between the quaternion $\textbf{q}^{WC}_{t-1}$ and t
 				q_{2,1}\\
 				q_{2,2}\\
 				q_{2,3}
-				q_{2,0}\end{pmatrix} +
-				\begin{pmatrix}
+				\end{pmatrix} +
+				q_{2,0}\begin{pmatrix}
 				q_{1,1}\\
 				q_{1,2}\\
 				q_{1,3}
@@ -1030,7 +1030,7 @@ Before the control update can be concluded, the covariance matrix $\boldsymbol{\
 =\begin{pmatrix}
 \frac{\partial \textbf{r}^W_t}{\partial \textbf{r}^W_{t-1}} & \boldsymbol{0} & \frac{\partial \textbf{r}^W_{t}}{\partial \textbf{v}^W_{t-1}}\\
 \boldsymbol{0} & \frac{\partial \textbf{q}^{WC}_{t}}{\partial \textbf{q}^{WC}_{t-1}} & \boldsymbol{0}  \\
-\boldsymbol{0} & \boldsymbol{0} & \frac{\partial \textbf{v}^W_{t}}{\partial \textbf{v}^W_{t-1}}  \\
+\boldsymbol{0} & \frac{\partial \textbf{v}^W_{t}}{\partial \textbf{q}^{WC}_{t-1}}& \frac{\partial \textbf{v}^W_{t}}{\partial \textbf{v}^W_{t-1}}  \\
 \end{pmatrix}, 
 \end{equation}   
 with the non-zero elements of the Jacobian further trivially defined as follows (and according to the model defined in Equation~\ref{eq:trmod}),
@@ -1080,9 +1080,9 @@ In order to complete the covariance update, the process noise covariance is stil
 \label{eq:Rt}
 \begin{split}
 \textbf{R}_{w,t} &= 
-\frac{\partial \textbf{g}(\textbf{u}_{t},\boldsymbol{\mu}_{t-1})}{\partial \textbf{w}_{t-1}} 
+\frac{\partial \textbf{f}_t^C}{\partial \textbf{w}_{t-1}} 
 \textbf{R}_{w_{t-1}}
-\frac{\partial \textbf{g}(\textbf{u}_t,\boldsymbol{\mu}_{t-1})}{\partial \textbf{w}_{t-1}}^T \\  
+\frac{\partial \textbf{f}_t^C}{\partial \textbf{w}_{t-1}}^T \\  
 &= \begin{pmatrix}
 \textbf{I} \Delta T & \boldsymbol{0} \\
 \boldsymbol{0} &  \frac{\partial \textbf{q}^{WC}_{t}}{\partial \boldsymbol{\omega}^{C}_{t-1}} \\
@@ -1100,16 +1100,16 @@ This completes the deviations necessary to fully incorporate the control update 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \newpage
 \subsection{Measurement Update}
-With reference again to the probabilistic form of the solution to the SLAM problem, the measurement step too, requires a description in terms of a belief distribution. This belief, in terms of the probability distribution on the measurements, is described in step 2 of Table~\ref{tab:BF} and repeated for convenience :
+With reference again to the probabilistic form of the solution to the SLAM problem, the measurement update too, requires a description in terms of a belief distribution. This belief, in terms of the probability distribution on the measurements, is described in step 2 of Table~\ref{tab:BF} and repeated for convenience :
 \begin{equation}\label{eq:belpred}
  {bel}(\textbf{x}_t) = \eta p(\textbf{z}_t\hspace{0.1cm}|\hspace{0.1cm}\textbf{x}_{t})\overline {bel}(\textbf{x}_t)
 \end{equation}
-The correction step seeks to incorporate an actual measurement $\textbf{{z}}_t$ into the state estimate through incorporating the previously mentioned weighted mean upon updating the mean prediction and covariance prediction estimates. The measurement update of the EKF in this project is identical to the measurement update of the existing MonoSLAM implementation~\cite{dav2007}. A functional diagram of the measurement update is shown in Figure~\ref{fig:measup}.
+The measurement update seeks to incorporate an actual measurement $\textbf{{z}}_t$ into the state estimate through incorporating the previously mentioned weighted mean upon updating the mean prediction and covariance prediction estimates. The measurement update of the EKF in this project is identical to the measurement update of the existing MonoSLAM implementation~\cite{dav2007}. A functional diagram of the measurement update is shown in Figure~\ref{fig:measup}.
 
 The focus of this project is to incorporate additional information to improve the motion estimation of a robot. The literature study showed that the utilisation of additional measurement sensor is both expensive and difficult to integrate with the existing implementation (this is stated in Chapter~\ref{sec:into2}). It is also expected that improvements to the existing measurement update of MonoSLAM will not improve the state estimates significantly. As a result, a decision is made to incorporate the existing measurement update directly as presented in the study by Davidson et al.~\cite{dav2007}
-\begin{figure}[h]%{0.5\textwidth}
+\begin{figure}[H]%{0.5\textwidth}
 \centering
-\includegraphics[width=\linewidth,height=0.78\textwidth]{Figures/Mes_alt.png}
+\includegraphics[width=\linewidth,height=0.75\textwidth]{Figures/Mes_alt.png}
 \caption{A detailed functional diagram of the measurement update step of the EKF. The greyed blocks depict functional subsystems}
 \label{fig:measup}
 \end{figure}
@@ -1146,9 +1146,9 @@ This Chapter sets out to discuss the hardware and software decisions that are ma
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 The project objectives in Chapter~\ref{sec:into3} allow processing regarding the MonoSLAM implementation to be conducted on a personal computer (PC). In the original implementation of MonoSLAM, a 1.6 GHz Pentium M processor is used. Standard PC's however, provide no simple interface with external components that don't possess the peripheral ports present on the PC e.g. USB, Ethernet, Firewire and VGA. If indeed components can be connected via one of the aforementioned ports, a complicated procedure is often required if certain external components are required to communicate with one another through the PC.
 
-The MonoSLAM implementation described in this project requires sensor measurements from a camera and motion measurements from an IMU. These components are also required to be synchronised. While cameras typically possess USB/Firewire/Ethernet ports allowing an interface with a PC, IMU's are typically IC's mounted on a PCB and contain no ports whatsoever. 
+The MonoSLAM implementation described in this project requires sensor measurements from a camera and motion measurements from an IMU. These components are also required to be synchronised. While cameras typically possess USB/Firewire/Ethernet ports allowing an interface with a PC, IMU's are typically integrated circuits (IC) mounted on a PCB and contain no ports whatsoever. 
 
-Wireless connectivity such as Bluetooth and Wifi provide an alternative for data communication. This wireless connectivity requires as both the PC and each sensor to possess an expensive integrated chip to enable this functionality and can also be difficult to implement. Micro-controllers however are cheap devices that allow a virtual interface to the PC for external hardware components. Micro-controllers are programmable devices and typically contain a range of digital and analogue input and output (I/O) ports. The programmable nature of these devices allow a certain degree of control regarding the design and functionality of the system. 
+Wireless connectivity such as Bluetooth and Wifi provide an alternative for data communication. This wireless connectivity requires both the PC and each sensor to possess an expensive integrated chip to enable this functionality and can also be difficult to implement. Micro-controllers however are cheap devices that allow a virtual interface to the PC for external hardware components. Micro-controllers are programmable devices and typically contain a range of digital and analogue input and output (I/O) ports. The programmable nature of these devices allow a certain degree of control regarding the design and functionality of the system. 
 
 As a result, this project utilises a micro controller to provide the synchronisation between the camera and IMU as well as obtaining the data from the IMU and relaying it to the PC.  
 
@@ -1190,7 +1190,7 @@ Characteristic & SparkFun 6DOF IMU & SparkFun 9DOF IMU & Required\\
 \label{tab:imuspec}
 \end{table}%
 
-The IMU cannot precisely sample measurements at the given system sampling period (30 Hz). The closest possible output data rate that exceeds the required system sampling period is 50 Hz. This however shouldn't limit the system functionality as the output data rate is greater than what is required. It should be noted that the IMU internal sampling rate is set to 3200 Hz for the accelerometer and 1000 Hz for the gyroscope - far more than the Nyqvist frequency. Additionally, the low pass filter is set to a bandwidth of 100 Hz to prevent aliasing.
+The IMU cannot precisely sample measurements at the given system sampling period (30 Hz). The closest possible output data rate that exceeds the required system sampling period is 50 Hz. This however shouldn't limit the system functionality as the output data rate is greater than what is required. It should be noted that the IMU internal sampling rate is set to 3200 Hz for the accelerometer and 1000 Hz for the gyroscope - far more than the twice the Nyquist frequency (which prevents aliasing). Additionally, the low pass filter is set to a bandwidth of 100 Hz to prevent aliasing.
 
 %\begin{itemize}
 %\item Communication with a master device (in this case a micro-controller).
@@ -1288,7 +1288,7 @@ This project requires a micro-controller for the following two reasons:
 \item Synchronisation between the IMU and camera measurements. 
 \end{itemize}
 
-The requirements state that only a small micro-controller is required. In order to realise these requirements, the micro-controller only requires 1 GPIO pin that can be triggered by a timer interrupt as well as a I2C interface that can operate at the IMU's specified 100 Khz or 400 Khz. A board based micro-controller (like an Arduino) shouldn't only be considered, micro controllers seated in dual in-line packages (DIP) are considerably cheaper and will also be considered.  
+The requirements state that only a small micro-controller is required. In order to realise these requirements, the micro-controller only requires 1 GPIO pin that can be triggered by a timer interrupt as well as a I2C interface that can operate at the IMU's specified 100 kHz or 400 kHz. A board based micro-controller (like an Arduino) shouldn't only be considered, micro controllers seated in dual in-line packages (DIP) are considerably cheaper and will also be considered.  
 
 Three micro-controllers are considered in project. These include the board based Arduino Uno SMD Rev3 and PIC32-Pinguino and the DIP  MSP430 Launchpad. Table~\ref{tab:micro} provides a general overview of some important aspects regarding theses micro-controllers.
 \begin{table}[H]
@@ -1299,7 +1299,7 @@ Three micro-controllers are considered in project. These include the board based
 Characteristic & Arduino Uno & Pinguino & MSP430 Launchpad & Required\\
 \hline
 \hline
-Clock Frequency & 16 MHz & 80 MHz & 32 KHz & 400 kHz\\
+Clock Frequency & 16 MHz & 80 MHz & 32 kHz & 400 kHz\\
 \hline
 %\hline
 %Adapters & USB & USB & USB & USB \\
@@ -1362,7 +1362,7 @@ Register & Value & Name & Function \\
 \hline\hline
 \multicolumn{4}{|c|}{Accelerometer} \\
 \hline
-0x31 & 0x09 & DATA\textunderscore FORMAT &  \pbox{7.5cm}{Set the accelerometer to $\pm 4g$ and 10 bit resolution.}\\
+0x31 & 0x09 & DATA\textunderscore FORMAT &  \pbox{7.5cm}{Set the accelerometer to $\pm 4g$ and 10 bit $\text{resolution.}$}\\
 \hline
 0x2D & 0x08 & POWER\textunderscore CTL & \pbox{7.5cm}{Set the accelerometer to measure mode with minimum power consumption.}\\
 \hline
@@ -1382,7 +1382,7 @@ The baud rate represents the number of bits per second that are transferred on a
 The I2C burst-read protocol~\cite{gyro,acc} for reading from a slave device at 100 kHz results in a 38 bits $\times$ 6 measurements $\approx$ 228 bits. At 100 kHz this data transfer consumes only 2.28 ms, well within the system sampling period of 30 Hz. The baud rate for the data transfer between the Arduino and the PC is thus essential. This project uses a baud rate of 19200 to allow all of the data to be sent though to the PC before the following system sampling instance.   
 %The I2C protocol for the IMU~\cite{gyro} suggests that 60 bits per measurement are required. 
 \subsubsection{Sensor Bias and Variance}
-Measurement sensors often have offsets that cause a measurement \textit{bias}. These biases can however be measured and subsequently subtracted from each measurement. If each measurement is modelled with additive Gaussian RV, the bias is the mean of this noise. The procedure for measuring such a bias is quite simple: if the gyroscope is stationary, the angular velocities are expected to be zero. The procedure for measuring the accelerometer bias is slightly more difficult, as an accelerometer measures gravitational acceleration. If the accelerometer is rotated about each axis, the accelerations of the x- and y-accelerations should resemble a sinusoid due with a peak equal to the gravitational acceleration. The offset of this sinusoid is typically the measurement bias. If the accelerometer can be placed completely level, the noise on each axis can be measured. The expected value on each axis should be zero (except the z-acceleration that expected the gravitational acceleration) but the measurements will show a varying non-zero value as depicted in Figure~\ref{fig:gyrobias}. The average of this varying value is the bias. 
+Measurement sensors often have offsets that cause a measurement \textit{bias}. These biases can however be measured and subsequently subtracted from each measurement. If each measurement is modelled with additive Gaussian RV, the bias is the mean of this noise. The procedure for measuring such a bias is quite simple: if the gyroscope is stationary, the angular velocities are expected to be zero. The procedure for measuring the accelerometer bias is slightly more difficult, as an accelerometer measures gravitational acceleration. If the accelerometer is rotated about each axis, the accelerations of the x- and y-accelerations should resemble a sinusoid due with a peak equal to the gravitational acceleration. The offset of this sinusoid is typically the measurement bias. If the accelerometer can be placed completely level, the noise on each axis can be measured. The expected value on each axis should be zero (except the z-acceleration that expects the gravitational acceleration) but the measurements will show a varying non-zero value as depicted in Figure~\ref{fig:gyrobias}. The average of this varying value is the bias. 
 
 \begin{table}[H]
 \caption{Statistical quantities of the measurement noise.}
@@ -1449,7 +1449,7 @@ All processing of the data is done on a PC using Ubuntu 14.04 and C++ (cmake for
 \centering%\begin{center}
 \includegraphics[width=0.8\textwidth, height=0.45\textwidth]{Figures/monoslamglow1.jpg}
 \caption{The GUI of the MonoSLAM application. Adapted from~\cite{dav2007}.}
-\label{fig:gyrobias}
+\label{fig:GUI}
 \end{figure}
 MonoSLAM requires a simple setup procedure, where a known initial pose and a known feature is required to be initialised in an initialisation file prior to system execution to provide a scale. The typical known feature is a black A5 rectangular block placed on a black background - the four corners are typically initialised as the known patch features. This image is place in a precisely known location in the environment and the location of the initialed patches are place into a initialisation file that the system reads upon execution.
 
@@ -1465,7 +1465,7 @@ Due to the time constraints imposed on this project, a detailed testing analysis
 \includegraphics[width=0.49\textwidth, height=0.45\textwidth]{Figures/IMG1.jpg}
 \includegraphics[width=0.49\textwidth, height=0.45\textwidth]{Figures/IMG2.jpg}
 \caption{Left: Top view of the hardware components of the system system. Right: Fully constructed platform to house the hardware components of the system.}
-\label{fig:gyrobias}
+\label{fig:datatrn}
 \end{figure}
 
 \subsection{Subsystem testing}
@@ -1529,11 +1529,11 @@ Additionally, it can be observed in Figure~\ref{fig:gy1} that the rate at which 
 \caption{Angular displacement after positive $360^{\circ}$ rotation about the z-axis.}
 \label{fig:gz}
 \end{subfigure} 
-\caption{Results of the test conditions 1 depicting angular displacements from gyroscope measurements.}
+\caption{Results depicting the accuracy of the angular displacements from gyroscope measurements.}
 \label{fig:gy1}
 \end{figure}
 
-It should be noted that the gyroscope gradually drifts over time. It is a known that the gyroscope produces a constant error that is subsequently integrated over time (upon seeking to obtain an angular position) producing a linear angular drift. It is expected though that the measurement update in the SLAM filter will account for these errors.
+It should be noted that the gyroscope gradually drifts over time. It is a known that the gyroscope produces a constant error that is subsequently integrated over time (upon seeking to obtain an angular position) producing a linear angular drift. It is expected though that the measurement update in the SLAM filter will account for these errors and subsequently correct them.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsubsection{Accelerometer Raw Measurements}
 In order to verify the validity of the accelerometer, the physical measurements need to be measured and analysed. Although is is a lot easier to intuitively analyse an acceleration than an angular rate, the process of obtaining the linear acceleration is very complex. 
@@ -1553,6 +1553,7 @@ In order to verify that the system sampling period is according to the desired r
 \caption{Left: Measurement depicting the frequency between the pulses - 30.3 Hz Right: Measurement depicting the width of the pulses - $10\mu$s.}
 \label{fig:pinmeas}
 \end{figure}
+\newpage
 \subsubsection{Sufficient Data Transfer Speed}
 In order to verify that the data transfer of the IMU measurements onto the PC system are within sampling period, a set of measurements need to be obtained measuring the data transfer by the micro-controller in Chapter~\ref{sec:microflow}. An oscilloscope can be used to measure the transmit port of the UART. A full set of IMU measurements (3 gyroscope and 3 accelerometer) are sampled and subsequently transmitted on this pin. The data should be transferred to the PC within the system sampling period.
 
@@ -1698,7 +1699,7 @@ This implementation of section in practice proved to be a very challenging part 
 \item It was initially very difficult to understand the Scenelib library due to its complexity, lack of a comprehensive documentation and my lack of experience using C++.    
 \end{itemize}
  
-The kinematic state estimator was however implemented successfully within the control update of Scenelib with the results from the simulation depicting the results in Scenelib given the same simulated variables. Figure~\ref{fig:davsim} depicts the simulations of the simulation in Matlab against the simulation of Davision given precisely the simulated variables:
+The kinematic state estimator was however implemented successfully within the control update of Scenelib with the results from the simulation depicting identical results to Scenelib given the same simulated variables. Figure~\ref{fig:davsim} depicts the simulations of the simulation in Matlab against the simulation of Davision given precisely the simulated variables:
 
 \begin{figure}[h]
 \centering%\begin{center}
@@ -1708,7 +1709,7 @@ The kinematic state estimator was however implemented successfully within the co
 \label{fig:davsim}
 \end{figure}
 
-The minor differences in the value are possibly due to rounded values. The direness are minimal though and the two simulations can be approximated as identical.
+The minor differences in the value are possibly due to rounded values. These differences are minimal though and the behaviour of the two simulations can be approximated as identical.
 
 The measurement update of the MonoSLAM system in Scenelib contained errors in the re-projection of the image patches for matching. As a result, accurate matching never occurs and the system terminates. It is concluded that the distortion model approximated dorm Davision et al. in Equation~\ref{eq:raddist} incorporates too much radial distortion and as a result projection of images are incorrect. This problem was however identified too late in the project to correct given the hard deadline. 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -2017,7 +2018,7 @@ With reference to figure~\ref{fig:frame}, a feature's cartesian position can be 
   \end{pmatrix}  
 \end{equation}
 the subscript $i$ corresponds a directional vector $\textbf{h}^C$ from its cartesian position $\textbf{r}^W$ to the cartesian position of a given landmark $\textbf{y}^W$.\\\\
-A camera however, cannot directly measure a cartesian vector. Instead, a camera measurement (based on the model presented) obtains a vector $\textbf{h}_i$ that is a function of $\textbf{h}^W_{i}$. This vector describes a given feature's horizontal and vertical image positions $(u,v)$. For an undistorted image, the vector $\textbf{h}_i$, more commonly referred to as the measurement function is defined according to Equation~\ref{eq:fmmd1}:
+A camera however, cannot directly measure a cartesian vector. Instead, a camera measurement (based on the model presented) obtains a vector $\textbf{h}_i$ that is a function of $\textbf{h}^W_{i}$. This vector describes a given feature's horizontal and vertical image positions $(u,v)$. For an undistorted image, the vector $\textbf{h}_i$, more commonly referred to as the measurement function is defined according to Equation~\ref{eq:fmmd}:
 
  \begin{equation} \label{eq:fmmd}
 \textbf{h}_i = 
